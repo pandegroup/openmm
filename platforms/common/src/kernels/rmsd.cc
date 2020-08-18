@@ -9,12 +9,12 @@ DEVICE real reduceValue(real value, LOCAL_ARG volatile real* temp) {
     SYNC_THREADS;
     temp[thread] = value;
     SYNC_THREADS;
-    for (int step = 1; step < 32; step *= 2) {
+    for (int step = 1; step < WARP_SIZE; step *= 2) {
         if (thread+step < LOCAL_SIZE && thread%(2*step) == 0)
             temp[thread] = temp[thread] + temp[thread+step];
         SYNC_WARPS;
     }
-    for (int step = 32; step < LOCAL_SIZE; step *= 2) {
+    for (int step = WARP_SIZE; step < LOCAL_SIZE; step *= 2) {
         if (thread+step < LOCAL_SIZE && thread%(2*step) == 0)
             temp[thread] = temp[thread] + temp[thread+step];
         SYNC_THREADS;
@@ -30,16 +30,16 @@ KERNEL void computeRMSDPart1(int numParticles, GLOBAL const real4* RESTRICT posq
     LOCAL volatile real temp[THREAD_BLOCK_SIZE];
 
     // Compute the center of the particle positions.
-    
+
     real3 center = make_real3(0);
     for (int i = LOCAL_ID; i < numParticles; i += LOCAL_SIZE)
         center += trimTo3(posq[particles[i]]);
     center.x = reduceValue(center.x, temp)/numParticles;
     center.y = reduceValue(center.y, temp)/numParticles;
     center.z = reduceValue(center.z, temp)/numParticles;
-    
+
     // Compute the correlation matrix.
-    
+
     real R[3][3] = {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}};
     real sum = 0;
     for (int i = LOCAL_ID; i < numParticles; i += LOCAL_SIZE) {
@@ -63,7 +63,7 @@ KERNEL void computeRMSDPart1(int numParticles, GLOBAL const real4* RESTRICT posq
     sum = reduceValue(sum, temp);
 
     // Copy everything into the output buffer to send back to the host.
-    
+
     if (LOCAL_ID == 0) {
         for (int i = 0; i < 3; i++)
             for (int j = 0; j < 3; j++)

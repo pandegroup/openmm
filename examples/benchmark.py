@@ -31,9 +31,9 @@ def runOneTest(testName, options):
     else:
         print('Test: %s' % testName)
     platform = mm.Platform.getPlatformByName(options.platform)
-    
+
     # Create the System.
-    
+
     if amoeba:
         constraints = None
         epsilon = float(options.epsilon)
@@ -104,9 +104,9 @@ def runOneTest(testName, options):
             initialSteps = 250
     if options.precision is not None and platform.getName() in ('CUDA', 'OpenCL'):
         properties['Precision'] = options.precision
-    
+
     # Run the simulation.
-    
+
     integ.setConstraintTolerance(1e-5)
     if len(properties) > 0:
         context = mm.Context(system, integ, platform, properties)
@@ -143,7 +143,7 @@ args = parser.parse_args()
 if args.platform is None:
     parser.error('No platform specified')
 print('Platform:', args.platform)
-if args.platform in ('CUDA', 'OpenCL'):
+if args.platform in ('CUDA', 'OpenCL', 'HIP'):
     print('Precision:', args.precision)
     if args.device is not None:
         print('Device:', args.device)

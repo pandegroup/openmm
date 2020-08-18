@@ -480,7 +480,7 @@ private:
 class CommonCalcCustomCentroidBondForceKernel : public CalcCustomCentroidBondForceKernel {
 public:
     CommonCalcCustomCentroidBondForceKernel(std::string name, const Platform& platform, ComputeContext& cc, const System& system) : CalcCustomCentroidBondForceKernel(name, platform),
-            cc(cc), params(NULL), system(system) {
+            cc(cc), params(NULL), system(system), blockSize(64) {
     }
     ~CommonCalcCustomCentroidBondForceKernel();
     /**
@@ -510,6 +510,9 @@ public:
 private:
     class ForceInfo;
     int numGroups, numBonds;
+    // note -- we assume a blocksize of 64 here, i.e., 2 warps on NV, and a single wavefront on AMD
+    //         this seems to match the behaviour in the CUDA version.
+    const int blockSize;
     bool needEnergyParamDerivs;
     ComputeContext& cc;
     ForceInfo* info;
@@ -558,6 +561,8 @@ public:
     void copyParametersToContext(ContextImpl& context, const CustomNonbondedForce& force);
 private:
     class ForceInfo;
+    void launchInitInteractionGroups(const CustomNonbondedForce& force, const std::string& interactionSource, const std::vector<std::string>& tableTypes);
+    template<typename tileflags, typename mm_intv>
     void initInteractionGroups(const CustomNonbondedForce& force, const std::string& interactionSource, const std::vector<std::string>& tableTypes);
     ComputeContext& cc;
     ForceInfo* info;
@@ -767,7 +772,7 @@ private:
     ForceInfo* info;
     bool hasInitializedKernel;
     NonbondedMethod nonbondedMethod;
-    int maxNeighborPairs, forceWorkgroupSize, findNeighborsWorkgroupSize;
+    int maxNeighborPairs, forceWorkgroupSize, findNeighborsWorkgroupSize, computeNeighborsWorkgroupSize;
     ComputeParameterSet* params;
     ComputeArray globals, particleTypes,  orderIndex, particleOrder;
     ComputeArray exclusions, exclusionStartIndex, blockCenter, blockBoundingBox;
@@ -856,7 +861,7 @@ public:
     void execute(ContextImpl& context, const VerletIntegrator& integrator);
     /**
      * Compute the kinetic energy.
-     * 
+     *
      * @param context    the context in which to execute this kernel
      * @param integrator the VerletIntegrator this kernel is being used for
      */
@@ -891,7 +896,7 @@ public:
     void execute(ContextImpl& context, const LangevinIntegrator& integrator);
     /**
      * Compute the kinetic energy.
-     * 
+     *
      * @param context    the context in which to execute this kernel
      * @param integrator the LangevinIntegrator this kernel is being used for
      */
@@ -914,21 +919,21 @@ public:
     }
     /**
      * Initialize the kernel, setting up the particle masses.
-     * 
+     *
      * @param system     the System this kernel will be applied to
      * @param integrator the LangevinMiddleIntegrator this kernel will be used for
      */
     void initialize(const System& system, const LangevinMiddleIntegrator& integrator);
     /**
      * Execute the kernel.
-     * 
+     *
      * @param context    the context in which to execute this kernel
      * @param integrator the LangevinMiddleIntegrator this kernel is being used for
      */
     void execute(ContextImpl& context, const LangevinMiddleIntegrator& integrator);
     /**
      * Compute the kinetic energy.
-     * 
+     *
      * @param context    the context in which to execute this kernel
      * @param integrator the LangevinMiddleIntegrator this kernel is being used for
      */
@@ -1079,7 +1084,7 @@ public:
     void execute(ContextImpl& context, const BrownianIntegrator& integrator);
     /**
      * Compute the kinetic energy.
-     * 
+     *
      * @param context    the context in which to execute this kernel
      * @param integrator the BrownianIntegrator this kernel is being used for
      */
@@ -1117,7 +1122,7 @@ public:
     double execute(ContextImpl& context, const VariableVerletIntegrator& integrator, double maxTime);
     /**
      * Compute the kinetic energy.
-     * 
+     *
      * @param context    the context in which to execute this kernel
      * @param integrator the VariableVerletIntegrator this kernel is being used for
      */
@@ -1155,7 +1160,7 @@ public:
     double execute(ContextImpl& context, const VariableLangevinIntegrator& integrator, double maxTime);
     /**
      * Compute the kinetic energy.
-     * 
+     *
      * @param context    the context in which to execute this kernel
      * @param integrator the VariableLangevinIntegrator this kernel is being used for
      */
@@ -1180,14 +1185,14 @@ public:
     }
     /**
      * Initialize the kernel.
-     * 
+     *
      * @param system     the System this kernel will be applied to
      * @param integrator the CustomIntegrator this kernel will be used for
      */
     void initialize(const System& system, const CustomIntegrator& integrator);
     /**
      * Execute the kernel.
-     * 
+     *
      * @param context    the context in which to execute this kernel
      * @param integrator the CustomIntegrator this kernel is being used for
      * @param forcesAreValid if the context has been modified since the last time step, this will be
@@ -1198,7 +1203,7 @@ public:
     void execute(ContextImpl& context, CustomIntegrator& integrator, bool& forcesAreValid);
     /**
      * Compute the kinetic energy.
-     * 
+     *
      * @param context    the context in which to execute this kernel
      * @param integrator the CustomIntegrator this kernel is being used for
      * @param forcesAreValid if the context has been modified since the last time step, this will be

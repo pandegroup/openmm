@@ -1,7 +1,7 @@
 /**
  * Compute a value based on pair interactions.
  */
-KERNEL void computeN2Value(GLOBAL const real4* RESTRICT posq, GLOBAL const unsigned int* RESTRICT exclusions,
+KERNEL void computeN2Value(GLOBAL const real4* RESTRICT posq, GLOBAL const tileflags_t* RESTRICT exclusions,
         GLOBAL const ushort2* exclusionTiles,
 #ifdef SUPPORTS_64_BIT_ATOMICS
         GLOBAL mm_ulong* RESTRICT global_value,
@@ -25,7 +25,7 @@ KERNEL void computeN2Value(GLOBAL const real4* RESTRICT posq, GLOBAL const unsig
     ATOM_PARAMETER_DATA
 
     // First loop: process tiles that contain exclusions.
-    
+
     const int firstExclusionTile = FIRST_EXCLUSION_TILE+warp*(LAST_EXCLUSION_TILE-FIRST_EXCLUSION_TILE)/totalWarps;
     const int lastExclusionTile = FIRST_EXCLUSION_TILE+(warp+1)*(LAST_EXCLUSION_TILE-FIRST_EXCLUSION_TILE)/totalWarps;
     for (int pos = firstExclusionTile; pos < lastExclusionTile; pos++) {
@@ -37,7 +37,7 @@ KERNEL void computeN2Value(GLOBAL const real4* RESTRICT posq, GLOBAL const unsig
         real3 pos1 = trimTo3(posq[atom1]);
         LOAD_ATOM1_PARAMETERS
 #ifdef USE_EXCLUSIONS
-        unsigned int excl = exclusions[pos*TILE_SIZE+tgx];
+        tileflags_t excl = exclusions[pos*TILE_SIZE+tgx];
 #endif
         if (x == y) {
             // This tile is on the diagonal.
@@ -64,7 +64,7 @@ KERNEL void computeN2Value(GLOBAL const real4* RESTRICT posq, GLOBAL const unsig
                     real tempValue1 = 0;
                     real tempValue2 = 0;
 #ifdef USE_EXCLUSIONS
-                    bool isExcluded = (atom1 >= NUM_ATOMS || atom2 >= NUM_ATOMS || !(excl & 0x1));
+                    bool isExcluded = (atom1 >= NUM_ATOMS || atom2 >= NUM_ATOMS || !(excl & static_cast<tileflags_t>(0x1)));
                     if (!isExcluded && atom1 != atom2) {
 #else
                     if (atom1 < NUM_ATOMS && atom2 < NUM_ATOMS && atom1 != atom2) {
@@ -77,7 +77,7 @@ KERNEL void computeN2Value(GLOBAL const real4* RESTRICT posq, GLOBAL const unsig
                 }
 #endif
 #ifdef USE_EXCLUSIONS
-                excl >>= 1;
+                excl >>= static_cast<tileflags_t>(1);
 #endif
                 SYNC_WARPS;
             }
@@ -92,7 +92,7 @@ KERNEL void computeN2Value(GLOBAL const real4* RESTRICT posq, GLOBAL const unsig
             local_value[localAtomIndex] = 0;
             SYNC_WARPS;
 #ifdef USE_EXCLUSIONS
-            excl = (excl >> tgx) | (excl << (TILE_SIZE - tgx));
+            excl = (excl >> static_cast<tileflags_t>(tgx)) | (excl << static_cast<tileflags_t>(TILE_SIZE - tgx));
 #endif
             unsigned int tj = tgx;
             for (j = 0; j < TILE_SIZE; j++) {
@@ -113,7 +113,7 @@ KERNEL void computeN2Value(GLOBAL const real4* RESTRICT posq, GLOBAL const unsig
                     real tempValue1 = 0;
                     real tempValue2 = 0;
 #ifdef USE_EXCLUSIONS
-                    bool isExcluded = (atom1 >= NUM_ATOMS || atom2 >= NUM_ATOMS || !(excl & 0x1));
+                    bool isExcluded = (atom1 >= NUM_ATOMS || atom2 >= NUM_ATOMS || !(excl & static_cast<tileflags_t>(0x1)));
                     if (!isExcluded) {
 #else
                     if (atom1 < NUM_ATOMS && atom2 < NUM_ATOMS) {
@@ -128,7 +128,7 @@ KERNEL void computeN2Value(GLOBAL const real4* RESTRICT posq, GLOBAL const unsig
                 }
 #endif
 #ifdef USE_EXCLUSIONS
-                excl >>= 1;
+                excl >>= static_cast<tileflags_t>(1);
 #endif
                 tj = (tj + 1) & (TILE_SIZE - 1);
                 SYNC_WARPS;
@@ -182,7 +182,7 @@ KERNEL void computeN2Value(GLOBAL const real4* RESTRICT posq, GLOBAL const unsig
         bool includeTile = true;
 
         // Extract the coordinates of this tile.
-        
+
         int x, y;
         bool singlePeriodicCopy = false;
 #ifdef USE_CUTOFF
@@ -210,7 +210,7 @@ KERNEL void computeN2Value(GLOBAL const real4* RESTRICT posq, GLOBAL const unsig
             }
             else
                 skipTiles[LOCAL_ID] = end;
-            skipBase += TILE_SIZE;            
+            skipBase += TILE_SIZE;
             currentSkipIndex = tbx;
             SYNC_WARPS;
         }
@@ -222,7 +222,7 @@ KERNEL void computeN2Value(GLOBAL const real4* RESTRICT posq, GLOBAL const unsig
             unsigned int atom1 = x*TILE_SIZE + tgx;
 
             // Load atom data for this tile.
-            
+
             real3 pos1 = trimTo3(posq[atom1]);
             LOAD_ATOM1_PARAMETERS
             const unsigned int localAtomIndex = LOCAL_ID;
@@ -309,7 +309,7 @@ KERNEL void computeN2Value(GLOBAL const real4* RESTRICT posq, GLOBAL const unsig
                     SYNC_WARPS;
                 }
             }
-        
+
             // Write results.
 
 #ifdef USE_CUTOFF

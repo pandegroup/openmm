@@ -1,5 +1,4 @@
-#define TILE_SIZE 32
-#define NEIGHBOR_BLOCK_SIZE 32
+#define NEIGHBOR_BLOCK_SIZE TILE_SIZE
 
 /**
  * Calculate the ellipsoid coordinate frames and associated matrices.
@@ -125,9 +124,9 @@ KERNEL void findNeighbors(int numAtoms, int maxNeighborBlocks, real4 periodicBox
         int lastExclusion = exclusionStartIndex[atom1+1];
         real4 pos = sortedPos[atom1];
         int nextBufferIndex = 0;
-        
+
         // Loop over atom blocks and compute the distance of this atom from each one's bounding box.
-        
+
         for (int block = (atom1+1)/TILE_SIZE; block < numBlocks; block++) {
             real4 center = blockCenter[block];
             real4 blockSize = blockBoundingBox[block];
@@ -140,9 +139,9 @@ KERNEL void findNeighbors(int numAtoms, int maxNeighborBlocks, real4 periodicBox
             blockDelta.z = max((real) 0, fabs(blockDelta.z)-blockSize.z);
             if (blockDelta.x*blockDelta.x+blockDelta.y*blockDelta.y+blockDelta.z*blockDelta.z >= CUTOFF_SQUARED)
                 continue;
-            
+
             // Loop over atoms within this block.
-            
+
             int first = max(block*TILE_SIZE, atom1+1);
             int last = min((block+1)*TILE_SIZE, numAtoms);
             for (int atom2 = first; atom2 < last; atom2++) {
@@ -238,7 +237,7 @@ DEVICE void computeOneInteraction(AtomData* data1, AtomData* data2, real sigma, 
     real rInv = RSQRT(r2);
     real r = r2*rInv;
     real3 drUnit = dr*rInv;
-    
+
     // Compute the switching function.
 
     real switchValue = 1, switchDeriv = 0;
@@ -271,7 +270,7 @@ DEVICE void computeOneInteraction(AtomData* data1, AtomData* data2, real sigma, 
     real chi = 2*dot(drUnit, matrixVectorProduct(B12inv, drUnit));
     chi *= chi;
     real energy = u*eta*chi;
-    
+
     // Compute the terms needed for the force.
 
     real3 kappa = matrixVectorProduct(G12inv, dr);
@@ -355,7 +354,7 @@ KERNEL void computeForce(
         return; // There wasn't enough memory for the neighbor list.
     for (int block = GLOBAL_ID; block < numBlocks; block += GLOBAL_SIZE) {
         // Load parameters for atom1.
-        
+
         int atom1 = neighborIndex[block];
         int index1 = sortedAtoms[atom1];
         AtomData data1;
@@ -364,7 +363,7 @@ KERNEL void computeForce(
         real3 torque1 = make_real3(0);
         for (int indexInBlock = 0; indexInBlock < NEIGHBOR_BLOCK_SIZE; indexInBlock++) {
             // Load parameters for atom2.
-            
+
             int atom2 = neighbors[NEIGHBOR_BLOCK_SIZE*block+indexInBlock];
             if (atom2 == -1)
                 continue;
@@ -373,9 +372,9 @@ KERNEL void computeForce(
             loadAtomData(&data2, atom2, index2, pos, sigParams, epsParams, aMatrix, bMatrix, gMatrix);
             real3 force2 = make_real3(0);
             real3 torque2 = make_real3(0);
-            
+
             // Compute the interaction.
-            
+
             real3 delta = data1.pos-data2.pos;
 #ifdef USE_PERIODIC
             APPLY_PERIODIC_TO_DELTA(delta)
@@ -401,7 +400,7 @@ KERNEL void computeForce(
 #else
     for (int atom1 = GLOBAL_ID; atom1 < numAtoms; atom1 += GLOBAL_SIZE) {
         // Load parameters for atom1.
-        
+
         int index1 = sortedAtoms[atom1];
         AtomData data1;
         loadAtomData(&data1, atom1, index1, pos, sigParams, epsParams, aMatrix, bMatrix, gMatrix);
@@ -411,22 +410,22 @@ KERNEL void computeForce(
         int lastExclusion = exclusionStartIndex[atom1+1];
         for (int atom2 = atom1+1; atom2 < numAtoms; atom2++) {
             // Skip over excluded interactions.
-            
+
             if (nextExclusion < lastExclusion && exclusions[nextExclusion] == atom2) {
                 nextExclusion++;
                 continue;
             }
-            
+
             // Load parameters for atom2.
-            
+
             int index2 = sortedAtoms[atom2];
             AtomData data2;
             loadAtomData(&data2, atom2, index2, pos, sigParams, epsParams, aMatrix, bMatrix, gMatrix);
             real3 force2 = make_real3(0);
             real3 torque2 = make_real3(0);
-            
+
             // Compute the interaction.
-            
+
             real3 delta = data1.pos-data2.pos;
             real r2 = delta.x*delta.x + delta.y*delta.y + delta.z*delta.z;
             real sigma = data1.sig.x+data2.sig.x;
@@ -447,9 +446,9 @@ KERNEL void computeForce(
         ATOMIC_ADD(&torqueBuffers[index1+2*PADDED_NUM_ATOMS], (mm_ulong) ((mm_long) (torque1.z*0x100000000)));
     }
 #endif
-    
+
     // Now compute exceptions.
-    
+
     for (int index = GLOBAL_ID; index < numExceptions; index += GLOBAL_SIZE) {
         int4 atomIndices = exceptionParticles[index];
         float2 params = exceptionParams[index];
@@ -505,7 +504,7 @@ KERNEL void applyTorques(
             real3 force = make_real3(0), xforce = make_real3(0), yforce = make_real3(0);
 
             // Apply a force to the x particle.
-            
+
             real3 dx = trimTo3(posq[axisParticles.x])-pos;
             real dx2 = dot(dx, dx);
             real3 f = cross(torque, dx)/dx2;
@@ -514,7 +513,7 @@ KERNEL void applyTorques(
             if (axisParticles.y != -1) {
                 // Apply a force to the y particle.  This is based on the component of the torque
                 // that was not already applied to the x particle.
-                
+
                 real3 dy = trimTo3(posq[axisParticles.y])-pos;
                 real dy2 = dot(dy, dy);
                 real3 torque2 = dx*dot(torque, dx)/dx2;

@@ -1,6 +1,10 @@
 FILE(GLOB KERNEL_FILES ${KERNEL_SOURCE_DIR}/kernels/*.${KERNEL_FILE_EXTENSION})
 SET(KERNEL_FILE_DECLARATIONS)
 CONFIGURE_FILE(${KERNEL_SOURCE_DIR}/${KERNEL_SOURCE_CLASS}.cpp.in ${KERNELS_CPP})
+# Determine file extension length
+STRING(LENGTH ${KERNEL_FILE_EXTENSION} extension_length)
+# add one space for the dot
+MATH(EXPR extension_length ${extension_length}+1)
 FOREACH(file ${KERNEL_FILES})
     # Load the file contents and process it.
     FILE(STRINGS ${file} file_content NEWLINE_CONSUME)
@@ -16,7 +20,7 @@ FOREACH(file ${KERNEL_FILES})
     # Determine a name for the variable that will contain this file's contents
     FILE(RELATIVE_PATH filename ${KERNEL_SOURCE_DIR}/kernels ${file})
     STRING(LENGTH ${filename} filename_length)
-    MATH(EXPR filename_length ${filename_length}-3)
+    MATH(EXPR filename_length ${filename_length}-${extension_length})
     STRING(SUBSTRING ${filename} 0 ${filename_length} variable_name)
 
     # Record the variable declaration and definition.

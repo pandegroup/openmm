@@ -33,7 +33,7 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
-2. CUDA and OpenCL Platforms
+2. CUDA, OpenCL and HIP Platforms
 
 The CUDA Platform and OpenCL Platform may be used under the terms of the GNU
 Lesser General Public License.  A copy of this license may be found in the

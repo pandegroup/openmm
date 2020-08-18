@@ -401,7 +401,7 @@ void testConservationLaws() {
     int numParticles = system.getNumParticles();
     double initialEnergy;
     Vec3 initialMomentum, initialAngularMomentum;
-    double tol = 1e-4;
+    double tol = 2.5e-4;
     try {
         if (context.getPlatform().getPropertyValue(context, "Precision") == "single")
             tol = 0.05;

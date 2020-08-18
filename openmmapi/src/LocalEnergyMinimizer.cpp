@@ -51,7 +51,7 @@ struct MinimizerData {
     Context* cpuContext;
     MinimizerData(Context& context, double k) : context(context), k(k), cpuIntegrator(1.0), cpuContext(NULL) {
         string platformName = context.getPlatform().getName();
-        checkLargeForces = (platformName == "CUDA" || platformName == "OpenCL");
+        checkLargeForces = (platformName == "CUDA" || platformName == "OpenCL" || platformName == "HIP");
     }
     ~MinimizerData() {
         if (cpuContext != NULL)
@@ -110,7 +110,7 @@ static lbfgsfloatval_t evaluate(void *instance, const lbfgsfloatval_t *x, lbfgsf
         positions[i] = Vec3(x[3*i], x[3*i+1], x[3*i+2]);
     double energy = computeForcesAndEnergy(context, positions, g);
     if (data->checkLargeForces) {
-        // The CUDA and OpenCL platforms accumulate forces in fixed point, so they
+        // The CUDA, HIP and OpenCL platforms accumulate forces in fixed point, so they
         // can't handle very large forces.  Check for problematic forces (very large,
         // infinite, or NaN) and if necessary recompute them on the CPU.
 

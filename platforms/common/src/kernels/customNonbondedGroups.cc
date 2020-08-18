@@ -12,17 +12,22 @@ typedef struct {
  * Find the maximum of a value across all threads in a warp, and return that to
  * every thread.
  */
-DEVICE int reduceMax(int val, LOCAL_ARG int* temp) {
+DEVICE tileflags_t reduceMax(tileflags_t val, LOCAL_ARG tileflags_t* temp) {
 #if defined(__CUDA_ARCH__) && __CUDA_ARCH__ >= 700
     // CUDA lets us do this slightly more efficiently by using shuffle operations.
-    for (int mask = 16; mask > 0; mask /= 2)
+    for (int mask = TILE_SIZE/2; mask > 0; mask /= 2)
         val = max(val, __shfl_xor_sync(0xffffffff, val, mask));
     return val;
+#elif defined(__HIP_DEVICE_COMPILE___)
+    // note that the HIP/NVCC case would be handled by the above
+    for (int mask = TILE_SIZE/2; mask > 0; mask /= 2)
+        val = max(val, __shfl_xor(val, mask));
+    return val;
 #else
-    int indexInWarp = LOCAL_ID%32;
+    int indexInWarp = LOCAL_ID%TILE_SIZE;
     temp[LOCAL_ID] = val;
     SYNC_WARPS;
-    for (int offset = 16; offset > 0; offset /= 2) {
+    for (int offset = TILE_SIZE/2; offset > 0; offset /= 2) {
         if (indexInWarp < offset)
             temp[LOCAL_ID] = max(temp[LOCAL_ID], temp[LOCAL_ID+offset]);
         SYNC_WARPS;
@@ -42,7 +47,7 @@ void writeForces(GLOBAL real4* forceBuffers, LOCAL AtomData* localData, int atom
     SYNC_WARPS;
     real4 forceSum = make_real4(0);
     int start = (LOCAL_ID/TILE_SIZE)*TILE_SIZE;
-    int end = start+32;
+    int end = start+TILE_SIZE;
     bool isFirst = true;
     for (int i = start; i < end; i++)
         if (localData[i].x == atomIndex) {
@@ -63,7 +68,7 @@ KERNEL void computeInteractionGroups(
 #else
         GLOBAL real4* RESTRICT forceBuffers,
 #endif
-        GLOBAL mixed* RESTRICT energyBuffer, GLOBAL const real4* RESTRICT posq, GLOBAL const int4* RESTRICT groupData,
+        GLOBAL mixed* RESTRICT energyBuffer, GLOBAL const real4* RESTRICT posq, GLOBAL const excl4* RESTRICT groupData,
         GLOBAL const int* RESTRICT numGroupTiles, int useNeighborList,
         real4 periodicBoxSize, real4 invPeriodicBoxSize, real4 periodicBoxVecX, real4 periodicBoxVecY, real4 periodicBoxVecZ
         PARAMETER_ARGUMENTS) {
@@ -74,17 +79,17 @@ KERNEL void computeInteractionGroups(
     mixed energy = 0;
     INIT_DERIVATIVES
     LOCAL AtomData localData[LOCAL_MEMORY_SIZE];
-    LOCAL int reductionBuffer[LOCAL_MEMORY_SIZE];
+    LOCAL tileflags_t reductionBuffer[LOCAL_MEMORY_SIZE];
 
     const unsigned int startTile = (useNeighborList ? warp*numGroupTiles[0]/totalWarps : FIRST_TILE+warp*(LAST_TILE-FIRST_TILE)/totalWarps);
     const unsigned int endTile = (useNeighborList ? (warp+1)*numGroupTiles[0]/totalWarps : FIRST_TILE+(warp+1)*(LAST_TILE-FIRST_TILE)/totalWarps);
     for (int tile = startTile; tile < endTile; tile++) {
-        const int4 atomData = groupData[TILE_SIZE*tile+tgx];
+        const excl4 atomData = groupData[TILE_SIZE*tile+tgx];
         const int atom1 = atomData.x;
         const int atom2 = atomData.y;
-        const int rangeStart = atomData.z&0xFFFF;
-        const int rangeEnd = (atomData.z>>16)&0xFFFF;
-        const int exclusions = atomData.w;
+        const tileflags_t rangeStart = atomData.z&SIMD_HALF_MASK;
+        const tileflags_t rangeEnd = (atomData.z>>SIMD_HALF_WIDTH)&SIMD_HALF_MASK;
+        const tileflags_t exclusions = atomData.w;
         real4 posq1 = posq[atom1];
         LOAD_ATOM1_PARAMETERS
         real3 force = make_real3(0);
@@ -97,12 +102,12 @@ KERNEL void computeInteractionGroups(
         localData[LOCAL_ID].fx = 0.0f;
         localData[LOCAL_ID].fy = 0.0f;
         localData[LOCAL_ID].fz = 0.0f;
-        int tj = tgx;
-        int rangeStop = rangeStart + reduceMax(rangeEnd-rangeStart, reductionBuffer);
+        tileflags_t tj = tgx;
+        tileflags_t rangeStop = rangeStart + reduceMax(rangeEnd-rangeStart, reductionBuffer);
         SYNC_WARPS;
-        for (int j = rangeStart; j < rangeStop; j++) {
+        for (tileflags_t j = rangeStart; j < rangeStop; j++) {
             if (j < rangeEnd) {
-                bool isExcluded = (((exclusions>>tj)&1) == 0);
+                bool isExcluded = (((exclusions>>static_cast<tileflags_t>(tj))&1) == 0);
                 int localIndex = tbx+tj;
                 posq2 = make_real4(localData[localIndex].x, localData[localIndex].y, localData[localIndex].z, localData[localIndex].q);
                 real3 delta = make_real3(posq2.x-posq1.x, posq2.y-posq1.y, posq2.z-posq1.z);
@@ -171,11 +176,11 @@ KERNEL void prepareToBuildNeighborList(GLOBAL int* RESTRICT rebuildNeighborList,
  * padded cutoff.
  */
 KERNEL void buildNeighborList(GLOBAL int* RESTRICT rebuildNeighborList, GLOBAL int* RESTRICT numGroupTiles,
-        GLOBAL const real4* RESTRICT posq, GLOBAL const int4* RESTRICT groupData, GLOBAL int4* RESTRICT filteredGroupData,
+        GLOBAL const real4* RESTRICT posq, GLOBAL const excl4* RESTRICT groupData, GLOBAL excl4* RESTRICT filteredGroupData,
         real4 periodicBoxSize, real4 invPeriodicBoxSize, real4 periodicBoxVecX, real4 periodicBoxVecY, real4 periodicBoxVecZ) {
-    
+
     // If the neighbor list doesn't need to be rebuilt on this step, return immediately.
-    
+
     if (rebuildNeighborList[0] == 0)
         return;
 
@@ -187,28 +192,28 @@ KERNEL void buildNeighborList(GLOBAL int* RESTRICT rebuildNeighborList, GLOBAL i
     LOCAL real4 localPos[LOCAL_MEMORY_SIZE];
     LOCAL volatile bool anyInteraction[WARPS_IN_BLOCK];
     LOCAL volatile int tileIndex[WARPS_IN_BLOCK];
-    LOCAL int reductionBuffer[LOCAL_MEMORY_SIZE];
+    LOCAL tileflags_t reductionBuffer[LOCAL_MEMORY_SIZE];
 
     const unsigned int startTile = warp*NUM_TILES/totalWarps;
     const unsigned int endTile = (warp+1)*NUM_TILES/totalWarps;
     for (int tile = startTile; tile < endTile; tile++) {
-        const int4 atomData = groupData[TILE_SIZE*tile+tgx];
+        const excl4 atomData = groupData[TILE_SIZE*tile+tgx];
         const int atom1 = atomData.x;
         const int atom2 = atomData.y;
-        const int rangeStart = atomData.z&0xFFFF;
-        const int rangeEnd = (atomData.z>>16)&0xFFFF;
-        const int exclusions = atomData.w;
+        const tileflags_t rangeStart = atomData.z&SIMD_HALF_MASK;
+        const tileflags_t rangeEnd = (atomData.z>>SIMD_HALF_WIDTH)&SIMD_HALF_MASK;
+        const tileflags_t exclusions = atomData.w;
         real4 posq1 = posq[atom1];
         localPos[LOCAL_ID] = posq[atom2];
         if (tgx == 0)
             anyInteraction[local_warp] = false;
-        int tj = tgx;
-        int rangeStop = rangeStart + reduceMax(rangeEnd-rangeStart, reductionBuffer);
+        tileflags_t tj = tgx;
+        tileflags_t rangeStop = rangeStart + reduceMax(rangeEnd-rangeStart, reductionBuffer);
         SYNC_WARPS;
-        for (int j = rangeStart; j < rangeStop && !anyInteraction[local_warp]; j++) {
+        for (tileflags_t j = rangeStart; j < rangeStop && !anyInteraction[local_warp]; j++) {
             SYNC_WARPS;
             if (j < rangeEnd && tj < rangeEnd) {
-                bool isExcluded = (((exclusions>>tj)&1) == 0);
+                bool isExcluded = (((exclusions>>static_cast<tileflags_t>(tj))&1) == 0);
                 int localIndex = tbx+tj;
                 real3 delta = make_real3(localPos[localIndex].x-posq1.x, localPos[localIndex].y-posq1.y, localPos[localIndex].z-posq1.z);
 #ifdef USE_PERIODIC

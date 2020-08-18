@@ -3,7 +3,7 @@
  */
 
 KERNEL void calcCenterOfMassMomentum(int numAtoms, GLOBAL const mixed4* RESTRICT velm, GLOBAL float3* RESTRICT cmMomentum) {
-    LOCAL float3 temp[64];
+    LOCAL float3 temp[BLOCK_SIZE];
     float3 cm = make_float3(0, 0, 0);
     for (int index = GLOBAL_ID; index < numAtoms; index += GLOBAL_SIZE) {
         mixed4 velocity = velm[index];
@@ -19,22 +19,26 @@ KERNEL void calcCenterOfMassMomentum(int numAtoms, GLOBAL const mixed4* RESTRICT
 
     int thread = LOCAL_ID;
     temp[thread] = cm;
+
+    // Easier to cope with varying block / wavefront sizes w/o perf. penalty if
+    // expressed as a constexpr reduction
+    #if BLOCK_SIZE > WARP_SIZE
     SYNC_THREADS;
-    if (thread < 32)
-        temp[thread] += temp[thread+32];
-    SYNC_THREADS;
-    if (thread < 16)
-        temp[thread] += temp[thread+16];
-    SYNC_THREADS;
-    if (thread < 8)
-        temp[thread] += temp[thread+8];
-    SYNC_THREADS;
-    if (thread < 4)
-        temp[thread] += temp[thread+4];
-    SYNC_THREADS;
-    if (thread < 2)
-        temp[thread] += temp[thread+2];
-    SYNC_THREADS;
+    #pragma unroll
+    for (int i = BLOCK_SIZE/2; i > WARP_SIZE/2; i /= 2) {
+        if (thread < i) {
+            temp[thread] += temp[thread+i];
+        }
+        SYNC_THREADS;
+    }
+    #endif
+    #pragma unroll
+    for (int i = WARP_SIZE/2; i > 1; i /= 2) {
+        if (thread < i) {
+            temp[thread] += temp[thread+i];
+        }
+        SYNC_WARPS;
+    }
     if (thread == 0)
         cmMomentum[GROUP_ID] = temp[thread]+temp[thread+1];
 }
@@ -46,28 +50,29 @@ KERNEL void calcCenterOfMassMomentum(int numAtoms, GLOBAL const mixed4* RESTRICT
 KERNEL void removeCenterOfMassMomentum(int numAtoms, GLOBAL mixed4* RESTRICT velm, GLOBAL const float3* RESTRICT cmMomentum) {
     // First sum all of the momenta that were calculated by individual groups.
 
-    LOCAL float3 temp[64];
+    LOCAL float3 temp[BLOCK_SIZE];
     float3 cm = make_float3(0, 0, 0);
     for (int index = LOCAL_ID; index < NUM_GROUPS; index += LOCAL_SIZE)
         cm += cmMomentum[index];
     int thread = LOCAL_ID;
     temp[thread] = cm;
+     #if BLOCK_SIZE > WARP_SIZE
     SYNC_THREADS;
-    if (thread < 32)
-        temp[thread] += temp[thread+32];
-    SYNC_THREADS;
-    if (thread < 16)
-        temp[thread] += temp[thread+16];
-    SYNC_THREADS;
-    if (thread < 8)
-        temp[thread] += temp[thread+8];
-    SYNC_THREADS;
-    if (thread < 4)
-        temp[thread] += temp[thread+4];
-    SYNC_THREADS;
-    if (thread < 2)
-        temp[thread] += temp[thread+2];
-    SYNC_THREADS;
+    #pragma unroll
+    for (int i = BLOCK_SIZE/2; i > WARP_SIZE/2; i /= 2) {
+        if (thread < i) {
+            temp[thread] += temp[thread+i];
+        }
+        SYNC_THREADS;
+    }
+    #endif
+    #pragma unroll
+    for (int i = WARP_SIZE/2; i > 1; i /= 2) {
+        if (thread < i) {
+            temp[thread] += temp[thread+i];
+        }
+        SYNC_WARPS;
+    }
     cm = make_float3(INVERSE_TOTAL_MASS*(temp[0].x+temp[1].x), INVERSE_TOTAL_MASS*(temp[0].y+temp[1].y), INVERSE_TOTAL_MASS*(temp[0].z+temp[1].z));
 
     // Now remove the center of mass velocity from each atom.

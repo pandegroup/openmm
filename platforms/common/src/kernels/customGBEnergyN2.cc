@@ -16,7 +16,7 @@ KERNEL void computeN2Energy(
         GLOBAL real4* RESTRICT forceBuffers,
 #endif
         GLOBAL mixed* RESTRICT energyBuffer,
-        GLOBAL const real4* RESTRICT posq, GLOBAL const unsigned int* RESTRICT exclusions,
+        GLOBAL const real4* RESTRICT posq, GLOBAL const tileflags* RESTRICT exclusions,
         GLOBAL const ushort2* exclusionTiles, int needEnergy,
 #ifdef USE_CUTOFF
         GLOBAL const int* RESTRICT tiles, GLOBAL const unsigned int* RESTRICT interactionCount, real4 periodicBoxSize, real4 invPeriodicBoxSize,
@@ -37,7 +37,7 @@ KERNEL void computeN2Energy(
     ATOM_PARAMETER_DATA
 
     // First loop: process tiles that contain exclusions.
-    
+
     const int firstExclusionTile = FIRST_EXCLUSION_TILE+warp*(LAST_EXCLUSION_TILE-FIRST_EXCLUSION_TILE)/totalWarps;
     const int lastExclusionTile = FIRST_EXCLUSION_TILE+(warp+1)*(LAST_EXCLUSION_TILE-FIRST_EXCLUSION_TILE)/totalWarps;
     for (int pos = firstExclusionTile; pos < lastExclusionTile; pos++) {
@@ -50,7 +50,7 @@ KERNEL void computeN2Energy(
         real3 pos1 = trimTo3(posq[atom1]);
         LOAD_ATOM1_PARAMETERS
 #ifdef USE_EXCLUSIONS
-        unsigned int excl = exclusions[pos*TILE_SIZE+tgx];
+        tileflags excl = exclusions[pos*TILE_SIZE+tgx];
 #endif
         if (x == y) {
             // This tile is on the diagonal.
@@ -78,7 +78,7 @@ KERNEL void computeN2Energy(
                     real tempEnergy = 0;
                     const real interactionScale = 0.5f;
 #ifdef USE_EXCLUSIONS
-                    bool isExcluded = !(excl & 0x1);
+                    bool isExcluded = !(excl & static_cast<tileflags>(0x1));
 #endif
                     if (atom1 < NUM_ATOMS && atom2 < NUM_ATOMS && atom1 != atom2) {
                         COMPUTE_INTERACTION
@@ -94,7 +94,7 @@ KERNEL void computeN2Energy(
                 }
 #endif
 #ifdef USE_EXCLUSIONS
-                excl >>= 1;
+                excl >>= static_cast<tileflags>(1);
 #endif
                 SYNC_WARPS;
             }
@@ -110,7 +110,7 @@ KERNEL void computeN2Energy(
             CLEAR_LOCAL_DERIVATIVES
             SYNC_WARPS;
 #ifdef USE_EXCLUSIONS
-            excl = (excl >> tgx) | (excl << (TILE_SIZE - tgx));
+            excl = (excl >> static_cast<tileflags>(tgx)) | (excl << static_cast<tileflags>(TILE_SIZE - tgx));
 #endif
             unsigned int tj = tgx;
             for (j = 0; j < TILE_SIZE; j++) {
@@ -132,7 +132,7 @@ KERNEL void computeN2Energy(
                     real tempEnergy = 0;
                     const real interactionScale = 1;
 #ifdef USE_EXCLUSIONS
-                    bool isExcluded = !(excl & 0x1);
+                    bool isExcluded = !(excl & static_cast<tileflags>(0x1));
 #endif
                     if (atom1 < NUM_ATOMS && atom2 < NUM_ATOMS) {
                         COMPUTE_INTERACTION
@@ -151,7 +151,7 @@ KERNEL void computeN2Energy(
                 }
 #endif
 #ifdef USE_EXCLUSIONS
-                excl >>= 1;
+                excl >>= static_cast<tileflags>(1);
 #endif
                 tj = (tj + 1) & (TILE_SIZE - 1);
                 SYNC_WARPS;
@@ -213,7 +213,7 @@ KERNEL void computeN2Energy(
         bool includeTile = true;
 
         // Extract the coordinates of this tile.
-        
+
         int x, y;
         bool singlePeriodicCopy = false;
 #ifdef USE_CUTOFF
@@ -241,7 +241,7 @@ KERNEL void computeN2Energy(
             }
             else
                 skipTiles[LOCAL_ID] = end;
-            skipBase += TILE_SIZE;            
+            skipBase += TILE_SIZE;
             currentSkipIndex = tbx;
             SYNC_WARPS;
         }
@@ -355,7 +355,7 @@ KERNEL void computeN2Energy(
                     SYNC_WARPS;
                 }
             }
-        
+
             // Write results.
 
 #ifdef USE_CUTOFF

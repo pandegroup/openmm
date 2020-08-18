@@ -87,9 +87,9 @@ KERNEL void computeInteraction(
 #endif
         PARAMETER_ARGUMENTS) {
     mixed energy = 0;
-    
+
     // Loop over particles to be the first one in the set.
-    
+
     for (int p1 = GROUP_ID; p1 < NUM_ATOMS; p1 += NUM_GROUPS) {
 #ifdef USE_CENTRAL_PARTICLE
         const int a1 = p1;
@@ -180,21 +180,21 @@ KERNEL void findNeighbors(real4 periodicBoxSize, real4 invPeriodicBoxSize, real4
 #endif
         ) {
     LOCAL real3 positionCache[FIND_NEIGHBORS_WORKGROUP_SIZE];
-    int indexInWarp = LOCAL_ID%32;
-#ifndef __CUDA_ARCH__
+    int indexInWarp = LOCAL_ID%TILE_SIZE;
+#if !defined(__CUDA_ARCH__) || !defined(__HIP_DEVICE_COMPILE__)
     LOCAL bool includeBlockFlags[FIND_NEIGHBORS_WORKGROUP_SIZE];
     int warpStart = LOCAL_ID-indexInWarp;
 #endif
     for (int atom1 = GLOBAL_ID; atom1 < PADDED_NUM_ATOMS; atom1 += GLOBAL_SIZE) {
         // Load data for this atom.  Note that all threads in a warp are processing atoms from the same block.
-        
+
         real3 pos1 = trimTo3(posq[atom1]);
         int block1 = atom1/TILE_SIZE;
         real4 blockCenter1 = blockCenter[block1];
         real4 blockSize1 = blockBoundingBox[block1];
         int totalNeighborsForAtom1 = 0;
-        
-        // Loop over atom blocks to search for neighbors.  The threads in a warp compare block1 against 32
+
+        // Loop over atom blocks to search for neighbors.  The threads in a warp compare block1 against TILE_SIZE
         // other blocks in parallel.
 
 #ifdef USE_CENTRAL_PARTICLE
@@ -202,7 +202,7 @@ KERNEL void findNeighbors(real4 periodicBoxSize, real4 invPeriodicBoxSize, real4
 #else
         int startBlock = block1;
 #endif
-        for (int block2Base = startBlock; block2Base < NUM_BLOCKS; block2Base += 32) {
+        for (int block2Base = startBlock; block2Base < NUM_BLOCKS; block2Base += TILE_SIZE) {
             int block2 = block2Base+indexInWarp;
             bool includeBlock2 = (block2 < NUM_BLOCKS);
             if (includeBlock2) {
@@ -217,10 +217,10 @@ KERNEL void findNeighbors(real4 periodicBoxSize, real4 invPeriodicBoxSize, real4
                 blockDelta.z = max((real) 0, fabs(blockDelta.z)-blockSize1.z-blockSize2.z);
                 includeBlock2 &= (blockDelta.x*blockDelta.x+blockDelta.y*blockDelta.y+blockDelta.z*blockDelta.z < CUTOFF_SQUARED);
             }
-            
+
             // Loop over any blocks we identified as potentially containing neighbors.
-            
-#ifdef __CUDA_ARCH__
+
+#if defined(__CUDA_ARCH__) || defined (__HIP_DEVICE_COMPILE__)
             int includeBlockFlags = BALLOT(includeBlock2);
             while (includeBlockFlags != 0) {
                 int i = __ffs(includeBlockFlags)-1;
@@ -243,7 +243,7 @@ KERNEL void findNeighbors(real4 periodicBoxSize, real4 invPeriodicBoxSize, real4
                     positionCache[LOCAL_ID] = trimTo3(posq[start+indexInWarp]);
                     SYNC_WARPS;
                     if (atom1 < NUM_ATOMS) {
-                        for (int j = 0; j < 32; j++) {
+                        for (int j = 0; j < TILE_SIZE; j++) {
                             int atom2 = start+j;
                             real3 pos2 = positionCache[LOCAL_ID-indexInWarp+j];
 
@@ -288,11 +288,11 @@ KERNEL void findNeighbors(real4 periodicBoxSize, real4 invPeriodicBoxSize, real4
  */
 KERNEL void computeNeighborStartIndices(GLOBAL int* RESTRICT numNeighborsForAtom, GLOBAL int* RESTRICT neighborStartIndex,
             GLOBAL int* RESTRICT numNeighborPairs, int maxNeighborPairs) {
-    LOCAL unsigned int posBuffer[256];
+    LOCAL unsigned int posBuffer[COMPUTE_NEIGHBORS_WORKGROUP_SIZE];
     if (*numNeighborPairs > maxNeighborPairs) {
         // There wasn't enough memory for the neighbor list, so we'll need to rebuild it.  Set the neighbor start
         // indices to indicate no neighbors for any atom.
-        
+
         for (int i = LOCAL_ID; i <= NUM_ATOMS; i += LOCAL_SIZE)
             neighborStartIndex[i] = 0;
         return;

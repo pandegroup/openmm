@@ -3,14 +3,15 @@
  */
 KERNEL void computeGroupCenters(int numParticleGroups, GLOBAL const real4* RESTRICT posq, GLOBAL const int* RESTRICT groupParticles,
         GLOBAL const real* RESTRICT groupWeights, GLOBAL const int* RESTRICT groupOffsets, GLOBAL real4* RESTRICT centerPositions) {
-    LOCAL volatile real3 temp[64];
+    //
+    LOCAL volatile real3 temp[BLOCK_SIZE];
     for (int group = GROUP_ID; group < numParticleGroups; group += NUM_GROUPS) {
         // The threads in this block work together to compute the center one group.
 
         int firstIndex = groupOffsets[group];
         int lastIndex = groupOffsets[group+1];
         real3 center = make_real3(0);
-        for (int index = LOCAL_ID; index < lastIndex-firstIndex; index += LOCAL_SIZE) {
+        for (int index = LOCAL_ID; index < lastIndex-firstIndex; index += BLOCK_SIZE) {
             int atom = groupParticles[firstIndex+index];
             real weight = groupWeights[firstIndex+index];
             real4 pos = posq[atom];
@@ -25,46 +26,39 @@ KERNEL void computeGroupCenters(int numParticleGroups, GLOBAL const real4* RESTR
         temp[thread].x = center.x;
         temp[thread].y = center.y;
         temp[thread].z = center.z;
+        // Easier to cope with varying block / wavefront sizes w/o perf. penalty if
+        // expressed as a constexpr reduction
+        #if BLOCK_SIZE > WARP_SIZE
         SYNC_THREADS;
-        if (thread < 32) {
-            temp[thread].x += temp[thread+32].x;
-            temp[thread].y += temp[thread+32].y;
-            temp[thread].z += temp[thread+32].z;
+        #pragma unroll
+        for (int i = BLOCK_SIZE/2; i > WARP_SIZE/2; i /= 2) {
+            if (thread < i) {
+                temp[thread].x += temp[thread+i].x;
+                temp[thread].y += temp[thread+i].y;
+                temp[thread].z += temp[thread+i].z;
+            }
+            SYNC_THREADS;
         }
-        SYNC_WARPS;
-        if (thread < 16) {
-            temp[thread].x += temp[thread+16].x;
-            temp[thread].y += temp[thread+16].y;
-            temp[thread].z += temp[thread+16].z;
+        #endif
+        #pragma unroll
+        for (int i = WARP_SIZE/2; i > 1; i /= 2) {
+            if (thread < i) {
+                temp[thread].x += temp[thread+i].x;
+                temp[thread].y += temp[thread+i].y;
+                temp[thread].z += temp[thread+i].z;
+            }
+            SYNC_WARPS;
         }
-        SYNC_WARPS;
-        if (thread < 8) {
-            temp[thread].x += temp[thread+8].x;
-            temp[thread].y += temp[thread+8].y;
-            temp[thread].z += temp[thread+8].z;
-        }
-        SYNC_WARPS;
-        if (thread < 4) {
-            temp[thread].x += temp[thread+4].x;
-            temp[thread].y += temp[thread+4].y;
-            temp[thread].z += temp[thread+4].z;
-        }
-        SYNC_WARPS;
-        if (thread < 2) {
-            temp[thread].x += temp[thread+2].x;
-            temp[thread].y += temp[thread+2].y;
-            temp[thread].z += temp[thread+2].z;
-        }
-        SYNC_WARPS;
-        if (thread == 0)
+        if (thread == 0) {
             centerPositions[group] = make_real4(temp[0].x+temp[1].x, temp[0].y+temp[1].y, temp[0].z+temp[1].z, 0);
+        }
     }
 }
 
 /**
  * Compute the difference between two vectors, setting the fourth component to the squared magnitude.
  */
-DEVICE real4 delta(real4 vec1, real4 vec2, bool periodic, real4 periodicBoxSize, real4 invPeriodicBoxSize, 
+DEVICE real4 delta(real4 vec1, real4 vec2, bool periodic, real4 periodicBoxSize, real4 invPeriodicBoxSize,
         real4 periodicBoxVecX, real4 periodicBoxVecY, real4 periodicBoxVecZ) {
     real4 result = make_real4(vec1.x-vec2.x, vec1.y-vec2.y, vec1.z-vec2.z, 0);
     if (periodic)

@@ -71,6 +71,13 @@ struct mm_int4 {
     mm_int4(int x, int y, int z, int w) : x(x), y(y), z(z), w(w) {
     }
 };
+struct mm_long4 {
+    long x, y, z, w;
+    mm_long4() {
+    }
+    mm_long4(long x, long y, long z, long w) : x(x), y(y), z(z), w(w) {
+    }
+};
 struct mm_float2 {
     float x, y;
     mm_float2() {
