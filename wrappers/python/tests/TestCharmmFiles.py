@@ -147,6 +147,27 @@ class TestCharmmFiles(unittest.TestCase):
         ene = state.getPotentialEnergy().value_in_unit(kilocalories_per_mole)
         self.assertAlmostEqual(ene, 15559.71602, delta=0.05)
 
+    def test_NBFIX_14(self):
+        """Tests CHARMM systems with NBFIX 1-4 special Lennard-Jones modifications"""
+        warnings.filterwarnings('ignore', category=CharmmPSFWarning)
+        psf = CharmmPsfFile('systems/rna_drude.psf')
+        crd = CharmmCrdFile('systems/rna_drude.crd')
+        params = CharmmParameterSet('systems/toppar_drude_master_protein_2020b_mod.str',
+                                    'systems/toppar_drude_nucleic_acid_2020b.str')
+        # Box dimensions (cubic box)
+        psf.setBox(65*angstroms, 65*angstroms, 65*angstroms)
+
+        # Now compute the full energy
+        plat = Platform.getPlatformByName('Reference')
+        system = psf.createSystem(params, nonbondedMethod=PME, ewaldErrorTolerance=0.00005)
+        integrator = DrudeLangevinIntegrator(300*kelvin, 1.0/picosecond, 1*kelvin, 10/picosecond, 0.001*picoseconds)
+        con = Context(system, integrator, plat)
+        con.setPositions(crd.positions)
+
+        state = con.getState(getEnergy=True, enforcePeriodicBox=True)
+        ene = state.getPotentialEnergy().value_in_unit(kilocalories_per_mole)
+        self.assertAlmostEqual(ene, -1103.11598, delta=1.0)
+
     def test_Drude(self):
         """Test CHARMM systems with Drude force field"""
         warnings.filterwarnings('ignore', category=CharmmPSFWarning)

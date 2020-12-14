@@ -1,0 +1,3258 @@
+* DRUDE topology and parameter stream file 
+* Nucleic acids
+*
+
+!requires toppar_drude_master*.str
+
+!nucleic acids 
+ 
+!references
+! 
+!Lemkul, J.A. and MacKerell, A.D., Jr., "Polarizable Force Field for
+!DNA Based on the Classical Drude Oscillator: I. Refinement using
+!Quantum Mechanical Base Stacking and Conformational Energetics,"
+!J. Chem. Theory Comput., 13; 2053-2071, 2017, DOI: 10.1021/acs.jctc.7b00067
+!
+!Lemkul, J.A. and MacKerell, A.D., Jr., "Polarizable Force Field for
+!DNA Based on the Classical Drude Oscillator: II. Microsecond Molecular
+!Dynamics Simulations of Duplex DNA," J. Chem. Theory Comput.,
+!13; 2072-2085, 2017, DOI: 10.1021/acs.jctc.7b00068
+!
+!Savelyev, A. and MacKerell, A.D., Jr., "All-Atom Polarizable Force
+!Field for DNA Based on the Classical Drude Oscillator Model," Journal
+!of Computational Chemistry, 35; 1219-1239, 2014, DOI: 10.1002/jcc.23611,
+!NIHMSID #585697
+!
+!RNA
+!Lemkul, J.A. and MacKerell, A.D., Jr., "Polarizable Force Field for
+!RNA Based on the Classical Drude Oscillator," J. Comput. Chem.,
+!39, 2624–2646, 2018, DOI: 10.1002/jcc.25709, NIHMSID #990779
+!
+!Nucleic Acid Bases
+!Baker, C.M., Anisimov, V.M., and MacKerell, A.D., Jr., "Development of
+!CHARMM Polarizable Force Field for Nucleic Acid Bases Based on the
+!Classical Drude Oscillator Model," Journal of Physical Chemistry B,
+!115; 580-596, 2011, PMC3166616
+!
+
+read rtf card append 
+* Topology for Drude nucleic acids
+* 
+38
+
+! 
+DECL  +P 
+DECL  +O1P 
+DECL  +O2P 
+DECL  +O5' 
+DECL  -O3' 
+ 
+DEFA FIRS 5TER LAST 3TER
+AUTOGENERATE ANGLES DIHEDRALS DRUDE PATCH
+
+RESI CYT          -1.000 ! Cytosine, jal update 06/15 
+!
+!                                 H42  H41
+!                                   \  /
+!                                    N4
+!                                    |
+!                                    C4
+!                                   /  \\
+!                               H5-C5   N3
+!                                  ||   |
+!                               H6-C6   C2
+!                                   \  / \\
+!                                    N1   O2
+!                                    /
+!            O1P    H5'  H4' O4'    / 
+!             |     |     \ /   \  /  
+!            -P-O5'-C5'----C4'   C1'-H1'   
+!             |     |      \     /
+!            O2P    H5''    C3'-C2'-H2''
+!                          / \    \
+!                        O3'  H3'  O2'-H2'
+!GROUP
+ATOM P    PD1A     1.192  ALPHA -0.974  THOLE 2.098 !
+ATOM O1P  OD2C2B  -0.856  ALPHA -0.931  THOLE 1.083 !
+ATOM O2P  OD2C2B  -0.856  ALPHA -0.931  THOLE 1.083 !
+ATOM O5'  OD30B   -0.520  ALPHA -0.901  THOLE 0.181 !
+ATOM C5'  CD32C    0.228  ALPHA -1.642  THOLE 0.862 !
+ATOM H5'  HDA2A    0.026
+ATOM H5'' HDA2A    0.026
+GROUP  !!NA base
+ATOM N1   ND2R6C  -0.016  ALPHA -1.220 THOLE 0.450 !
+ATOM C6   CD2R6H  -0.139  ALPHA -1.354 THOLE 1.804 !
+ATOM H6   HDR6B    0.251
+ATOM C2   CD2O4A   0.369  ALPHA -1.580 THOLE 1.200 !
+ATOM O2   OD2C1B   0.000  ALPHA -0.679 THOLE 0.675
+ATOM LP2A LPDNA1  -0.243 
+ATOM LP2B LPDNA1  -0.203 
+ATOM N3   ND2R6B   0.000  ALPHA -0.509 THOLE 0.737
+ATOM LP3  LPDNA1  -0.491
+ATOM C4   CD2R6B   0.575  ALPHA -1.583 THOLE 1.200 !
+ATOM N4   ND2B1   -0.644  ALPHA -1.330 THOLE 1.000 !
+ATOM H41  HDP1A    0.346
+ATOM H42  HDP1A    0.346
+ATOM C5   CD2R6J  -0.279  ALPHA -1.538 THOLE 1.100 !
+ATOM H5   HDR6A    0.128
+GROUP  !! THF
+ATOM C4'  CD315B   0.100  ALPHA -1.562  THOLE 1.103 !
+ATOM H4'  HDA1R5   0.055
+ATOM O4'  OD305A   0.000  ALPHA -0.618  THOLE 1.545
+ATOM LPRA LPD     -0.152
+ATOM LPRB LPD     -0.152
+ATOM LPX  LPD      0.000 !dummy for anisotropic polarizability
+ATOM C1'  CD315A   0.094  ALPHA -1.562  THOLE 1.103  !
+ATOM H1'  HDA1R5   0.055
+GROUP  !! PRO2, changed from EtOH - jal 7/18/2014 
+!! jal 7/18/2014
+ATOM C2'  CD315B   0.000  ALPHA -1.242  THOLE 1.103  !
+ATOM H2'' HDA1R5   0.100
+ATOM O2'  OD31A    0.000  ALPHA -0.628  THOLE 0.181
+ATOM H2'  HDP1A    0.260
+ATOM LPHA LPD     -0.180
+ATOM LPHB LPD     -0.180
+GROUP
+ATOM C3'  CD315B   0.254  ALPHA -1.642  THOLE 0.862 ! 
+ATOM H3'  HDA1R5   0.026
+ATOM O3'  OD30BR  -0.520  ALPHA -0.901  THOLE 0.181 ! 
+
+BOND  N1 C2    C2 N3    N3 C4    C4 C5    C5 C6   C6 N1
+BOND  C2 O2    C4 N4    N4 H41   N4 H42   C5 H5   C6 H6
+BOND  LP2A O2  LP2B O2  
+BOND  LP3  N3  
+
+BOND  N1 C1'   C1' H1'  C1' C2'  C2' H2'' C2' O2' O2' H2'
+BOND  C2' C3'  C3' H3'  C3' O3'  C3' C4'  C4' O4' O4' C1'
+BOND  C4' C5'  C4' H4'  C5' H5'  C5' H5'' C5' O5'  O5' P   P   O1P
+BOND  P O2P    O3' +P
+BOND  O4' LPRA O4' LPRB 
+BOND  O4' LPX  
+BOND  O2' LPHA O2' LPHB 
+
+IMPR  C2   N1  N3   O2  C4   N3  C5   N4
+IMPR  N4   C4  H41 H42 
+
+! Base lone pairs
+LONEPAIR  relative  LP2A O2 C2 N1  distance 0.35 angle 110.0  dihe 180.0
+LONEPAIR  relative  LP2B O2 C2 N3  distance 0.35 angle 110.0  dihe 180.0
+LONEPAIR  bisector  LP3  N3 C2 C4  distance 0.35 angle 179.99 dihe 179.99
+! O4' Lone pairs
+LONEPAIR bisector LPRA O4' C1' C4' distance 0.35 angle 110.0 dihe  90.0
+LONEPAIR bisector LPRB O4' C1' C4' distance 0.35 angle 110.0 dihe 270.0
+LONEPAIR bisector LPX  O4' C1' C4' distance 0.10 angle   0.0 dihe   0.0
+! O2' Lone pairs
+LONEPAIR relative LPHA O2' C2' H2' distance 0.35 angle 110.0 dihe  91.0
+LONEPAIR relative LPHB O2' C2' H2' distance 0.35 angle 110.0 dihe 269.0
+!Anisotropies
+! Base anisotropies
+ANISOTROPY O2 C2  N1 N3   A11 0.6968  A22 1.2194  !based on NMA
+ANISOTROPY N3 LP3 C4 C2   A11 0.808   A22 1.384   !based on PYRM
+!O4' Anisotropy
+ANISOTROPY O4' LPX LPRA LPRB A11 0.8889  A22 1.2222
+!O2' anisotropy
+ANISOTROPY O2' C2' LPHA LPHB A11 0.8108 A22 1.2162
+!Phosphate Anisotropy
+ANISOTROPY O5'  O1P -O3' O2P  A11 1.0000  A22 0.6000
+ANISOTROPY -O3' O2P O5'  O1P  A11 1.0000  A22 0.6000
+ANISOTROPY O1P  P   O5'  -O3' A11 0.6000  A22 1.0000
+ANISOTROPY O2P  P   -O3' O5'  A11 0.6000  A22 1.0000
+DONO H42  N4
+DONO H2'  O2'
+DONO H41  N4
+ACCE O2   C2
+ACCE N3
+ACCE O1P  P
+ACCE O2P  P
+ACCE O2'
+ACCE O3'
+ACCE O4'
+ACCE O5'
+
+IC -O3' P    O5'  C5'    1.6001  101.45  -46.90  119.00   1.4401 !alpha
+IC -O3' O5'  *P   O1P    1.6001  101.45 -115.82  109.74   1.4802
+IC -O3' O5'  *P   O2P    1.6001  101.45  115.90  109.80   1.4801
+IC  P   O5'  C5'  C4'    1.5996  119.00 -146.00  110.04   1.5160 !beta
+IC O5'  C5'  C4'  C3'    1.4401  108.83   60.00  116.10   1.5284 !gamma
+IC C5'  C4'  C3'  O3'    1.5160  116.10  140.00  115.12   1.4212 !delta
+IC C4'  C3'  O3'  +P     1.5284  111.92  155.00  119.05   1.6001 !epsilon
+IC C3'  O3'  +P   +O5'   1.4212  119.05  -95.20  101.45   1.5996 !zeta
+IC O4'  C3'  *C4' C5'    1.4572  104.06 -120.04  116.10   1.5160
+IC C2'  C4'  *C3' O3'    1.5284  100.16 -124.08  115.12   1.4212
+IC C4'  C3'  C2'  C1'    1.5284  100.16  -30.00  102.04   1.5251
+IC C3'  C2'  C1'  N1     1.5284  101.97  147.89  113.71   1.4896
+IC O4'  C1'  N1   C2     1.5251  113.71  -97.2   125.59   1.3783 !chi
+IC C1'  C2   *N1  C6     1.4896  117.79 -180.00  120.6    1.364
+IC C2   N1   C6   C5     1.399   120.6     0.0   121.0    1.337
+IC C6   N1   C2   N3     1.364   120.6     0.0   118.9    1.356
+IC N1   N3   *C2  O2     1.399   118.9   180.0   121.9    1.237
+IC N1   C2   N3   C4     1.399   118.9     0.0   120.0    1.334
+IC C5   N3   *C4  N4     1.426   121.8   180.00  118.9    1.337
+IC N3   C4   N4   H41    1.337   117.9     0.00  118.9    1.01
+IC H41  C4   *N4  H42    1.01    118.9   180.00  120.7    1.01
+IC C6   C4   *C5  H5     0.0       0.0   180.0     0.0    0.0
+IC N1   C5   *C6  H6     0.0       0.0   180.0     0.0    0.0
+IC C1'  C3'  *C2' O2'    1.5284  102.04 -114.67  110.81   1.4212
+IC H2'  O2'  C2'  C3'    0.9600  114.97  148.63  111.92   1.5284
+IC O4'  C2'  *C1' H1'    0.0       0.0  -115.0     0.0    0.0
+IC C1'  C3'  *C2' H2''   0.0       0.0   115.0     0.0    0.0
+IC C2'  C4'  *C3' H3'    0.0       0.0   115.0     0.0    0.0
+IC C3'  O4'  *C4' H4'    0.0       0.0  -115.0     0.0    0.0
+IC C4'  O5'  *C5' H5'    0.0       0.0  -115.0     0.0    0.0
+IC C4'  O5'  *C5' H5''   0.0       0.0   115.0     0.0    0.0
+
+RESI THY          -1.000 ! Thymine, jal update 06/15 
+!
+!                             H51    O4
+!                              |     ||
+!                          H52-C5M   C4    H3
+!                              |  \ /  \  /
+!                             H53  C5   N3
+!                                  ||   |
+!                               H6-C6   C2
+!                                   \  / \\
+!                                    N1   O2
+!                                    /
+!            O1P    H5'  H4' O4'    /
+!             |     |     \ /   \  /
+!            -P-O5'-C5'----C4'   C1'-H1'
+!             |     |      \     /
+!            O2P    H5''    C3'-C2'-H2''
+!                          / \    \
+!                        O3'  H3'  O2'-H2'
+!                        
+GROUP
+ATOM P    PD1A     1.192  ALPHA -0.974  THOLE 2.098 !
+ATOM O1P  OD2C2B  -0.856  ALPHA -0.931  THOLE 1.083 !
+ATOM O2P  OD2C2B  -0.856  ALPHA -0.931  THOLE 1.083 !
+ATOM O5'  OD30B   -0.520  ALPHA -0.901  THOLE 0.181 !
+ATOM C5'  CD32C    0.228  ALPHA -1.642  THOLE 0.862 !
+ATOM H5'  HDA2A    0.026
+ATOM H5'' HDA2A    0.026
+GROUP
+ATOM N1   ND2R6D  -0.192  ALPHA -0.979 THOLE 1.257 !
+ATOM C6   CD2R6H   0.138  ALPHA -1.545 THOLE 0.934 !
+ATOM H6   HDR6B    0.282
+ATOM C2   CD2O4A   0.524  ALPHA -1.025 THOLE 1.528 !
+ATOM O2   OD2C1B   0.000  ALPHA -0.987 THOLE 1.545 !
+ATOM LP2A LPDNA1  -0.131
+ATOM LP2B LPDNA1  -0.229
+ATOM N3   ND2R6C  -0.506  ALPHA -0.766 THOLE 1.447
+ATOM H3   HDP1A    0.297
+ATOM C4   CD2O4A   0.493  ALPHA -1.013 THOLE 0.866 !
+ATOM O4   OD2C1B   0.000  ALPHA -0.791 THOLE 1.000 !
+ATOM LP4A LPDNA1  -0.236 
+ATOM LP4B LPDNA1  -0.234 
+ATOM C5   CD2R6J  -0.174  ALPHA -1.209 THOLE 1.448 !
+ATOM C5M  CD33A   -0.173  ALPHA -1.545 THOLE 0.826 !
+ATOM H51  HDA3A    0.047
+ATOM H52  HDA3A    0.047
+ATOM H53  HDA3A    0.047
+GROUP  !! THF
+ATOM C4'  CD315B   0.100  ALPHA -1.562  THOLE 1.103 !
+ATOM H4'  HDA1R5   0.055
+ATOM O4'  OD305A   0.000  ALPHA -0.618  THOLE 1.545
+ATOM LPRA LPD     -0.152
+ATOM LPRB LPD     -0.152
+ATOM LPX  LPD      0.000 !dummy for anisotropic polarizability
+ATOM C1'  CD315A   0.094  ALPHA -1.562  THOLE 1.103  !
+ATOM H1'  HDA1R5   0.055
+GROUP  !! PRO2, changed from EtOH - jal 7/18/2014 
+!! jal 7/18/2014
+ATOM C2'  CD315B   0.000  ALPHA -1.242  THOLE 1.103  !
+ATOM H2'' HDA1R5   0.100
+ATOM O2'  OD31A    0.000  ALPHA -0.628  THOLE 0.181
+ATOM H2'  HDP1A    0.260
+ATOM LPHA LPD     -0.180
+ATOM LPHB LPD     -0.180
+GROUP
+ATOM C3'  CD315B   0.254  ALPHA -1.642  THOLE 0.862 !
+ATOM H3'  HDA1R5   0.026
+ATOM O3'  OD30BR  -0.520  ALPHA -0.901  THOLE 0.181 !
+
+BOND  N1   C2     C2  N3    N3  C4    C4  C5    C5  C6
+BOND  C6   N1     C2  O2    N3  H3    C4  O4    C5  C5M
+BOND  C5M  H51    C5M H52   C5M H53   C6  H6
+BOND  LP2A O2  LP2B O2  
+BOND  LP4A O4  LP4B O4  
+
+BOND  N1 C1'   C1' H1'  C1' C2'  C2' H2'' C2' O2' O2' H2'
+BOND  C2' C3'  C3' H3'  C3' O3'  C3' C4'  C4' O4' O4' C1'
+BOND  C4' C5'  C4' H4'  C5' H5'  C5' H5'' C5' O5'  O5' P   P   O1P
+BOND  P O2P    O3' +P
+BOND  O4' LPRA O4' LPRB 
+BOND  O4' LPX  
+BOND  O2' LPHA O2' LPHB 
+
+IMPR C2   N1   N3   O2        C4   N3   C5   O4        C5   C4   C6   C5M
+
+! Base lone pairs
+LONEPAIR  relative  LP2A O2 C2 N1  distance 0.35 angle 110.0  dihe 180.0
+LONEPAIR  relative  LP2B O2 C2 N3  distance 0.35 angle 110.0  dihe 180.0
+LONEPAIR  relative  LP4A O4 C4 N3  distance 0.35 angle 110.0  dihe 180.0
+LONEPAIR  relative  LP4B O4 C4 C5  distance 0.35 angle 110.0  dihe 180.0
+! O4' Lone pairs
+LONEPAIR bisector LPRA O4' C1' C4' distance 0.35 angle 110.0 dihe  90.0
+LONEPAIR bisector LPRB O4' C1' C4' distance 0.35 angle 110.0 dihe 270.0
+LONEPAIR bisector LPX  O4' C1' C4' distance 0.10 angle   0.0 dihe   0.0
+! O2' Lone pairs
+LONEPAIR relative LPHA O2' C2' H2' distance 0.35 angle 110.0 dihe  91.0
+LONEPAIR relative LPHB O2' C2' H2' distance 0.35 angle 110.0 dihe 269.0
+!Anisotropies
+! Base anisotropies
+ANISOTROPY O2 C2 N1 N3  A11 0.6968  A22 1.2194  !based on NMA
+ANISOTROPY O4 C4 N3 C5  A11 0.6968  A22 1.2194  !based on NMA
+!O4' Anisotropy
+ANISOTROPY O4' LPX LPRA LPRB A11 0.8889  A22 1.2222
+!O2' anisotropy
+ANISOTROPY O2' C2' LPHA LPHB A11 0.8108 A22 1.2162
+!Phosphate Anisotropy
+ANISOTROPY O5'  O1P -O3' O2P  A11 1.0000  A22 0.6000
+ANISOTROPY -O3' O2P O5'  O1P  A11 1.0000  A22 0.6000
+ANISOTROPY O1P  P   O5'  -O3' A11 0.6000  A22 1.0000
+ANISOTROPY O2P  P   -O3' O5'  A11 0.6000  A22 1.0000
+
+DONO H3   N3
+ACCE O2   C2
+ACCE O4   C4
+ACCE O1P  P
+ACCE O2P  P
+ACCE O2'
+ACCE O3'
+ACCE O4'
+ACCE O5'
+
+IC -O3' P    O5'  C5'    1.6001  101.45  -46.90  119.00   1.4401 !alpha
+IC -O3' O5'  *P   O1P    1.6001  101.45 -115.82  109.74   1.4802
+IC -O3' O5'  *P   O2P    1.6001  101.45  115.90  109.80   1.4801
+IC  P   O5'  C5'  C4'    1.5996  119.00 -146.00  110.04   1.5160 !beta
+IC O5'  C5'  C4'  C3'    1.4401  108.83   60.00  116.10   1.5284
+IC C5'  C4'  C3'  O3'    1.5160  116.10  140.00  115.12   1.4212
+IC C4'  C3'  O3'  +P     1.5284  111.92  155.00  119.05   1.6001
+IC C3'  O3'  +P   +O5'   1.4212  119.05  -95.20  101.45   1.5996
+IC O4'  C3'  *C4' C5'    1.4572  104.06 -120.04  116.10   1.5160
+IC C2'  C4'  *C3' O3'    1.5284  100.16 -124.08  115.12   1.4212
+IC C4'  C3'  C2'  C1'    1.5284  100.16  -30.00  102.04   1.5251
+IC C3'  C2'  C1'  N1     1.5284  101.97  147.89  113.71   1.4896
+IC O4'  C1'  N1   C2     1.5251  113.71  -97.2   125.59   1.3783 !chi
+IC C1'  C2   *N1  C6     1.4896  117.06 -179.96  122.08   1.3704
+IC C2   N1   C6   C5     1.3746  122.08   -0.02  121.23   1.3432
+IC C6   N1   C2   N3     1.3704  122.08    0.06  115.38   1.3813
+IC N1   N3   *C2  O2     1.3746  115.38 -179.95  121.70   1.2191
+IC N1   C2   N3   C4     1.3746  115.38   -0.07  126.46   1.3795
+IC C5   N3   *C4  O4     1.4439  114.07  179.98  120.59   1.2327
+IC C2   C4   *N3  H3     1.3813  126.46  180.00  116.77   1.0900
+IC C4   C6   *C5  C5M    1.4439  120.78 -179.94  121.63   1.5000
+IC N1   C5   *C6  H6     0.0       0.0   180.0     0.0    0.0
+IC C6   C5   C5M  H51    0.0       0.0     0.0     0.0    0.0
+IC C5   H51  *C5M H52    0.0       0.0   115.0     0.0    0.0
+IC H51  H52  *C5M H53    0.0       0.0  -115.0     0.0    0.0
+IC C1'  C3'  *C2' O2'    1.5284  102.04 -114.67  110.81   1.4212
+IC H2'  O2'  C2'  C3'    0.9600  114.97  148.63  111.92   1.5284
+IC O4'  C2'  *C1' H1'    0.0       0.0  -115.0     0.0    0.0
+IC C1'  C3'  *C2' H2''   0.0       0.0   115.0     0.0    0.0
+IC C2'  C4'  *C3' H3'    0.0       0.0   115.0     0.0    0.0
+IC C3'  O4'  *C4' H4'    0.0       0.0  -115.0     0.0    0.0
+IC C4'  O5'  *C5' H5'    0.0       0.0  -115.0     0.0    0.0
+IC C4'  O5'  *C5' H5''   0.0       0.    115.0     0.0    0.0
+
+RESI URA          -1.000 ! Uracil
+!
+!                                    O4
+!                                    ||
+!                                    C4    H3
+!                                   /  \  /
+!                               H5-C5   N3
+!                                  ||   |
+!                               H6-C6   C2
+!                                   \  / \\
+!                                    N1   O2
+!                                    /
+!            O1P    H5'  H4' O4'    /
+!             |     |     \ /   \  /
+!            -P-O5'-C5'----C4'   C1'-H1'
+!             |     |      \     /
+!            O2P    H5''    C3'-C2'-H2''
+!                          / \    \
+!                        O3'  H3'  O2'-H2'
+!
+GROUP
+ATOM P    PD1A     1.192  ALPHA -0.974  THOLE 2.098 !
+ATOM O1P  OD2C2B  -0.856  ALPHA -0.931  THOLE 1.083 !
+ATOM O2P  OD2C2B  -0.856  ALPHA -0.931  THOLE 1.083 !
+ATOM O5'  OD30B   -0.520  ALPHA -0.901  THOLE 0.181 !
+ATOM C5'  CD32C    0.228  ALPHA -1.642  THOLE 0.862 !
+ATOM H5'  HDA2A    0.026
+ATOM H5'' HDA2A    0.026
+GROUP
+ATOM N1   ND2R6D  -0.240  ALPHA -1.192  THOLE 1.639 ! ND2R6C --> ND2R6D 
+ATOM C6   CD2R6H   0.095  ALPHA -0.500  THOLE 0.544  
+ATOM H6   HDR6B    0.341
+ATOM C2   CD2O4A   0.636  ALPHA -1.072  THOLE 1.120
+ATOM O2   OD2C1B   0.000  ALPHA -0.799  THOLE 1.076
+ATOM LP2A LPDNA1  -0.126
+ATOM LP2B LPDNA1  -0.229
+ATOM N3   ND2R6C  -0.593  ALPHA -1.631  THOLE 1.574
+ATOM H3   HDP1A    0.317
+ATOM C4   CD2O4A   0.557  ALPHA -1.072  THOLE 1.079
+ATOM O4   OD2C1B   0.000  ALPHA -0.657  THOLE 1.156
+ATOM LP4A LPDNA1  -0.254
+ATOM LP4B LPDNA1  -0.192
+ATOM C5   CD2R6J  -0.321  ALPHA -1.949  THOLE 1.307
+ATOM H5   HDR6A    0.009
+GROUP  !! THF
+ATOM C4'  CD315B   0.100  ALPHA -1.562  THOLE 1.103 !
+ATOM H4'  HDA1R5   0.055
+ATOM O4'  OD305A   0.000  ALPHA -0.618  THOLE 1.545
+ATOM LPRA LPD     -0.152
+ATOM LPRB LPD     -0.152
+ATOM LPX  LPD      0.000 !dummy for anisotropic polarizability
+ATOM C1'  CD315A   0.094  ALPHA -1.562  THOLE 1.103  !
+ATOM H1'  HDA1R5   0.055
+GROUP  !! PRO2, changed from EtOH - jal 7/18/2014
+!! jal 7/18/2014 
+ATOM C2'  CD315B   0.000  ALPHA -1.242  THOLE 1.103  !
+ATOM H2'' HDA1R5   0.100
+ATOM O2'  OD31A    0.000  ALPHA -0.628  THOLE 0.181
+ATOM H2'  HDP1A    0.260
+ATOM LPHA LPD     -0.180
+ATOM LPHB LPD     -0.180
+GROUP
+ATOM C3'  CD315B   0.254  ALPHA -1.642  THOLE 0.862 !
+ATOM H3'  HDA1R5   0.026
+ATOM O3'  OD30BR  -0.520  ALPHA -0.901  THOLE 0.181 !
+
+BOND  N1  C2   C2  N3   N3  C4   C4  C5   C5  C6
+BOND  C6  N1   C2  O2   N3  H3   C4  O4   C5  H5
+BOND  C6  H6
+BOND  LP2A O2  LP2B O2  
+BOND  LP4A O4  LP4B O4  
+
+BOND  N1 C1'   C1' H1'  C1' C2'  C2' H2'' C2' O2' O2' H2'
+BOND  C2' C3'  C3' H3'  C3' O3'  C3' C4'  C4' O4' O4' C1'
+BOND  C4' C5'  C4' H4'  C5' H5'  C5' H5'' C5' O5'  O5' P   P   O1P
+BOND  P O2P    O3' +P
+BOND  O4' LPRA O4' LPRB 
+BOND  O4' LPX  
+BOND  O2' LPHA O2' LPHB 
+
+IMPR  C2   N1   N3   O2        C4   N3   C5   O4
+
+! Base lone pairs
+LONEPAIR  relative  LP2A O2 C2 N1  distance 0.35 angle 110.0  dihe 180.0
+LONEPAIR  relative  LP2B O2 C2 N3  distance 0.35 angle 110.0  dihe 180.0
+LONEPAIR  relative  LP4A O4 C4 N3  distance 0.35 angle 110.0  dihe 180.0
+LONEPAIR  relative  LP4B O4 C4 C5  distance 0.35 angle 110.0  dihe 180.0
+! O4' Lone pairs
+LONEPAIR bisector LPRA O4' C1' C4' distance 0.35 angle 110.0 dihe  90.0
+LONEPAIR bisector LPRB O4' C1' C4' distance 0.35 angle 110.0 dihe 270.0
+LONEPAIR bisector LPX  O4' C1' C4' distance 0.10 angle   0.0 dihe   0.0
+! O2' Lone pairs
+LONEPAIR relative LPHA O2' C2' H2' distance 0.35 angle 110.0 dihe  91.0
+LONEPAIR relative LPHB O2' C2' H2' distance 0.35 angle 110.0 dihe 269.0
+!Anisotropies
+! Base anisotropies
+ANISOTROPY O2 C2 N1 N3  A11 0.6968  A22 1.2194  !based on NMA
+ANISOTROPY O4 C4 N3 C5  A11 0.6968  A22 1.2194  !based on NMA
+!O4' Anisotropy
+ANISOTROPY O4' LPX LPRA LPRB A11 0.8889  A22 1.2222
+!O2' anisotropy
+ANISOTROPY O2' C2' LPHA LPHB A11 0.8108 A22 1.2162
+!Phosphate Anisotropy
+ANISOTROPY O5'  O1P -O3' O2P  A11 1.0000  A22 0.6000
+ANISOTROPY -O3' O2P O5'  O1P  A11 1.0000  A22 0.6000
+ANISOTROPY O1P  P   O5'  -O3' A11 0.6000  A22 1.0000
+ANISOTROPY O2P  P   -O3' O5'  A11 0.6000  A22 1.0000
+
+DONO H3   N3
+DONO H2'  O2'
+ACCE O2   C2
+ACCE O4   C4
+ACCE O1P  P
+ACCE O2P  P
+ACCE O2'
+ACCE O3'
+ACCE O4'
+ACCE O5'
+
+IC -O3' P    O5'  C5'    1.6001  101.45  -39.25  119.00   1.4401
+IC -O3' O5'  *P   O1P    1.6001  101.45 -115.82  109.74   1.4802
+IC -O3' O5'  *P   O2P    1.6001  101.45  115.90  109.80   1.4801
+IC  P   O5'  C5'  C4'    1.5996  119.00 -151.39  110.04   1.5160
+IC O5'  C5'  C4'  C3'    1.4401  108.83 -179.85  116.10   1.5284
+IC C5'  C4'  C3'  O3'    1.5160  116.10   76.70  115.12   1.4212
+IC C4'  C3'  O3'  +P     1.5284  111.92  159.13  119.05   1.6001
+IC C3'  O3'  +P   +O5'   1.4212  119.05  -98.86  101.45   1.5996
+IC O4'  C3'  *C4' C5'    1.4572  104.06 -120.04  116.10   1.5160
+IC C2'  C4'  *C3' O3'    1.5284  100.16 -124.08  115.12   1.4212
+IC C4'  C3'  C2'  C1'    1.5284  100.16   39.58  102.04   1.5251
+IC C3'  C2'  C1'  N1     1.5284  101.97  144.39  113.71   1.4896
+IC O4'  C1'  N1   C2     1.5251  113.71  -96.0   117.06   1.3746
+IC C1'  C2   *N1  C6     1.4896  117.06 -180.0   121.3    1.379
+IC C2   N1   C6   C5     1.379   121.3     0.0   122.8    1.338
+IC C6   N1   C2   N3     1.380   121.3     0.0   114.8    1.373
+IC N1   N3   *C2  O2     1.379   114.8  -180.0   122.0    1.218
+IC N1   C2   N3   C4     1.379   114.8     0.0   127.0    1.383
+IC C5   N3   *C4  O4     1.440   114.7   180.0   119.8    1.227
+IC C2   C4   *N3  H3     1.373   127.0   180.0   116.5    1.03
+IC C6   C4   *C5  H5     0.0       0.0   180.0     0.0    0.0
+IC N1   C5   *C6  H6     0.0       0.0   180.0     0.0    0.0
+IC C1'  C3'  *C2' O2'    1.5284  102.04 -114.67  110.81   1.4212
+IC H2'  O2'  C2'  C3'    0.9600  114.97  148.63  111.92   1.5284
+IC O4'  C2'  *C1' H1'    0.0       0.0  -115.0     0.0    0.0
+IC C1'  C3'  *C2' H2''   0.0       0.0   115.0     0.0    0.0
+IC C2'  C4'  *C3' H3'    0.0       0.0   115.0     0.0    0.0
+IC C3'  O4'  *C4' H4'    0.0       0.0  -115.0     0.0    0.0
+IC C4'  O5'  *C5' H5'    0.0       0.0  -115.0     0.0    0.0
+IC C4'  O5'  *C5' H5''   0.0       0.0   115.0     0.0    0.0
+
+
+RESI ADE          -1.000 ! Adenine, jal update 06/15 
+!
+!                       H61  H62
+!                         \  /
+!                          N6
+!                          |
+!                          C6
+!                        //  \
+!                        N1   C5--N7\\
+!                        |    ||     C8-H8
+!                        C2   C4--N9/
+!                       / \\ /     \
+!                     H2   N3       \
+!                                    \
+!                                    /
+!            O1P    H5'  H4' O4'    /
+!             |     |     \ /   \  /
+!            -P-O5'-C5'----C4'   C1'-H1'
+!             |     |      \     /
+!            O2P    H5''    C3'-C2'-H2''
+!                          / \    \
+!                        O3'  H3'  O2'-H2'
+!
+GROUP
+ATOM P    PD1A     1.192  ALPHA -0.974  THOLE 2.098 !
+ATOM O1P  OD2C2B  -0.856  ALPHA -0.931  THOLE 1.083 !
+ATOM O2P  OD2C2B  -0.856  ALPHA -0.931  THOLE 1.083 !
+ATOM O5'  OD30B   -0.520  ALPHA -0.901  THOLE 0.181 !
+ATOM C5'  CD32C    0.228  ALPHA -1.642  THOLE 0.862
+ATOM H5'  HDA2A    0.026
+ATOM H5'' HDA2A    0.026
+GROUP
+ATOM N9   ND2R5D   0.066  ALPHA -0.676 THOLE 0.935
+ATOM C4   CD2R6F   0.227  ALPHA -1.045 THOLE 1.100
+ATOM N3   ND2R6B   0.000  ALPHA -1.602 THOLE 0.006
+ATOM LP3  LPDNA1  -0.507
+ATOM C2   CD2R6C   0.208  ALPHA -1.120 THOLE 1.469
+ATOM H2   HDR6C    0.176
+ATOM N1   ND2R6B   0.000  ALPHA -1.507 THOLE 0.967
+ATOM LP1  LPDNA1  -0.472
+ATOM C6   CD2R6C   0.402  ALPHA -1.454 THOLE 0.557
+ATOM N6   ND2B1   -0.742  ALPHA -1.230 THOLE 1.000 !
+ATOM H61  HDP1A    0.373
+ATOM H62  HDP1A    0.373
+ATOM C5   CD2R6F  -0.118  ALPHA -1.238 THOLE 1.854
+ATOM N7   ND2R5E   0.000  ALPHA -1.362 THOLE 0.252 !
+ATOM LP7  LPDNA1  -0.189
+ATOM C8   CD2R5F   0.038  ALPHA -1.357 THOLE 1.452 !
+ATOM H8   HDR5B    0.165
+GROUP  !! THF
+ATOM C4'  CD315B   0.100  ALPHA -1.562  THOLE 1.103 !
+ATOM H4'  HDA1R5   0.055
+ATOM O4'  OD305A   0.000  ALPHA -0.618  THOLE 1.545
+ATOM LPRA LPD     -0.152
+ATOM LPRB LPD     -0.152
+ATOM LPX  LPD      0.000 !dummy for anisotropic polarizability
+ATOM C1'  CD315A   0.094  ALPHA -1.562  THOLE 1.103  !
+ATOM H1'  HDA1R5   0.055
+GROUP  !! PRO2, changed from EtOH - jal 7/18/2014
+!! jal 7/18/2014 
+ATOM C2'  CD315B   0.000  ALPHA -1.242  THOLE 1.103  !
+ATOM H2'' HDA1R5   0.100
+ATOM O2'  OD31A    0.000  ALPHA -0.628  THOLE 0.181
+ATOM H2'  HDP1A    0.260
+ATOM LPHA LPD     -0.180
+ATOM LPHB LPD     -0.180
+GROUP
+ATOM C3'  CD315B   0.254  ALPHA -1.642  THOLE 0.862 !
+ATOM H3'  HDA1R5   0.026
+ATOM O3'  OD30BR  -0.520  ALPHA -0.901  THOLE 0.181 !
+
+BOND N9   C4     C4   N3     N3   C2    C2   N1    N1   C6
+BOND C6   C5     C5   C4     N9   C8    C8   N7    N7   C5
+BOND C8   H8     C6   N6     N6   H61   N6   H62   C2   H2
+BOND LP1  N1  !LP1  C2  LP1  C6
+BOND LP3  N3  !LP3  C2  LP3  C4
+BOND LP7  N7  !LP7  C5  LP7  C8
+
+BOND  N9 C1'   C1' H1'  C1' C2'  C2' H2'' C2' O2' O2' H2'
+BOND  C2' C3'  C3' H3'  C3' O3'  C3' C4'  C4' O4' O4' C1'
+BOND  C4' C5'  C4' H4'  C5' H5'  C5' H5'' C5' O5'  O5' P   P   O1P
+BOND  P O2P    O3' +P
+BOND  O4' LPRA O4' LPRB !C1' LPRA C1' LPRB C4' LPRA C4' LPRB
+BOND  O4' LPX  !C1' LPX  C4' LPX
+BOND  O2' LPHA O2' LPHB !C2' LPHA C2' LPHB
+
+! Base lone pairs
+LONEPAIR  bisector  LP1 N1 C2 C6  distance 0.35 angle 179.99 dihe 179.99
+LONEPAIR  bisector  LP3 N3 C2 C4  distance 0.35 angle 179.99 dihe 179.99
+LONEPAIR  bisector  LP7 N7 C5 C8  distance 0.35 angle 179.99 dihe 179.99
+! O4' Lone pairs
+LONEPAIR bisector LPRA O4' C1' C4' distance 0.35 angle 110.0 dihe  90.0
+LONEPAIR bisector LPRB O4' C1' C4' distance 0.35 angle 110.0 dihe 270.0
+LONEPAIR bisector LPX  O4' C1' C4' distance 0.10 angle   0.0 dihe   0.0
+! O2' Lone pairs
+LONEPAIR relative LPHA O2' C2' H2' distance 0.35 angle 110.0 dihe  91.0
+LONEPAIR relative LPHB O2' C2' H2' distance 0.35 angle 110.0 dihe 269.0
+!Anisotropies
+! Base anisotropies
+ANISOTROPY N1 LP1 C6 C2   A11 0.808   A22 1.384   !based on PYRM
+ANISOTROPY N3 LP3 C4 C2   A11 0.808   A22 1.384   !based on PYRM
+ANISOTROPY N7 LP7 C8 C5   A11 0.808   A22 1.384   !based on IMID
+!O4' Anisotropy
+ANISOTROPY O4' LPX LPRA LPRB A11 0.8889  A22 1.2222
+!O2' anisotropy
+ANISOTROPY O2' C2' LPHA LPHB A11 0.8108 A22 1.2162
+!Phosphate Anisotropy
+ANISOTROPY O5'  O1P -O3' O2P  A11 1.0000  A22 0.6000
+ANISOTROPY -O3' O2P O5'  O1P  A11 1.0000  A22 0.6000
+ANISOTROPY O1P  P   O5'  -O3' A11 0.6000  A22 1.0000
+ANISOTROPY O2P  P   -O3' O5'  A11 0.6000  A22 1.0000
+
+IMPR N6   C6   H61  H62        C6   N1   C5   N6
+DONO H61  N6
+DONO H62  N6
+DONO H2'  O2'
+ACCE N3
+ACCE N7
+ACCE N1
+ACCE O1P  P
+ACCE O2P  P
+ACCE O2'
+ACCE O3'
+ACCE O4'
+ACCE O5'
+IC -O3' P    O5'  C5'    1.6001  101.45  -46.90  119.00   1.4401 !alpha
+IC -O3' O5'  *P   O1P    1.6001  101.45 -115.82  109.74   1.4802
+IC -O3' O5'  *P   O2P    1.6001  101.45  115.90  109.80   1.4801
+IC P    O5'  C5'  C4'    1.5996  119.00 -146.00  110.04   1.5160 !beta
+IC O5'  C5'  C4'  C3'    1.4401  108.83   60.00  116.10   1.5284 !gamma
+IC C5'  C4'  C3'  O3'    1.5160  116.10  140.00  115.12   1.4212 !delta
+IC C4'  C3'  O3'  +P     1.5284  111.92  155.00  119.05   1.6001 !epsilon
+IC C3'  O3'  +P   +O5'   1.4212  119.05  -95.20  101.45   1.5996 !zeta
+IC O4'  C3'  *C4' C5'    1.4572  104.06 -120.04  116.10   1.5160
+IC C2'  C4'  *C3' O3'    1.5284  100.16 -124.08  115.12   1.4212
+IC C4'  C3'  C2'  C1'    1.5284  100.16  -30.00  102.04   1.5251 !puck
+IC C3'  C2'  C1'  N9     1.5284  101.97  147.80  113.71   1.4896
+IC O4'  C1'  N9   C4     1.5251  113.71  -97.2   125.59   1.3783 !chi
+IC C1'  C4   *N9  C8     1.4896  125.97 -179.94  106.0    1.367
+IC C4   N9   C8   N7     1.376   106.0     0.0   113.6    1.312
+IC C8   N9   C4   C5     1.367   106.0     0.0   105.6    1.382
+IC C8   N7   C5   C6     0.0       0.0   180.0     0.0    0.0
+IC N7   C5   C6   N1     0.0       0.0   180.0     0.0    0.0
+IC C5   C6   N1   C2     0.0       0.0     0.0     0.0    0.0
+IC N9   C5   *C4  N3     1.376   105.6  -180.0   126.9    1.342
+IC C5   N1   *C6  N6     1.409   117.6  -180.0   121.2    1.337
+IC N1   C6   N6   H61    1.337   121.2     0.0   119.0    1.01
+IC H61  C6   *N6  H62    1.01    119.0   180.0   119.00   1.01
+IC C5   N1   *C6  N6     1.409   117.6  -180.0   119.0    1.337
+IC N1   C6   N6   H61    1.337   119.0     0.0   119.0    1.01
+IC H61  C6   *N6  H62    1.01    119.0   180.0   121.00   1.01
+IC N9   N7   *C8   H8    0.0       0.0   180.0     0.0    0.0
+IC N1   N3   *C2   H2    0.0       0.0   180.0     0.0    0.0
+IC C1'  C3'  *C2' O2'    1.5284  102.04 -114.67  110.81   1.4212
+IC H2'  O2'  C2'  C3'    0.9600  114.97  148.63  111.92   1.5284
+IC O4'  C2'  *C1' H1'    0.0       0.0  -115.0     0.0    0.0
+IC C1'  C3'  *C2' H2''   0.0       0.0   115.0     0.0    0.0
+IC C2'  C4'  *C3' H3'    0.0       0.0   115.0     0.0    0.0
+IC C3'  O4'  *C4' H4'    0.0       0.0  -115.0     0.0    0.0
+IC C4'  O5'  *C5' H5'    0.0       0.0  -115.0     0.0    0.0
+IC C4'  O5'  *C5' H5''   0.0       0.0   115.0     0.0    0.0
+
+RESI GUA          -1.000 ! Guanine, jal update 06/15 
+!
+!                       O6
+!                       ||
+!                       C6
+!                      /  \
+!                  H1-N1   C5--N7\\
+!                     |    ||     C8-H8
+!                     C2   C4--N9/
+!                    / \\ /      \
+!              H21-N2   N3        \
+!                  |               \
+!                 H22               \
+!                                    \
+!                                    /
+!            O1P    H5'  H4' O4'    /
+!             |     |     \ /   \  /
+!            -P-O5'-C5'----C4'   C1'-H1'
+!             |     |      \     /
+!            O2P    H5''    C3'-C2'-H2''
+!                          / \    \
+!                        O3'  H3'  O2'-H2'
+!                        |
+GROUP
+ATOM P    PD1A     1.192  ALPHA -0.974  THOLE 2.098 !
+ATOM O1P  OD2C2B  -0.856  ALPHA -0.931  THOLE 1.083 !
+ATOM O2P  OD2C2B  -0.856  ALPHA -0.931  THOLE 1.083 !
+ATOM O5'  OD30B   -0.520  ALPHA -0.901  THOLE 0.181 !
+ATOM C5'  CD32C    0.228  ALPHA -1.642  THOLE 0.862
+ATOM H5'  HDA2A    0.026
+ATOM H5'' HDA2A    0.026
+GROUP
+ATOM N9   ND2R5F   0.197  ALPHA -0.880 THOLE 1.351
+ATOM C4   CD2R6F   0.227  ALPHA -1.259 THOLE 0.797
+ATOM N3   ND2R6B   0.000  ALPHA -0.771 THOLE 1.265 !
+ATOM LP3  LPDNA1  -0.459
+ATOM C2   CD2R6C   0.587  ALPHA -1.109 THOLE 1.628
+ATOM N1   ND2R6C  -0.366  ALPHA -1.568 THOLE 0.971 !
+ATOM H1   HDP1A    0.287
+ATOM N2   ND2B1   -0.736  ALPHA -1.404 THOLE 0.498 !
+ATOM H21  HDP1A    0.327
+ATOM H22  HDP1A    0.327
+ATOM C6   CD2O4A   0.272  ALPHA -0.943 THOLE 1.440 !
+ATOM O6   OD2C1B   0.000  ALPHA -0.617 THOLE 1.639 !
+ATOM LP6A LPDNA1  -0.259
+ATOM LP6B LPDNA1  -0.138
+ATOM C5   CD2R6F   0.004  ALPHA -1.788 THOLE 1.033
+ATOM N7   ND2R5E   0.000  ALPHA -0.650 THOLE 1.146 !
+ATOM LP7  LPDNA1  -0.322
+ATOM C8   CD2R5F  -0.113  ALPHA -1.427 THOLE 1.309
+ATOM H8   HDR5B    0.165
+GROUP  !! THF
+ATOM C4'  CD315B   0.100  ALPHA -1.562  THOLE 1.103 !
+ATOM H4'  HDA1R5   0.055
+ATOM O4'  OD305A   0.000  ALPHA -0.618  THOLE 1.545
+ATOM LPRA LPD     -0.152
+ATOM LPRB LPD     -0.152
+ATOM LPX  LPD      0.000 !dummy for anisotropic polarizability
+ATOM C1'  CD315A   0.094  ALPHA -1.562  THOLE 1.103  !
+ATOM H1'  HDA1R5   0.055
+GROUP  !! PRO2, changed from EtOH - jal 7/18/2014
+!! jal 7/18/2014 
+ATOM C2'  CD315B   0.000  ALPHA -1.242  THOLE 1.103  !
+ATOM H2'' HDA1R5   0.100
+ATOM O2'  OD31A    0.000  ALPHA -0.628  THOLE 0.181 
+ATOM H2'  HDP1A    0.260
+ATOM LPHA LPD     -0.180
+ATOM LPHB LPD     -0.180
+GROUP
+ATOM C3'  CD315B   0.254  ALPHA -1.642  THOLE 0.862 !
+ATOM H3'  HDA1R5   0.026
+ATOM O3'  OD30BR  -0.520  ALPHA -0.901  THOLE 0.181 !
+
+BOND N9  C4   C4  N3   N3  C2   C2  N1   N1  C6   C6  C5
+BOND C5  C4   N9  C8   C8  N7   C5  N7   C8  H8   C6  O6
+BOND N1  H1   C2  N2   N2 H21   N2  H22
+BOND LP3  N3  !LP3  C2  LP3  C4
+BOND LP7  N7  !LP7  C5  LP7  C8
+BOND LP6A O6  LP6B O6  !LP6A C6   LP6B C6
+
+BOND  N9 C1'   C1' H1'  C1' C2'  C2' H2'' C2' O2' O2' H2'
+BOND  C2' C3'  C3' H3'  C3' O3'  C3' C4'  C4' O4' O4' C1'
+BOND  C4' C5'  C4' H4'  C5' H5'  C5' H5'' C5' O5'  O5' P   P   O1P
+BOND  P O2P    O3' +P
+BOND  O4' LPRA O4' LPRB !C1' LPRA C1' LPRB C4' LPRA C4' LPRB
+BOND  O4' LPX  !C1' LPX  C4' LPX
+BOND  O2' LPHA O2' LPHB !C2' LPHA C2' LPHB
+
+IMPR C2   N3   N1   N2        C6   N1   C5   O6        N2   H21  C2   H22
+
+! Base lone pairs
+LONEPAIR  bisector  LP3  N3 C2 C4  distance 0.35 angle 179.99 dihe 179.99
+LONEPAIR  relative  LP6A O6 C6 N1  distance 0.35 angle 110.0  dihe 180.0
+LONEPAIR  relative  LP6B O6 C6 C5  distance 0.35 angle 110.0  dihe 180.0
+LONEPAIR  bisector  LP7  N7 C5 C8  distance 0.35 angle 179.99 dihe 179.99
+! O4' Lone pairs
+LONEPAIR bisector LPRA O4' C1' C4' distance 0.35 angle 110.0 dihe  90.0
+LONEPAIR bisector LPRB O4' C1' C4' distance 0.35 angle 110.0 dihe 270.0
+LONEPAIR bisector LPX  O4' C1' C4' distance 0.10 angle   0.0 dihe   0.0
+! O2' Lone pairs
+LONEPAIR relative LPHA O2' C2' H2' distance 0.35 angle 110.0 dihe  91.0
+LONEPAIR relative LPHB O2' C2' H2' distance 0.35 angle 110.0 dihe 269.0
+!Anisotropies
+! Base anisotropies
+ANISOTROPY N3 LP3 C4 C2   A11 0.808   A22 1.384   !based on PYRM
+ANISOTROPY O6 C6  C5 N1   A11 0.6968  A22 1.2194  !based on NMA
+ANISOTROPY N7 LP7 C8 C5   A11 0.808   A22 1.384   !based on IMID
+!O4' Anisotropy
+ANISOTROPY O4' LPX LPRA LPRB A11 0.8889  A22 1.2222
+!O2' anisotropy
+ANISOTROPY O2' C2' LPHA LPHB A11 0.8108 A22 1.2162
+!Phosphate Anisotropy
+ANISOTROPY O5'  O1P -O3' O2P  A11 1.0000  A22 0.6000
+ANISOTROPY -O3' O2P O5'  O1P  A11 1.0000  A22 0.6000
+ANISOTROPY O1P  P   O5'  -O3' A11 0.6000  A22 1.0000
+ANISOTROPY O2P  P   -O3' O5'  A11 0.6000  A22 1.0000
+
+DONO H21  N2
+DONO H22  N2
+DONO H1   N1
+DONO H2'  O2'
+ACCE O6   C6
+ACCE N3
+ACCE N7
+ACCE O1P  P
+ACCE O2P  P
+ACCE O2'
+ACCE O3'
+ACCE O4'
+ACCE O5'
+
+! Chi and sugar-phosphate backbone in B-DNA ike conformation
+IC -O3' P    O5'  C5'    1.6001  101.45  -46.90  119.00   1.4401 !alpha
+IC -O3' O5'  *P   O1P    1.6001  101.45 -115.82  109.74   1.4802
+IC -O3' O5'  *P   O2P    1.6001  101.45  115.90  109.80   1.4801
+IC  P   O5'  C5'  C4'    1.5996  119.00 -146.00  110.04   1.5160 !beta
+IC O5'  C5'  C4'  C3'    1.4401  108.83   60.00  116.10   1.5284 !gamma
+IC C5'  C4'  C3'  O3'    1.5160  116.10  140.00  115.12   1.4212 !delta
+IC C4'  C3'  O3'  +P     1.5284  111.92  155.00  119.05   1.6001 !epsilon
+IC C3'  O3'  +P   +O5'   1.4212  119.05  -95.20  101.45   1.5996 !zeta
+IC O4'  C3'  *C4' C5'    1.4572  104.06 -120.04  116.10   1.5160
+IC C2'  C4'  *C3' O3'    1.5284  100.16 -124.08  115.12   1.4212
+IC C4'  C3'  C2'  C1'    1.5284  100.16  -30.00  102.04   1.5251 !puck
+IC C3'  C2'  C1'  N9     1.5284  101.97  147.80  113.71   1.4896
+IC O4'  C1'  N9   C4     1.5251  113.71  -97.2   125.59   1.3783 !chi
+IC C1'  C4   *N9  C8     1.4896  125.59 -179.99  106.0    1.374
+IC C4   N9   C8   N7     1.377   106.0     0.0   113.5    1.304
+IC C8   N9   C4   C5     1.374   106.0     0.0   105.6    1.377
+IC N9   C5   *C4  N3     1.377   105.6   180.0   128.4    1.355
+IC C5   C4   N3   C2     1.377   128.4     0.0   111.8    1.327
+IC C4   N3   C2   N1     1.355   111.8     0.0   124.0    1.375
+IC N1   N3   *C2  N2     1.375   124.0   180.0   119.7    1.341
+IC N3   C2   N2   H21    1.327   119.7   180.0   127.0    1.01
+IC H21  C2   *N2  H22    1.01    127.0  -180.0   116.5    1.01
+IC N3   C2   N1   C6     1.327   124.0     0.0   124.9    1.393
+IC C6   C2   *N1  H1     1.393   124.9   180.0   117.4    1.03
+IC C5   N1   *C6  O6     1.415   111.7   180.0   120.0    1.239
+IC N9   N7   *C8  H8     0.0       0.0   180.0     0.0    0.0
+IC C1'  C3'  *C2' O2'    1.5284  102.04 -114.67  110.81   1.4212
+IC H2'  O2'  C2'  C3'    0.9600  114.97  148.63  111.92   1.5284
+IC O4'  C2'  *C1' H1'    0.0       0.0  -115.0     0.0    0.0
+IC C1'  C3'  *C2' H2''   0.0       0.0   115.0     0.0    0.0
+IC C2'  C4'  *C3' H3'    0.0       0.0   115.0     0.0    0.0
+IC C3'  O4'  *C4' H4'    0.0       0.0  -115.0     0.0    0.0
+IC C4'  O5'  *C5' H5'    0.0       0.0  -115.0     0.0    0.0
+IC C4'  O5'  *C5' H5''   0.0       0.0   115.0     0.0    0.0
+
+
+PRES 5TER          0.000 ! 5-terminal HYDROXYL patch, from MeOH
+!
+!                                    Base
+!                  H5T1  H4' O4'    /
+!                   |     \ /   \  /
+!           H5T-O5T-C5T----C4'   C1'-H1'
+!                   |      \     /
+!                  H5T2     C3'-C2D-H2D
+!                          / \    \
+!                        O3'  H3'  H2Da
+!                        |
+DELETE ATOM P
+DELETE ATOM O1P
+DELETE ATOM O2P
+DELETE ATOM DP
+DELETE ATOM DO1P
+DELETE ATOM DO2P
+DELETE ATOM DO5'
+DELETE ATOM DC5'
+GROUP
+ATOM H5T  HDP1A    0.360
+ATOM O5'  OD31A    0.000  ALPHA -1.028  THOLE 1.3
+ATOM C5'  CD32A   -0.060  ALPHA -1.000  THOLE 1.3
+ATOM H5'  HDA2A    0.080
+ATOM H5'' HDA2A    0.080
+ATOM LP5A LPD     -0.230
+ATOM LP5B LPD     -0.230
+
+BOND O5' H5T
+BOND O5' LP5A O5' LP5B  
+
+LONEPAIR relative LP5A O5' C5' H5T distance 0.35 angle 110.0 dihe  91.0
+LONEPAIR relative LP5B O5' C5' H5T distance 0.35 angle 110.0 dihe 269.0
+ANISOTROPY O5' C5' LP5A LP5B A11 0.8108 A22 1.2162
+
+DONO H5T   O5'
+
+IC H5T  O5'  C5'  C4'        0.0000    0.00  180.00    0.00   0.0000
+
+
+PRES 3TER         -0.000 ! 3-terminal HYDROXYL patch, from PRO2 (jal 7/18/2014) 
+!
+!                          \    
+!                           C3T-
+!                          / \  
+!                        O3T  H3'
+!                        |
+!                        H3T
+GROUP
+ATOM C3'  CD315B   0.000  ALPHA -1.242  THOLE 1.103  ! neutralize group charge
+ATOM H3'  HDA1R5   0.100
+ATOM O3'  OD31G    0.000  ALPHA -0.628  THOLE 0.181 
+ATOM H3T  HDP1A    0.360
+ATOM LP3A LPD     -0.230
+ATOM LP3B LPD     -0.230
+
+BOND O3' H3T
+BOND O3' LP3A O3' LP3B
+
+LONEPAIR relative LP3A O3' C3' H3T distance 0.35 angle 110.0 dihe  91.0
+LONEPAIR relative LP3B O3' C3' H3T distance 0.35 angle 110.0 dihe 269.0
+ANISOTROPY O3' C3' LP3A LP3B A11 0.8108 A22 1.2162
+
+DONO H3T  O3'
+
+IC H3T  O3'  C3'  C4'        0.0000    0.00 -180.00    0.00   0.0000
+
+PRES DEOX         -0.520 ! Patch to make DEOXYribose from default ribose bases
+                         ! modified by jal 7/18/2014 due to RNA-specific atom type for O3'
+DELETE ATOM O2'
+DELETE ATOM LPHA
+DELETE ATOM LPHB
+DELETE ATOM DO2'
+DELETE ANISOTROPY O3' +O2P +O5' +O1P A11 1.0000  A22 0.6000
+
+GROUP
+ATOM O3'  OD30B   -0.520  ALPHA -0.901  THOLE 0.181
+GROUP
+ATOM C2'  CD325B  -0.144  ALPHA -1.617  THOLE 1.103 !neutralize group charge
+ATOM H2'  HDA2R5   0.072
+ATOM H2'' HDA2R5   0.072
+
+BOND C2'   H2'
+BOND C3'   O3'
+BOND O3'   +P
+
+ANISOTROPY O3' +O2P +O5' +O1P A11 1.0000  A22 0.6000
+
+IC C2'  C4'  *C3' O3'    1.5284  100.16 -124.08  115.12   1.4212
+IC C1'  C3'  *C2' H2'    0.0000  0.0000 -115.00  0.0000   0.0000
+
+PRES DEO3          0.000 ! for the 3'-terminal DNA nucleotides
+DELETE ATOM O2'
+DELETE ATOM LPHA
+DELETE ATOM LPHB
+DELETE ATOM DO2'
+
+GROUP
+ATOM C2'  CD325B  -0.144  ALPHA -1.617  THOLE 1.103 !neutralize group charge
+ATOM H2'  HDA2R5   0.072
+ATOM H2'' HDA2R5   0.072
+
+BOND C2'   H2'
+BOND C3'   O3'
+
+IC C2'  C4'  *C3' O3'    1.5284  100.16 -124.08  115.12   1.4212
+IC C1'  C3'  *C2' H2'    0.0000  0.0000 -115.00  0.0000   0.0000
+
+!! jal - for making nucleotides, updated with DMP in 2020b
+PRES 3POM         -0.680 
+GROUP
+ATOM P3   PD1A     1.192  ALPHA -0.974  THOLE 2.098
+ATOM O3P1 OD2C2B  -0.856  ALPHA -0.931  THOLE 1.083
+ATOM O3P2 OD2C2B  -0.856  ALPHA -0.931  THOLE 1.083
+ATOM O3T  OD30B   -0.520  ALPHA -0.901  THOLE 0.181
+ATOM C3T  CD32C    0.282  ALPHA -1.642  THOLE 0.862 
+ATOM H3T1 HDA2A    0.026
+ATOM H3T2 HDA2A    0.026
+ATOM H3T3 HDA2A    0.026
+
+BOND O3' P3
+BOND P3  O3P1 P3  O3P2 P3  O3T
+BOND O3T C3T
+BOND C3T H3T1 C3T H3T2 C3T H3T3
+
+ANISOTROPY O3T  O3P1 O3'  O3P2  A11 1.0000  A22 0.6000
+ANISOTROPY O3'  O3P2 O3T  O3P1  A11 1.0000  A22 0.6000
+ANISOTROPY O3P1 P3   O3T  O3'   A11 0.6000  A22 1.0000
+ANISOTROPY O3P2 P3   O3'  O3T   A11 0.6000  A22 1.0000
+
+IC   P3      O3'     C3'     C4'    0.0000  000.00  180.00  000.00   0.0000
+IC   C3'     O3'     P3      O3T    0.0000  000.00  -95.22  000.00   0.0000
+IC   O3T     O3'     *P3     O3P1   0.0000  000.00 -115.82  000.00   0.0000
+IC   O3T     O3'     *P3     O3P2   0.0000  000.00  115.90  000.00   0.0000
+IC   C3T     O3T     P3      O3'    0.0000  000.00  -46.90  000.00   0.0000
+IC   H3T1    C3T     O3T     P3     0.0000  000.00  180.00  000.00   0.0000
+IC   H3T2    C3T     O3T     P3     0.0000  000.00   60.00  000.00   0.0000
+IC   H3T3    C3T     O3T     P3     0.0000  000.00  -60.00  000.00   0.0000
+
+PRES 5POM         -0.319 
+GROUP
+ATOM O5T  OD30B   -0.520  ALPHA -0.901  THOLE 0.181
+ATOM C5T  CD33C    0.123  ALPHA -1.642  THOLE 0.862
+ATOM H5T1 HDA3A    0.026
+ATOM H5T2 HDA3A    0.026
+ATOM H5T3 HDA3A    0.026
+
+BOND P   O5T
+BOND O5T C5T
+BOND C5T H5T1  C5T H5T2  C5T H5T3
+
+ANISOTROPY O5T O1P O5' O2P A11 1.0000  A22 0.6000
+ANISOTROPY O5' O2P O5T O1P A11 1.0000  A22 0.6000
+ANISOTROPY O1P P   O5T O5' A11 0.6000  A22 1.0000
+ANISOTROPY O2P P   O5' O5T A11 0.6000  A22 1.0000
+
+IC   O5T  P   O5'  C5'     1.5837  102.73   72.47  116.87   1.4386
+IC   O5'  P   O5T  C5T     1.5843  102.73   72.47  116.85   1.4394
+IC   O1P  P   O5T  C5T     1.4910  107.70  -41.57  116.85   1.4394
+IC   O2P  P   O5'  C5'     1.4906  107.67  -41.56  116.87   1.4386
+IC   H5T1 C5T O5T  P       1.1128  110.79  -42.95  116.85   1.5837
+IC   H5T2 C5T O5T  P       1.1118  109.92   77.01  116.85   1.5837
+IC   H5T3 C5T O5T  P       1.1095  109.84 -163.26  116.85   1.5837
+IC   O5'  O5T *P   O1P     1.5843  102.73 -114.04  107.70   1.4910
+IC   O5'  O5T *P   O2P     1.5843  102.73  113.68  108.15   1.4906
+IC   P    O5T C5T  H5T1    1.5837  116.85  -42.95  110.79   1.1128
+IC   H5T1 O5T *C5T H5T2    1.1128  110.79  119.96  109.92   1.1118
+IC   H5T1 O5T *C5T H5T3    1.1128  110.79 -120.31  109.84   1.1095
+
+!nucleic acid model compounds
+ 
+RESI CYTB          0.000 ! Cytosine base, jal update 06/15 
+! 
+!                      H42  H41 
+!                        \  / 
+!                         N4 
+!                         | 
+!                         C4 
+!                        /  \\ 
+!                    H5-C5   N3 
+!                       ||   | 
+!                    H6-C6   C2 
+!                        \  / \\ 
+!                         N1   O2 
+!                         | 
+!                         H1 
+! 
+GROUP
+ATOM N1   ND2R6C  -0.218  ALPHA -1.220 THOLE 0.450 !
+ATOM C6   CD2R6H  -0.139  ALPHA -1.354 THOLE 1.804 !
+ATOM H6   HDR6B    0.251
+ATOM C2   CD2O4A   0.369  ALPHA -1.580 THOLE 1.200 !
+ATOM O2   OD2C1B   0.000  ALPHA -0.679 THOLE 0.675
+ATOM LP2A LPDNA1  -0.243 
+ATOM LP2B LPDNA1  -0.203 
+ATOM N3   ND2R6B   0.000  ALPHA -0.509 THOLE 0.737
+ATOM LP3  LPDNA1  -0.491
+ATOM C4   CD2R6B   0.575  ALPHA -1.583 THOLE 1.200 !
+ATOM N4   ND2B1   -0.644  ALPHA -1.330 THOLE 1.000 !
+ATOM H41  HDP1A    0.346
+ATOM H42  HDP1A    0.346
+ATOM C5   CD2R6J  -0.279  ALPHA -1.538 THOLE 1.100 !
+ATOM H5   HDR6A    0.128
+ATOM H1   HDP1A    0.202
+ 
+BOND  N1 C2    C2 N3    N3 C4    C4 C5    C5 C6   C6 N1 
+BOND  C2 O2    C4 N4    N4 H41   N4 H42   C5 H5   C6 H6    N1 H1 
+BOND  LP2A O2  LP2B O2 
+BOND  LP3  N3 
+ 
+IMPR C2   N1   N3   O2        C4   N3   C5   N4 
+IMPR N4   C4   H41  H42       N1   C6   C2   H1 
+ 
+LONEPAIR  relative  LP2A O2 C2 N1  distance 0.35 angle 110.0  dihe 180.0 
+LONEPAIR  relative  LP2B O2 C2 N3  distance 0.35 angle 110.0  dihe 180.0 
+LONEPAIR  bisector  LP3  N3 C2 C4  distance 0.35 angle 179.99 dihe 179.99 
+ANISOTROPY O2 C2  N1 N3   A11 0.6968  A22 1.2194  !based on NMA 
+ANISOTROPY N3 LP3 C4 C2   A11 0.808   A22 1.384   !based on PYRM 
+ 
+DONO H42  N4 
+DONO H41  N4 
+ACCE O2   C2 
+ACCE N3 
+IC  C2   N1   C6   C5     1.399   120.6     0.0   121.0    1.337 
+IC  C6   N1   C2   N3     1.364   120.6     0.0   118.9    1.356 
+IC  N1   N3   *C2  O2     1.399   118.9   180.0   121.9    1.237 
+IC  N1   C2   N3   C4     1.399   118.9     0.0   120.0    1.334 
+IC  C5   N3   *C4  N4     1.426   121.8   180.00  118.9    1.337 
+IC  N3   C4   N4   H41    1.337   117.9     0.00  118.9    1.01 
+IC  H41  C4   *N4  H42    1.01    118.9   180.00  120.7    1.01 
+IC  C6   C4   *C5  H5     0.0       0.0   180.0     0.0    0.0 
+IC  N1   C5   *C6  H6     0.0       0.0   180.0     0.0    0.0 
+IC  H1   N1   C2   N3     0.0       0.0   180.0     0.0    0.0 
+ 
+RESI MCYT          0.000 ! 1-Me-Cytosine, jal update 06/15 
+!
+!                      H42  H41
+!                        \  /
+!                         N4
+!                         |
+!                         C4
+!                        /  \\
+!                    H5-C5   N3
+!                       ||   |
+!                    H6-C6   C2
+!                        \  / \\
+!                         N1   O2
+!                         |
+!                         C1 H11,H12,H13
+!
+GROUP
+ATOM N1   ND2R6C  -0.218  ALPHA -1.220 THOLE 0.450 !
+ATOM C6   CD2R6H  -0.139  ALPHA -1.354 THOLE 1.804 !
+ATOM H6   HDR6B    0.251
+ATOM C2   CD2O4A   0.369  ALPHA -1.580 THOLE 1.200 !
+ATOM O2   OD2C1B   0.000  ALPHA -0.679 THOLE 0.675
+ATOM LP2A LPDNA1  -0.243 
+ATOM LP2B LPDNA1  -0.203 
+ATOM N3   ND2R6B   0.000  ALPHA -0.509 THOLE 0.737
+ATOM LP3  LPDNA1  -0.491
+ATOM C4   CD2R6B   0.575  ALPHA -1.583 THOLE 1.200 !
+ATOM N4   ND2B1   -0.644  ALPHA -1.330 THOLE 1.000 !
+ATOM H41  HDP1A    0.346
+ATOM H42  HDP1A    0.346
+ATOM C5   CD2R6J  -0.279  ALPHA -1.538 THOLE 1.100 !
+ATOM H5   HDR6A    0.128
+ATOM C1   CD33A   -0.146  ALPHA -1.324 THOLE 0.477
+ATOM H11  HDA3A    0.116
+ATOM H12  HDA3A    0.116
+ATOM H13  HDA3A    0.116
+
+BOND  N1 C2    C2 N3    N3 C4    C4 C5    C5 C6   C6 N1
+BOND  C2 O2    C4 N4    N4 H41   N4 H42   C5 H5   C6 H6 
+BOND  N1 C1    C1 H11   C1 H12   C1 H13
+BOND  LP2A O2  LP2B O2
+BOND  LP3  N3
+IMPR  C2   N1  N3   O2  C4   N3  C5   N4
+IMPR  N4   C4  H41 H42  N1   C6  C2   C1
+
+LONEPAIR  relative  LP2A O2 C2 N1  distance 0.35 angle 110.0  dihe 180.0
+LONEPAIR  relative  LP2B O2 C2 N3  distance 0.35 angle 110.0  dihe 180.0
+LONEPAIR  bisector  LP3  N3 C2 C4  distance 0.35 angle 179.99 dihe 179.99
+ANISOTROPY O2 C2  N1 N3   A11 0.6968  A22 1.2194  !based on NMA
+ANISOTROPY N3 LP3 C4 C2   A11 0.808   A22 1.384   !based on PYRM
+
+DONO H42  N4
+DONO H41  N4
+ACCE O2   C2
+ACCE N3
+IC  C2   N1   C6   C5     1.399   120.6     0.0   121.0    1.337
+IC  C6   N1   C2   N3     1.364   120.6     0.0   118.9    1.356
+IC  N1   N3   *C2  O2     1.399   118.9   180.0   121.9    1.237
+IC  N1   C2   N3   C4     1.399   118.9     0.0   120.0    1.334
+IC  C5   N3   *C4  N4     1.426   121.8   180.00  118.9    1.337
+IC  N3   C4   N4   H41    1.337   117.9     0.00  118.9    1.01
+IC  H41  C4   *N4  H42    1.01    118.9   180.00  120.7    1.01
+IC  C6   C4   *C5  H5     0.0       0.0   180.0     0.0    0.0
+IC  N1   C5   *C6  H6     0.0       0.0   180.0     0.0    0.0
+IC  C2   C6   *N1  C1     0.0       0.0   180.0     0.0    0.0
+IC  C6   N1   C1   H11    0.0       0.0   180.0     0.0    0.0
+IC  H11  N1   *C1  H12    0.0       0.0   120.0     0.0    0.0
+IC  H11  N1   *C1  H13    0.0       0.0  -120.0     0.0    0.0
+
+
+PRES CYTM          0.202 ! Me-CYT patch onto CYTB
+! use as "LAST CYTM" in generate statement or as "PRES CYTM" in patch statement
+DELE ATOM H1 
+ATOM C1   CD33A   -0.146  ALPHA -1.324  THOLE 0.477 
+ATOM H11  HDA3A    0.116 
+ATOM H12  HDA3A    0.116 
+ATOM H13  HDA3A    0.116 
+
+BOND N1 C1     C1 H11    C1 H12    C1 H13 
+
+IMPR N1   C6   C2   C1 
+
+IC  C2   C6   *N1  C1     0.0       0.0   180.0     0.0    0.0 
+IC  C6   N1   C1   H11    0.0       0.0   180.0     0.0    0.0 
+IC  H11  N1   *C1  H12    0.0       0.0   120.0     0.0    0.0 
+IC  H11  N1   *C1  H13    0.0       0.0   240.0     0.0    0.0 
+ 
+RESI THYB          0.000 ! Thymine base, jal update 06/15 
+! 
+!                  H51    O4 
+!                   |     || 
+!               H52-C5M   C4    H3 
+!                   |  \ /  \  / 
+!                  H53  C5   N3 
+!                       ||   | 
+!                    H6-C6   C2 
+!                        \  / \\ 
+!                         N1   O2 
+!                         | 
+!                         H1 
+! 
+GROUP 
+ATOM N1   ND2R6C  -0.432  ALPHA -0.979 THOLE 1.257 !
+ATOM C6   CD2R6H   0.138  ALPHA -1.545 THOLE 0.934 !
+ATOM H6   HDR6B    0.282
+ATOM C2   CD2O4A   0.524  ALPHA -1.025 THOLE 1.528 !
+ATOM O2   OD2C1B   0.000  ALPHA -0.987 THOLE 1.545 !
+ATOM LP2A LPDNA1  -0.131
+ATOM LP2B LPDNA1  -0.229
+ATOM N3   ND2R6C  -0.506  ALPHA -0.766 THOLE 1.447
+ATOM H3   HDP1A    0.297
+ATOM C4   CD2O4A   0.493  ALPHA -1.013 THOLE 0.866 !
+ATOM O4   OD2C1B   0.000  ALPHA -0.791 THOLE 1.000 !
+ATOM LP4A LPDNA1  -0.236 
+ATOM LP4B LPDNA1  -0.234 
+ATOM C5   CD2R6J  -0.174  ALPHA -1.209 THOLE 1.448 !
+ATOM C5M  CD33A   -0.173  ALPHA -1.545 THOLE 0.826 !
+ATOM H51  HDA3A    0.047
+ATOM H52  HDA3A    0.047
+ATOM H53  HDA3A    0.047
+ATOM H1   HDP1A    0.240
+ 
+BOND  N1   C2     C2  N3    N3  C4    C4  C5    C5  C6 
+BOND  C6   N1     C2  O2    N3  H3    C4  O4    C5  C5M 
+BOND  C5M  H51    C5M H52   C5M H53   C6  H6    N1 H1 
+BOND  LP2A O2     LP2B O2 
+BOND  LP4A O4     LP4B O4 
+ 
+IMPR C2   N1   N3   O2        C4   N3   C5   O4        C5   C4   C6   C5M 
+IMPR N1   C6   C2   H1 
+ 
+LONEPAIR  relative  LP2A O2 C2 N1  distance 0.35 angle 110.0  dihe 180.0 
+LONEPAIR  relative  LP2B O2 C2 N3  distance 0.35 angle 110.0  dihe 180.0 
+LONEPAIR  relative  LP4A O4 C4 N3  distance 0.35 angle 110.0  dihe 180.0 
+LONEPAIR  relative  LP4B O4 C4 C5  distance 0.35 angle 110.0  dihe 180.0 
+ANISOTROPY O2 C2 N1 N3  A11 0.6968  A22 1.2194  !based on NMA 
+ANISOTROPY O4 C4 N3 C5  A11 0.6968  A22 1.2194  !based on NMA 
+ 
+DONO H3   N3 
+ACCE O2   C2 
+ACCE O4   C4 
+ 
+IC  C2   N1   C6   C5     1.3746  122.08   -0.02  121.23   1.3432 
+IC  C6   N1   C2   N3     1.3704  122.08    0.06  115.38   1.3813 
+IC  N1   N3   *C2  O2     1.3746  115.38 -179.95  121.70   1.2191 
+IC  N1   C2   N3   C4     1.3746  115.38   -0.07  126.46   1.3795 
+IC  C5   N3   *C4  O4     1.4439  114.07  179.98  120.59   1.2327 
+IC  C2   C4   *N3  H3     1.3813  126.46  180.00  116.77   1.0900 
+IC  C4   C6   *C5  C5M    1.4439  120.78 -179.94  121.63   1.5000 
+IC  N1   C5   *C6  H6     0.0       0.0   180.0     0.0    0.0 
+IC  C6   C5   C5M  H51    0.0       0.0     0.0     0.0    0.0 
+IC  C5   H51  *C5M H52    0.0       0.0   115.0     0.0    0.0 
+IC  H51  H52  *C5M H53    0.0       0.0  -115.0     0.0    0.0 
+IC  C5   C6   N1   H1     0.0       0.0   180.0     0.0    0.0 
+ 
+RESI MTHY          0.000 ! 1-Me-Thymine, jal update 06/15 
+!
+!                  H51    O4
+!                   |     ||
+!               H52-C5M   C4    H3
+!                   |  \ /  \  /
+!                  H53  C5   N3
+!                       ||   |
+!                    H6-C6   C2
+!                        \  / \\
+!                         N1   O2
+!                         |
+!                         C1 H11,H12,H13
+!
+GROUP
+ATOM N1   ND2R6C  -0.432  ALPHA -0.979 THOLE 1.257 !
+ATOM C6   CD2R6H   0.138  ALPHA -1.545 THOLE 0.934 !
+ATOM H6   HDR6B    0.282
+ATOM C2   CD2O4A   0.524  ALPHA -1.025 THOLE 1.528 !
+ATOM O2   OD2C1B   0.000  ALPHA -0.987 THOLE 1.545 !
+ATOM LP2A LPDNA1  -0.131
+ATOM LP2B LPDNA1  -0.229
+ATOM N3   ND2R6C  -0.506  ALPHA -0.766 THOLE 1.447
+ATOM H3   HDP1A    0.297
+ATOM C4   CD2O4A   0.493  ALPHA -1.013 THOLE 0.866 !
+ATOM O4   OD2C1B   0.000  ALPHA -0.791 THOLE 1.000 !
+ATOM LP4A LPDNA1  -0.236 
+ATOM LP4B LPDNA1  -0.234 
+ATOM C5   CD2R6J  -0.174  ALPHA -1.209 THOLE 1.448 !
+ATOM C5M  CD33A   -0.173  ALPHA -1.545 THOLE 0.826 !
+ATOM H51  HDA3A    0.047
+ATOM H52  HDA3A    0.047
+ATOM H53  HDA3A    0.047
+ATOM C1   CD33A   -0.018  ALPHA -1.550 THOLE 1.136 !
+ATOM H11  HDA3A    0.086
+ATOM H12  HDA3A    0.086
+ATOM H13  HDA3A    0.086
+
+BOND  N1   C2     C2  N3    N3  C4    C4  C5    C5  C6
+BOND  C6   N1     C2  O2    N3  H3    C4  O4    C5  C5M
+BOND  C5M  H51    C5M H52   C5M H53   C6  H6    N1 C1
+BOND  C1   H11    C1  H12   C1  H13
+BOND  LP2A O2  LP2B O2
+BOND  LP4A O4  LP4B O4
+
+IMPR C2   N1   N3   O2        C4   N3   C5   O4        C5   C4   C6   C5M
+IMPR N1   C6   C2   C1
+
+LONEPAIR  relative  LP2A O2 C2 N1  distance 0.35 angle 110.0  dihe 180.0
+LONEPAIR  relative  LP2B O2 C2 N3  distance 0.35 angle 110.0  dihe 180.0
+LONEPAIR  relative  LP4A O4 C4 N3  distance 0.35 angle 110.0  dihe 180.0
+LONEPAIR  relative  LP4B O4 C4 C5  distance 0.35 angle 110.0  dihe 180.0
+ANISOTROPY O2 C2 N1 N3  A11 0.6968  A22 1.2194  !based on NMA
+ANISOTROPY O4 C4 N3 C5  A11 0.6968  A22 1.2194  !based on NMA
+
+DONO H3   N3
+ACCE O2   C2
+ACCE O4   C4
+
+IC  C2   N1   C6   C5     1.3746  122.08   -0.02  121.23   1.3432
+IC  C6   N1   C2   N3     1.3704  122.08    0.06  115.38   1.3813
+IC  N1   N3   *C2  O2     1.3746  115.38 -179.95  121.70   1.2191
+IC  N1   C2   N3   C4     1.3746  115.38   -0.07  126.46   1.3795
+IC  C5   N3   *C4  O4     1.4439  114.07  179.98  120.59   1.2327
+IC  C2   C4   *N3  H3     1.3813  126.46  180.00  116.77   1.0900
+IC  C4   C6   *C5  C5M    1.4439  120.78 -179.94  121.63   1.5000
+IC  N1   C5   *C6  H6     0.0       0.0   180.0     0.0    0.0
+IC  C6   C5   C5M  H51    0.0       0.0     0.0     0.0    0.0
+IC  C5   H51  *C5M H52    0.0       0.0   115.0     0.0    0.0
+IC  H51  H52  *C5M H53    0.0       0.0  -115.0     0.0    0.0
+IC  C2   C6   *N1  C1     0.0       0.0   180.0     0.0    0.0
+IC  C6   N1   C1   H11    0.0       0.0   180.0     0.0    0.0
+IC  H11  N1   *C1  H12    0.0       0.0   120.0     0.0    0.0
+IC  H11  N1   *C1  H13    0.0       0.0  -120.0     0.0    0.0
+
+
+PRES THYM          0.240 ! Me-THY patch with THYB
+! use as "LAST THYM" in generate statement or as "PRES THYM" in patch statement
+DELE ATOM H1 
+ATOM C1   CD33A   -0.018  ALPHA -1.550 THOLE 1.136 !
+ATOM H11  HDA3A    0.086 
+ATOM H12  HDA3A    0.086 
+ATOM H13  HDA3A    0.086 
+
+BOND N1 C1     C1 H11    C1 H12    C1 H13 
+
+IC  C5   C6   N1   C1     0.0       0.0   180.0     0.0    0.0
+IC  C6   N1   C1   H11    0.0       0.0   180.0     0.0    0.0
+IC  H11  N1   *C1  H12    0.0       0.0   120.0     0.0    0.0
+IC  H11  N1   *C1  H13    0.0       0.0   240.0     0.0    0.0
+
+RESI URAB          0.000 ! Uracil base; modified cmb 04/10 
+! 
+!                         O4 
+!                         || 
+!                         C4    H3 
+!                        /  \  / 
+!                    H5-C5   N3 
+!                       ||   | 
+!                    H6-C6   C2 
+!                        \  / \\ 
+!                         N1   O2 
+!                         | 
+!                         H1 
+! 
+GROUP 
+ATOM N1   ND2R6C  -0.239  ALPHA  -1.192  THOLE  1.639 
+ATOM C6   CD2R6H   0.095  ALPHA  -0.500  THOLE  0.544   !!!CB 
+ATOM H6   HDR6B    0.341 
+ATOM C2   CD2O4A   0.636  ALPHA  -1.072  THOLE  1.120 
+ATOM O2   OD2C1B   0.000  ALPHA  -0.799  THOLE  1.076 
+ATOM LP2A LPDNA1  -0.126 
+ATOM LP2B LPDNA1  -0.229 
+ATOM N3   ND2R6C  -0.593  ALPHA  -1.631  THOLE  1.574 
+ATOM H3   HDP1A    0.317 
+ATOM C4   CD2O4A   0.557  ALPHA  -1.072  THOLE  1.079 
+ATOM O4   OD2C1B   0.000  ALPHA  -0.657  THOLE  1.156 
+ATOM LP4A LPDNA1  -0.254 
+ATOM LP4B LPDNA1  -0.192 
+ATOM C5   CD2R6J  -0.321  ALPHA  -1.949  THOLE  1.307 
+ATOM H5   HDR6A    0.009 
+ATOM H1   HDP1A   -0.001 
+ 
+BOND  N1  C2   C2  N3   N3  C4   C4  C5   C5  C6 
+BOND  C6  N1   C2  O2   N3  H3   C4  O4   C5  H5 
+BOND  C6  H6   N1  H1 
+BOND  LP2A O2  LP2B O2 
+BOND  LP4A O4  LP4B O4 
+ 
+IMPR  C2   N1   N3   O2        C4   N3   C5   O4 
+ 
+LONEPAIR  relative  LP2A O2 C2 N1  distance 0.35 angle 110.0  dihe 180.0 
+LONEPAIR  relative  LP2B O2 C2 N3  distance 0.35 angle 110.0  dihe 180.0 
+LONEPAIR  relative  LP4A O4 C4 N3  distance 0.35 angle 110.0  dihe 180.0 
+LONEPAIR  relative  LP4B O4 C4 C5  distance 0.35 angle 110.0  dihe 180.0 
+ANISOTROPY O2 C2 N1 N3  A11 0.6968  A22 1.2194  !based on NMA 
+ANISOTROPY O4 C4 N3 C5  A11 0.6968  A22 1.2194  !based on NMA 
+ 
+DONO  H3   N3 
+ACCE  O2   C2 
+ACCE  O4   C4 
+ 
+IC  C2   N1   C6   C5     1.379   121.3     0.0   122.8    1.338 
+IC  C6   N1   C2   N3     1.380   121.3     0.0   114.8    1.373 
+IC  N1   N3   *C2  O2     1.379   114.8  -180.0   122.0    1.218 
+IC  N1   C2   N3   C4     1.379   114.8     0.0   127.0    1.383 
+IC  C5   N3   *C4  O4     1.440   114.7   180.0   119.8    1.227 
+IC  C2   C4   *N3  H3     1.373   127.0   180.0   116.5    1.03 
+IC  C6   C4   *C5  H5     0.0       0.0   180.0     0.0    0.0 
+IC  N1   C5   *C6  H6     0.0       0.0   180.0     0.0    0.0 
+IC  C5   C6   N1   H1     0.0       0.0   180.0     0.0    0.0 
+ 
+PRES URAM         -0.001 ! Me-URA patch with URAB
+! use as "LAST URAM" in generate statement or as "PRES URAM" in patch statement
+DELE ATOM H1 
+ATOM C1   CD33A   -0.364  ALPHA  -1.863  THOLE  0.686 
+ATOM H11  HDA3A    0.121 
+ATOM H12  HDA3A    0.121 
+ATOM H13  HDA3A    0.121 
+
+BOND N1 C1     C1 H11    C1 H12    C1 H13 
+
+IC  C5   C6   N1   C1     0.0       0.0   180.0     0.0    0.0
+IC  C6   N1   C1   H11    0.0       0.0   180.0     0.0    0.0
+IC  H11  N1   *C1  H12    0.0       0.0   120.0     0.0    0.0
+IC  H11  N1   *C1  H13    0.0       0.0   240.0     0.0    0.0
+ 
+RESI ADEB          0.000 ! Adenine base, jal update 06/15 
+! 
+!             H61  H62 
+!               \  / 
+!                N6 
+!                | 
+!                C6 
+!              //  \ 
+!              N1   C5--N7\\ 
+!              |    ||     C8-H8 
+!              C2   C4--N9/ 
+!             / \\ /     \ 
+!           H2   N3       H9 
+! 
+GROUP 
+ATOM N9   ND2R5D  -0.215  ALPHA -0.676 THOLE 0.935
+ATOM C4   CD2R6F   0.227  ALPHA -1.045 THOLE 1.100
+ATOM N3   ND2R6B   0.000  ALPHA -1.602 THOLE 0.006
+ATOM LP3  LPDNA1  -0.507
+ATOM C2   CD2R6C   0.208  ALPHA -1.120 THOLE 1.469
+ATOM H2   HDR6C    0.176
+ATOM N1   ND2R6B   0.000  ALPHA -1.507 THOLE 0.967
+ATOM LP1  LPDNA1  -0.472
+ATOM C6   CD2R6C   0.402  ALPHA -1.454 THOLE 0.557
+ATOM N6   ND2B1   -0.742  ALPHA -1.230 THOLE 1.000 !
+ATOM H61  HDP1A    0.373
+ATOM H62  HDP1A    0.373
+ATOM C5   CD2R6F  -0.118  ALPHA -1.238 THOLE 1.854
+ATOM N7   ND2R5E   0.000  ALPHA -1.362 THOLE 0.252 !
+ATOM LP7  LPDNA1  -0.189
+ATOM C8   CD2R5F   0.038  ALPHA -1.357 THOLE 1.452 !
+ATOM H8   HDR5B    0.165
+ATOM H9   HDP1A    0.281
+ 
+BOND N9   C4     C4   N3     N3   C2    C2   N1    N1   C6 
+BOND C6   C5     C5   C4     N9   C8    C8   N7    N7   C5 
+BOND C8   H8     C6   N6     N6   H61   N6   H62   C2   H2   N9   H9 
+BOND LP1  N1     LP3  N3     LP7  N7 
+ 
+LONEPAIR  bisector  LP1 N1 C2 C6  distance 0.35 angle 179.99 dihe 179.99 
+LONEPAIR  bisector  LP3 N3 C2 C4  distance 0.35 angle 179.99 dihe 179.99 
+LONEPAIR  bisector  LP7 N7 C5 C8  distance 0.35 angle 179.99 dihe 179.99 
+ANISOTROPY N1 LP1 C6 C2   A11 0.808   A22 1.384   !based on PYRM 
+ANISOTROPY N3 LP3 C4 C2   A11 0.808   A22 1.384   !based on PYRM 
+ANISOTROPY N7 LP7 C8 C5   A11 0.808   A22 1.384   !based on IMID 
+ 
+IMPR N6   C6   H61  H62        C6   N1   C5   N6 
+DONO H61  N6 
+DONO H62  N6 
+ACCE N3 
+ACCE N7 
+ACCE N1 
+
+IC  C4   N9   C8   N7     1.376   106.0     0.0   113.6    1.312 
+IC  C8   N9   C4   C5     1.367   106.0     0.0   105.6    1.382 
+IC  C8   N7   C5   C6     0.0       0.0   180.0     0.0    0.0 
+IC  N7   C5   C6   N1     0.0       0.0   180.0     0.0    0.0 
+IC  C5   C6   N1   C2     0.0       0.0     0.0     0.0    0.0 
+IC  N9   C5   *C4  N3     1.376   105.6  -180.0   126.9    1.342 
+IC  C5   N1   *C6  N6     1.409   117.6  -180.0   121.2    1.337 
+IC  N1   C6   N6   H61    1.337   121.2     0.0   119.0    1.01 
+IC  H61  C6   *N6  H62    1.01    119.0   180.0   119.00   1.01 
+IC  C5   N1   *C6  N6     1.409   117.6  -180.0   119.0    1.337 
+IC  N1   C6   N6   H61    1.337   119.0     0.0   119.0    1.01 
+IC  H61  C6   *N6  H62    1.01    119.0   180.0   121.00   1.01 
+IC  N9   N7   *C8   H8    0.0       0.0   180.0     0.0    0.0 
+IC  N1   N3   *C2   H2    0.0       0.0   180.0     0.0    0.0 
+IC  C5   C4    N9   H9    0.0       0.0   180.0     0.0    0.0 
+
+RESI MADE          0.000 ! 9-Me-Adenine, jal update 06/15 
+!
+!             H61  H62
+!               \  /
+!                N6
+!                |
+!                C6
+!              //  \
+!              N1   C5--N7\\
+!              |    ||     C8-H8
+!              C2   C4--N9/
+!             / \\ /     \
+!           H2   N3       C9 H91,H92,H93
+!
+GROUP
+ATOM N9   ND2R5D  -0.215  ALPHA -0.676 THOLE 0.935
+ATOM C4   CD2R6F   0.227  ALPHA -1.045 THOLE 1.100
+ATOM N3   ND2R6B   0.000  ALPHA -1.602 THOLE 0.006
+ATOM LP3  LPDNA1  -0.507
+ATOM C2   CD2R6C   0.208  ALPHA -1.120 THOLE 1.469
+ATOM H2   HDR6C    0.176
+ATOM N1   ND2R6B   0.000  ALPHA -1.507 THOLE 0.967
+ATOM LP1  LPDNA1  -0.472
+ATOM C6   CD2R6C   0.402  ALPHA -1.454 THOLE 0.557
+ATOM N6   ND2B1   -0.742  ALPHA -1.230 THOLE 1.000 !
+ATOM H61  HDP1A    0.373
+ATOM H62  HDP1A    0.373
+ATOM C5   CD2R6F  -0.118  ALPHA -1.238 THOLE 1.854
+ATOM N7   ND2R5E   0.000  ALPHA -1.362 THOLE 0.252 !
+ATOM LP7  LPDNA1  -0.189
+ATOM C8   CD2R5F   0.038  ALPHA -1.357 THOLE 1.452 !
+ATOM H8   HDR5B    0.165
+ATOM C9   CD33A   -0.175  ALPHA -1.403  THOLE 0.403
+ATOM H91  HDA3A    0.152
+ATOM H92  HDA3A    0.152
+ATOM H93  HDA3A    0.152
+
+BOND N9   C4     C4   N3     N3   C2    C2   N1    N1   C6
+BOND C6   C5     C5   C4     N9   C8    C8   N7    N7   C5
+BOND C8   H8     C6   N6     N6   H61   N6   H62   C2   H2 
+BOND N9   C9     C9  H91     C9   H92   C9   H93
+!DOUB N1   C6     C2   N3     C4   C5    N7   C8
+BOND LP1  N1
+BOND LP3  N3
+BOND LP7  N7
+
+LONEPAIR  bisector  LP1 N1 C2 C6  distance 0.35 angle 179.99 dihe 179.99
+LONEPAIR  bisector  LP3 N3 C2 C4  distance 0.35 angle 179.99 dihe 179.99
+LONEPAIR  bisector  LP7 N7 C5 C8  distance 0.35 angle 179.99 dihe 179.99
+ANISOTROPY N1 LP1 C6 C2   A11 0.808   A22 1.384   !based on PYRM
+ANISOTROPY N3 LP3 C4 C2   A11 0.808   A22 1.384   !based on PYRM
+ANISOTROPY N7 LP7 C8 C5   A11 0.808   A22 1.384   !based on IMID
+
+IMPR N6   C6   H61  H62        C6   N1   C5   N6
+DONO H61  N6
+DONO H62  N6
+ACCE N3
+ACCE N7
+ACCE N1
+
+IC  C4   N9   C8   N7     1.376   106.0     0.0   113.6    1.312
+IC  C8   N9   C4   C5     1.367   106.0     0.0   105.6    1.382
+IC  C8   N7   C5   C6     0.0       0.0   180.0     0.0    0.0
+IC  N7   C5   C6   N1     0.0       0.0   180.0     0.0    0.0
+IC  C5   C6   N1   C2     0.0       0.0     0.0     0.0    0.0
+IC  N9   C5   *C4  N3     1.376   105.6  -180.0   126.9    1.342
+IC  C5   N1   *C6  N6     1.409   117.6  -180.0   121.2    1.337
+IC  N1   C6   N6   H61    1.337   121.2     0.0   119.0    1.01
+IC  H61  C6   *N6  H62    1.01    119.0   180.0   119.00   1.01
+IC  C5   N1   *C6  N6     1.409   117.6  -180.0   119.0    1.337
+IC  N1   C6   N6   H61    1.337   119.0     0.0   119.0    1.01
+IC  H61  C6   *N6  H62    1.01    119.0   180.0   121.00   1.01
+IC  N9   N7   *C8  H8     0.0       0.0   180.0     0.0    0.0
+IC  N1   N3   *C2  H2     0.0       0.0   180.0     0.0    0.0
+IC  C4   C8   *N9  C9     0.0       0.0   180.0     0.0    0.0
+IC  C4   N9    C9  H91    0.0       0.0   180.0     0.0    0.0
+IC  H91  N9    *C9 H92    0.0       0.0   120.0     0.0    0.0
+IC  H91  N9    *C9 H93    0.0       0.0  -120.0     0.0    0.0
+
+ 
+PRES ADEM          0.281 ! Me-ADE patch with ADEB
+! use as "LAST ADEM" in generate statement or as "PRES ADEM" in patch statement
+DELE ATOM H9 
+ATOM C9   CD33A   -0.175  ALPHA -1.403  THOLE 0.403 
+ATOM H91  HDA3A    0.152 
+ATOM H92  HDA3A    0.152 
+ATOM H93  HDA3A    0.152 
+
+BOND N9 C9    C9 H91   C9 H92   C9  H93 
+
+IC  C4   C8   *N9  C9     0.0       0.0   180.0     0.0    0.0 
+IC  C4   N9    C9  H91    0.0       0.0   180.0     0.0    0.0 
+IC  H91  N9    *C9 H92    0.0       0.0   120.0     0.0    0.0 
+IC  H91  N9    *C9 H93    0.0       0.0  -120.0     0.0    0.0 
+ 
+RESI GUAB          0.000 ! Guanine base, jal update 06/15 
+!
+!               O6 
+!               || 
+!               C6 
+!              /  \ 
+!          H1-N1   C5--N7\\ 
+!             |    ||     C8-H8 
+!             C2   C4--N9/ 
+!            / \\ /      \ 
+!      H21-N2   N3        H9 
+!          | 
+!         H22 
+GROUP 
+ATOM N9   ND2R5D  -0.019  ALPHA -0.880 THOLE 1.351
+ATOM C4   CD2R6F   0.227  ALPHA -1.259 THOLE 0.797
+ATOM N3   ND2R6B   0.000  ALPHA -0.771 THOLE 1.265 !
+ATOM LP3  LPDNA1  -0.459
+ATOM C2   CD2R6C   0.587  ALPHA -1.109 THOLE 1.628
+ATOM N1   ND2R6C  -0.366  ALPHA -1.568 THOLE 0.971 !
+ATOM H1   HDP1A    0.287
+ATOM N2   ND2B1   -0.736  ALPHA -1.404 THOLE 0.498 !
+ATOM H21  HDP1A    0.327
+ATOM H22  HDP1A    0.327
+ATOM C6   CD2O4A   0.272  ALPHA -0.943 THOLE 1.440 !
+ATOM O6   OD2C1B   0.000  ALPHA -0.617 THOLE 1.639 !
+ATOM LP6A LPDNA1  -0.259
+ATOM LP6B LPDNA1  -0.138
+ATOM C5   CD2R6F   0.004  ALPHA -1.788 THOLE 1.033
+ATOM N7   ND2R5E   0.000  ALPHA -0.650 THOLE 1.146 !
+ATOM LP7  LPDNA1  -0.322
+ATOM C8   CD2R5F  -0.113  ALPHA -1.427 THOLE 1.309
+ATOM H8   HDR5B    0.165
+ATOM H9   HDP1A    0.216
+ 
+BOND N9  C4   C4  N3   N3  C2   C2  N1   N1  C6   C6  C5 
+BOND C5  C4   N9  C8   C8  N7   C5  N7   C8  H8   C6  O6 
+BOND N1  H1   C2  N2   N2 H21   N2  H22  N9  H9 
+BOND LP3 N3   LP7  N7 
+BOND LP6A O6  LP6B O6 
+ 
+IMPR C2   N3   N1   N2        C6   N1   C5   O6        N2   H21  C2   H22 
+ 
+LONEPAIR  bisector  LP3  N3 C2 C4  distance 0.35 angle 179.99 dihe 179.99 
+LONEPAIR  relative  LP6A O6 C6 N1  distance 0.35 angle 110.0  dihe 180.0 
+LONEPAIR  relative  LP6B O6 C6 C5  distance 0.35 angle 110.0  dihe 180.0 
+LONEPAIR  bisector  LP7  N7 C5 C8  distance 0.35 angle 179.99 dihe 179.99 
+ANISOTROPY N3 LP3 C4 C2   A11 0.808   A22 1.384   !based on PYRM 
+ANISOTROPY O6 C6  C5 N1   A11 0.6968  A22 1.2194  !based on NMA 
+ANISOTROPY N7 LP7 C8 C5   A11 0.808   A22 1.384   !based on IMID 
+ 
+DONO H21  N2 
+DONO H22  N2 
+DONO H1   N1 
+ACCE O6   C6 
+ACCE N3 
+ACCE N7 
+IC  C4   N9   C8   N7     1.377   106.0     0.0   113.5    1.304 
+IC  C8   N9   C4   C5     1.374   106.0     0.0   105.6    1.377 
+IC  N9   C5   *C4  N3     1.377   105.6   180.0   128.4    1.355 
+IC  C5   C4   N3   C2     1.377   128.4     0.0   111.8    1.327 
+IC  C4   N3   C2   N1     1.355   111.8     0.0   124.0    1.375 
+IC  N1   N3   *C2  N2     1.375   124.0   180.0   119.7    1.341 
+IC  N3   C2   N2   H21    1.327   119.7   180.0   127.0    1.01 
+IC  H21  C2   *N2  H22    1.01    127.0  -180.0   116.5    1.01 
+IC  N3   C2   N1   C6     1.327   124.0     0.0   124.9    1.393 
+IC  C6   C2   *N1  H1     1.393   124.9   180.0   117.4    1.03 
+IC  C5   N1   *C6  O6     1.415   111.7   180.0   120.0    1.239 
+IC  N9   N7   *C8  H8     0.0       0.0   180.0     0.0    0.0 
+IC  C5   C4   N9   H9     0.0       0.0   180.0     0.0    0.0 
+
+RESI MGUA          0.000 ! me-Guanine base, jal update 6/15 
+!
+!               O6
+!               ||
+!               C6
+!              /  \
+!          H1-N1   C5--N7\\
+!             |    ||     C8-H8
+!             C2   C4--N9/
+!            / \\ /      \
+!      H21-N2   N3        C9-H9[123]
+!          |
+!         H22
+GROUP
+ATOM N9   ND2R5D  -0.019  ALPHA -0.880 THOLE 1.351
+ATOM C4   CD2R6F   0.227  ALPHA -1.259 THOLE 0.797
+ATOM N3   ND2R6B   0.000  ALPHA -0.771 THOLE 1.265 !
+ATOM LP3  LPDNA1  -0.459
+ATOM C2   CD2R6C   0.587  ALPHA -1.109 THOLE 1.628
+ATOM N1   ND2R6C  -0.366  ALPHA -1.568 THOLE 0.971 !
+ATOM H1   HDP1A    0.287
+ATOM N2   ND2B1   -0.736  ALPHA -1.404 THOLE 0.498 !
+ATOM H21  HDP1A    0.327
+ATOM H22  HDP1A    0.327
+ATOM C6   CD2O4A   0.272  ALPHA -0.943 THOLE 1.440 !
+ATOM O6   OD2C1B   0.000  ALPHA -0.617 THOLE 1.639 !
+ATOM LP6A LPDNA1  -0.259
+ATOM LP6B LPDNA1  -0.138
+ATOM C5   CD2R6F   0.004  ALPHA -1.788 THOLE 1.033
+ATOM N7   ND2R5E   0.000  ALPHA -0.650 THOLE 1.146 !
+ATOM LP7  LPDNA1  -0.322
+ATOM C8   CD2R5F  -0.113  ALPHA -1.427 THOLE 1.309
+ATOM H8   HDR5B    0.165
+ATOM C9   CD33A   -0.264  ALPHA -1.793 THOLE 0.971 !
+ATOM H91  HDA3A    0.160
+ATOM H92  HDA3A    0.160
+ATOM H93  HDA3A    0.160
+
+BOND N9  C4   C4  N3   N3  C2   C2  N1   N1  C6   C6  C5
+BOND C5  C4   N9  C8   C8  N7   C5  N7   C8  H8   C6  O6
+BOND N1  H1   C2  N2   N2 H21   N2  H22
+BOND N9  C9   C9  H91  C9 H92   C9  H93
+BOND LP3 N3   LP7  N7
+BOND LP6A O6  LP6B O6
+
+IMPR C2   N3   N1   N2        C6   N1   C5   O6        N2   H21  C2   H22
+
+LONEPAIR  bisector  LP3  N3 C2 C4  distance 0.35 angle 179.99 dihe 179.99
+LONEPAIR  relative  LP6A O6 C6 N1  distance 0.35 angle 110.0  dihe 180.0
+LONEPAIR  relative  LP6B O6 C6 C5  distance 0.35 angle 110.0  dihe 180.0
+LONEPAIR  bisector  LP7  N7 C5 C8  distance 0.35 angle 179.99 dihe 179.99
+ANISOTROPY N3 LP3 C4 C2   A11 0.808   A22 1.384   !based on PYRM
+ANISOTROPY O6 C6  C5 N1   A11 0.6968  A22 1.2194  !based on NMA
+ANISOTROPY N7 LP7 C8 C5   A11 0.808   A22 1.384   !based on IMID
+
+DONO H21  N2
+DONO H22  N2
+DONO H1   N1
+ACCE O6   C6
+ACCE N3
+ACCE N7
+IC  C4   N9   C8   N7     1.377   106.0     0.0   113.5    1.304
+IC  C8   N9   C4   C5     1.374   106.0     0.0   105.6    1.377
+IC  N9   C5   *C4  N3     1.377   105.6   180.0   128.4    1.355
+IC  C5   C4   N3   C2     1.377   128.4     0.0   111.8    1.327
+IC  C4   N3   C2   N1     1.355   111.8     0.0   124.0    1.375
+IC  N1   N3   *C2  N2     1.375   124.0   180.0   119.7    1.341
+IC  N3   C2   N2   H21    1.327   119.7   180.0   127.0    1.01
+IC  H21  C2   *N2  H22    1.01    127.0  -180.0   116.5    1.01
+IC  N3   C2   N1   C6     1.327   124.0     0.0   124.9    1.393
+IC  C6   C2   *N1  H1     1.393   124.9   180.0   117.4    1.03
+IC  C5   N1   *C6  O6     1.415   111.7   180.0   120.0    1.239
+IC  N9   N7   *C8  H8     0.0       0.0   180.0     0.0    0.0
+IC  C4   C8   *N9  C9     0.0       0.0   180.0     0.0    0.0
+IC  C4   N9    C9  H91    0.0       0.0   180.0     0.0    0.0
+IC  H91  N9    *C9 H92    0.0       0.0   120.0     0.0    0.0
+IC  H91  N9    *C9 H93    0.0       0.0  -120.0     0.0    0.0
+
+ 
+PRES GUAM          0.216 ! Me-GUA patch with GUAB
+! use as "LAST GUAM" in generate statement or as "PRES GUAM" in patch statement
+DELE ATOM H9 
+ATOM C9   CD33A   -0.264  ALPHA -1.793 THOLE 0.971 !
+ATOM H91  HDA3A    0.160 
+ATOM H92  HDA3A    0.160 
+ATOM H93  HDA3A    0.160 
+
+BOND N9 C9    C9 H91   C9 H92   C9  H93 
+
+IC  C4   C8   *N9  C9     0.0       0.0   180.0     0.0    0.0 
+IC  C4   N9    C9  H91    0.0       0.0   180.0     0.0    0.0 
+IC  H91  N9    *C9 H92    0.0       0.0   120.0     0.0    0.0 
+IC  H91  N9    *C9 H93    0.0       0.0  -120.0     0.0    0.0 
+
+PRES GUAE          0.216 ! Ethyl-GUA patch with GUAB
+! use as "LAST GUAE" in generate statement or as "PRES GUAE" in patch statement
+DELE ATOM H9 
+ATOM C9   CD32A   -0.104  ALPHA -1.162  THOLE 0.571
+ATOM H91  HDA2A    0.160 
+ATOM H92  HDA2A    0.160 
+GROUP 
+ATOM C10  CD33A   -0.177  ALPHA -1.436  THOLE 1.3 
+ATOM H11  HDA3A    0.059 
+ATOM H12  HDA3A    0.059 
+ATOM H13  HDA3A    0.059 
+
+BOND N9  C9   C9  H91  C9  H92   C9  C10
+BOND C10 H11  C10 H12  C10 H13
+
+IC  C4   C8   *N9   C9     0.0       0.0   180.0     0.0    0.0 
+IC  C4   N9    C9   H91    0.0       0.0   180.0     0.0    0.0 
+IC  H91  N9    *C9  H92    0.0       0.0   120.0     0.0    0.0 
+IC  H91  N9    *C9  C10    0.0       0.0  -120.0     0.0    0.0 
+IC  N9   C9    C10  H11    0.0       0.0   180.0     0.0    0.0
+IC  H11  C9    *C10 H12    0.0       0.0   120.0     0.0    0.0
+IC  H11  C9    *C10 H13    0.0       0.0  -120.0     0.0    0.0
+
+! backbone model compounds
+
+RESI T3PS         -1.000 ! 3-phosphate-tetrahydrofuran (phosphate -1)
+                         ! capped with a furan
+!
+!     H41a   O41  H11a
+!        \  /  \  /
+!   H42a--C4a  C11--H12a
+!          |    |
+!   H31a--C3a--C2a--H21a
+!        /       \
+!      O3a       H22a
+!       |
+!  O1P==P==O2P
+!       |
+!      O5b (-1) H4b1   O4b   H1b1
+!        \         \  /   \  /
+!        C5b-------C4b    C1b-H1b2
+!       /  \        |      |
+!    H5b1 H5b2     C3b----C2b-H2b2
+!                 / |       \
+!              H3b1 H3b2     H2b1
+!
+!
+GROUP
+ATOM O4A  OD305A   0.000  ALPHA -0.618  THOLE 1.545
+ATOM LP1  LPD     -0.152
+ATOM LP2  LPD     -0.152
+ATOM LPX  LPD      0.000 !dummy for anisotropic polarizability 
+ATOM C1A  CD315A   0.042  ALPHA -1.562  THOLE 1.103 !
+ATOM H11A HDA2R5   0.055  
+ATOM H12A HDA2R5   0.055
+ATOM C4A  CD315B   0.042  ALPHA -1.562  THOLE 1.103 !
+ATOM H41A HDA2R5   0.055
+ATOM H42A HDA2R5   0.055
+GROUP                   
+ATOM C2A  CD325B  -0.144  ALPHA -1.617  THOLE 1.103 !
+ATOM H21A HDA2R5   0.072 
+ATOM H22A HDA2R5   0.072
+GROUP                   
+ATOM C3A  CD315B   0.253  ALPHA -1.642  THOLE 0.862 !
+ATOM H31A HDA1R5   0.026
+ATOM O3A  OD30B   -0.520  ALPHA -0.901  THOLE 0.181  !
+ATOM P    PD1A     1.192  ALPHA -0.974  THOLE 2.098
+ATOM O1P  OD2C2B  -0.856  ALPHA -0.931  THOLE 1.083  !
+ATOM O2P  OD2C2B  -0.856  ALPHA -0.931  THOLE 1.083  !
+ATOM O5B  OD30B   -0.520  ALPHA -0.901  THOLE 0.181  !
+ATOM C5B  CD32C    0.229  ALPHA -1.642  THOLE 0.862  !
+ATOM H5B1 HDA2A    0.026
+ATOM H5B2 HDA2A    0.026
+GROUP
+ATOM O4B  OD305A   0.000  ALPHA -0.618  THOLE 1.545
+ATOM LPA  LPD     -0.152
+ATOM LPB  LPD     -0.152
+ATOM LPX2 LPD      0.000 !dummy for anisotropic polarizability
+ATOM C4B  CD315B   0.097  ALPHA -1.562  THOLE 1.103 !
+ATOM H4B1 HDA1R5   0.055
+ATOM C1B  CD315A   0.042  ALPHA -1.562  THOLE 1.103
+ATOM H1B1 HDA2R5   0.055
+ATOM H1B2 HDA2R5   0.055
+GROUP
+ATOM C2B  CD325B  -0.144  ALPHA -1.617  THOLE 1.103 !
+ATOM H2B1 HDA2R5   0.072
+ATOM H2B2 HDA2R5   0.072
+GROUP
+ATOM C3B  CD315B  -0.144  ALPHA -1.617  THOLE 1.103 !
+ATOM H3B1 HDA2R5   0.072
+ATOM H3B2 HDA2R5   0.072
+
+BOND C1A  O4A  C1A  C2A  C2A  C3A  C3A  C4A  C4A  O4A  C3A  O3A
+BOND C1A  H11A C1A  H12A C2A  H21A C2A  H22A C3A  H31A C4A  H41A
+BOND C4A  H42A O3A  P    P    O1P  P    O2P  P    O5B  O5B  C5B
+BOND C5B  H5B1 C5B  H5B2 C5B  C4B  C4B  O4B  O4B  C1B  C1B  C2B
+BOND C2B  C3B  C3B  C4B  C4B  H4B1 C1B  H1B1 C1B  H1B2 C2B  H2B1
+BOND C2B  H2B2 C3B  H3B1 C3B  H3B2
+
+BOND  O4A LP1  O4A LP2  O4A LPX
+BOND  O4B LPA  O4B LPB  O4B LPX2
+
+! O4A Lone pairs
+LONEPAIR bisector LP1  O4A C1A C4A distance 0.35 angle 110.0 dihe  90.0
+LONEPAIR bisector LP2  O4A C1A C4A distance 0.35 angle 110.0 dihe 270.0
+LONEPAIR bisector LPX  O4A C1A C4A distance 0.10 angle   0.0 dihe   0.0
+ANISOTROPY O4A LPX LP1 LP2 A11 0.8889  A22 1.2222
+! O4B Lone pairs
+LONEPAIR bisector LPA  O4B C1B C4B distance 0.35 angle 110.0 dihe  90.0
+LONEPAIR bisector LPB  O4B C1B C4B distance 0.35 angle 110.0 dihe 270.0
+LONEPAIR bisector LPX2 O4B C1B C4B distance 0.10 angle   0.0 dihe   0.0
+ANISOTROPY O4B LPX2 LPA LPB A11 0.8889  A22 1.2222
+
+ANISOTROPY O5B O1P O3A O2P A11 1.0000  A22 0.6000
+ANISOTROPY O3A O2P O5B O1P A11 1.0000  A22 0.6000
+ANISOTROPY O1P P   O5B O3A A11 0.6000  A22 1.0000
+ANISOTROPY O2P P   O3A O5B A11 0.6000  A22 1.0000
+
+IC   C4a     O4a     C1a     C2a    1.4055  108.09  -21.00  106.18   1.5457 !0.0 for c3aendo (north) pucker
+IC   O4a     C1a     C2a     C3a    1.4127  106.18   30.00  103.11   1.5346 !
+IC   C1a     C2a     C3a     C4a    1.5457  103.11  -30.00  100.86   1.5211 !0.0 for o4aendo barrier
+IC   C2a     C3a     C4a     O4a    1.5346  100.86   20.00  103.15   1.4055
+IC   C3a     C4a     O4a     C1a    1.5211  103.15    0.00  108.09   1.4127
+IC   C2a     O4a     *C1a    H11a   0.0000    0.00  120.00    0.00   0.0000
+IC   C2a     O4a     *C1a    H12a   0.0000    0.00 -120.00    0.00   0.0000
+IC   C3a     C1a     *C2a    H22a   0.0000    0.00  120.00    0.00   0.0000
+IC   C3a     C1a     *C2a    H21a   0.0000    0.00 -120.00    0.00   0.0000
+IC   C1a     C2a     O2T     H2T    0.0000    0.00  180.00    0.00   0.0000
+IC   C2a     C4a     *C3a    O3a    0.0000    0.00 -120.00    0.00   0.0000
+IC   C2a     C4a     *C3a    H31a   0.0000    0.00  120.00    0.00   0.0000
+IC   O4a     C3a     *C4a    H41a   0.0000    0.00  120.00    0.00   0.0000
+IC   O4a     C3a     *C4a    H42a   0.0000    0.00 -120.00    0.00   0.0000
+IC   C4a     C3a     O3a     P      0.0000  000.00 -164.29  000.00   0.0000 !epsilon bi:-164.29,bii:-92.78
+IC   C3a     O3a     P       O5b    0.0000  000.00  -89.68  000.00   0.0000 !zeta bi:-89.68,bii:159.19
+IC   O5b     O3a     *P      O1P    0.0000  000.00 -115.82  000.00   0.0000
+IC   O5b     O3a     *P      O2P    0.0000  000.00  115.90  000.00   0.0000
+IC   O3a     P       O5b     C5b    0.0000  000.00  -46.90  000.00   0.0000 !alpha+1:A:291, B:298
+IC   P       O5B     C5B     C4B    0.0000    0.00  180.00    0.00   0.0000 !beta+1:A:175, B:168
+IC   H5b1    C5b     O5b     P      0.0000  000.00  180.00  000.00   0.0000
+IC   H5b2    C5b     O5b     P      0.0000  000.00   60.00  000.00   0.0000
+IC   O3a     P       O5B     C5B    0.0000    0.00  180.00    0.00   0.0000
+IC   C4B     O5B     *C5B    H5B1   0.0000    0.00  120.00    0.00   0.0000
+IC   C4B     O5B     *C5B    H5B2   0.0000    0.00 -120.00    0.00   0.0000
+IC   O5B     C5B     C4B     C3B    0.0000    0.00  180.00    0.00   0.0000 !gamma+1,A:57, B:51
+IC   C5B     C4B     C3B     C2B    0.0000    0.00 -108.00    0.00   0.0000 !-155:c3aendo(north) -108:c2aendo(south)
+IC   C4B     C3B     C2B     C1B    0.0000    0.00  -40.00    0.00   0.0000 !40:c3aendo(north) -40:c2aendo(south)
+IC   C3B     C2B     C1B     O4B    0.0000    0.00   40.00    0.00   0.0000 !-40:c3aendo(north) 40:c2aendo(south)
+!following IC is used to define C3'endo in surfaces, but commented due to redundancy
+!IC   C4B     O4B     C1B     C2B    0.0000    0.00   25.00    0.00   0.0000 !0.0: c3aendo(north) 25:c2aendo(south)
+IC   O4B     C3B     *C4B    H4B1   0.0000    0.00  120.00    0.00   0.0000
+IC   C2B     O4B     *C1B    H1B1   0.0000    0.00  120.00    0.00   0.0000
+IC   C2B     O4B     *C1B    H1B2   0.0000    0.00 -120.00    0.00   0.0000
+IC   C3B     C1B     *C2B    H2B1   0.0000    0.00 -120.00    0.00   0.0000
+IC   C3B     C1B     *C2B    H2B2   0.0000    0.00  120.00    0.00   0.0000
+IC   C2B     C4B     *C3B    H3B1   0.0000    0.00  120.00    0.00   0.0000
+IC   C2B     C4B     *C3B    H3B2   0.0000    0.00 -120.00    0.00   0.0000
+
+PATC  FIRS NONE LAST NONE
+
+RESI T3PN         -1.000 ! 5-phosphate-tetrahydrofuran (phosphate -1)
+                         ! capped with a methyl
+!         H3T2
+!          | 
+!   H3T1--C3T--H3T3
+!        /       
+!      O3a       
+!       |
+!  O1P==P==O2P
+!       |
+!      O5b (-1) H4b1   O4b   H1b1
+!        \         \  /   \  /
+!        C5b-------C4b    C1b-H1b2
+!       /  \        |      |
+!    H5b1 H5b2     C3b----C2b-H2b2
+!                 / |       \
+!              H3b1 H3b2     H2b1
+!
+!
+GROUP
+ATOM C3T  CD32C    0.201  ALPHA -1.642  THOLE 0.862 !
+ATOM H3T1 HDA2A    0.026
+ATOM H3T2 HDA2A    0.026
+ATOM H3T3 HDA2A    0.026
+ATOM O3A  OD30B   -0.520  ALPHA -0.901  THOLE 0.181  !
+ATOM P    PD1A     1.192  ALPHA -0.974  THOLE 2.098
+ATOM O1P  OD2C2B  -0.856  ALPHA -0.931  THOLE 1.083  !
+ATOM O2P  OD2C2B  -0.856  ALPHA -0.931  THOLE 1.083  !
+ATOM O5B  OD30B   -0.520  ALPHA -0.901  THOLE 0.181  !
+ATOM C5B  CD32C    0.229  ALPHA -1.642  THOLE 0.862  !
+ATOM H5B1 HDA2A    0.026
+ATOM H5B2 HDA2A    0.026
+GROUP
+ATOM O4B  OD305A   0.000  ALPHA -0.618  THOLE 1.545
+ATOM LPA  LPD     -0.152
+ATOM LPB  LPD     -0.152
+ATOM LPX2 LPD      0.000 !dummy for anisotropic polarizability
+ATOM C4B  CD315B   0.097  ALPHA -1.562  THOLE 1.103 !
+ATOM H4B1 HDA1R5   0.055
+ATOM C1B  CD315A   0.042  ALPHA -1.562  THOLE 1.103
+ATOM H1B1 HDA2R5   0.055
+ATOM H1B2 HDA2R5   0.055
+GROUP
+ATOM C2B  CD325B  -0.144  ALPHA -1.617  THOLE 1.103 !
+ATOM H2B1 HDA2R5   0.072
+ATOM H2B2 HDA2R5   0.072
+GROUP
+ATOM C3B  CD315B  -0.144  ALPHA -1.617  THOLE 1.103 !
+ATOM H3B1 HDA2R5   0.072
+ATOM H3B2 HDA2R5   0.072
+
+BOND C3T  O3A  C3T  H3T1 C3T  H3T2 C3T  H3T3
+BOND O3A  P    P    O1P  P    O2P  P    O5B  O5B  C5B
+BOND C5B  H5B1 C5B  H5B2 C5B  C4B  C4B  O4B  O4B  C1B  C1B  C2B
+BOND C2B  C3B  C3B  C4B  C4B  H4B1 C1B  H1B1 C1B  H1B2 C2B  H2B1
+BOND C2B  H2B2 C3B  H3B1 C3B  H3B2
+
+BOND  O4B LPA  O4B LPB  O4B LPX2
+
+! O4B Lone pairs
+LONEPAIR bisector LPA  O4B C1B C4B distance 0.35 angle 110.0 dihe  90.0
+LONEPAIR bisector LPB  O4B C1B C4B distance 0.35 angle 110.0 dihe 270.0
+LONEPAIR bisector LPX2 O4B C1B C4B distance 0.10 angle   0.0 dihe   0.0
+ANISOTROPY O4B LPX2 LPA LPB A11 0.8889  A22 1.2222
+
+ANISOTROPY O5B O1P O3A O2P A11 1.0000  A22 0.6000
+ANISOTROPY O3A O2P O5B O1P A11 1.0000  A22 0.6000
+ANISOTROPY O1P P   O5B O3A A11 0.6000  A22 1.0000
+ANISOTROPY O2P P   O3A O5B A11 0.6000  A22 1.0000
+
+IC   H3T1    C3T     O3a     P      0.0000  000.00  180.00  000.00   0.0000
+IC   H3T2    C3T     O3a     P      0.0000  000.00   60.00  000.00   0.0000
+IC   H3T3    C3T     O3a     P      0.0000  000.00  -60.00  000.00   0.0000
+IC   C3T     O3a     P       O5b    0.0000  000.00  -89.68  000.00   0.0000 !zeta bi:-89.68,bii:159.19
+IC   O5b     O3a     *P      O1P    0.0000  000.00 -115.82  000.00   0.0000
+IC   O5b     O3a     *P      O2P    0.0000  000.00  115.90  000.00   0.0000
+IC   O3a     P       O5b     C5b    0.0000  000.00  -46.90  000.00   0.0000 !alpha+1:A:291, B:298
+IC   P       O5B     C5B     C4B    0.0000    0.00  180.00    0.00   0.0000 !beta+1:A:175, B:168
+IC   H5b1    C5b     O5b     P      0.0000  000.00  180.00  000.00   0.0000
+IC   H5b2    C5b     O5b     P      0.0000  000.00   60.00  000.00   0.0000
+IC   O3a     P       O5B     C5B    0.0000    0.00  180.00    0.00   0.0000
+IC   C4B     O5B     *C5B    H5B1   0.0000    0.00  120.00    0.00   0.0000
+IC   C4B     O5B     *C5B    H5B2   0.0000    0.00 -120.00    0.00   0.0000
+IC   O5B     C5B     C4B     C3B    0.0000    0.00  180.00    0.00   0.0000 !gamma+1,A:57, B:51
+IC   C5B     C4B     C3B     C2B    0.0000    0.00 -108.00    0.00   0.0000 !-155:c3aendo(north) -108:c2aendo(south)
+IC   C4B     C3B     C2B     C1B    0.0000    0.00  -40.00    0.00   0.0000 !40:c3aendo(north) -40:c2aendo(south)
+IC   C3B     C2B     C1B     O4B    0.0000    0.00   40.00    0.00   0.0000 !-40:c3aendo(north) 40:c2aendo(south)
+!following IC is used to define C3'endo in surfaces, but commented due to redundancy
+!IC   C4B     O4B     C1B     C2B    0.0000    0.00   25.00    0.00   0.0000 !0.0: c3aendo(north) 25:c2aendo(south)
+IC   O4B     C3B     *C4B    H4B1   0.0000    0.00  120.00    0.00   0.0000
+IC   C2B     O4B     *C1B    H1B1   0.0000    0.00  120.00    0.00   0.0000
+IC   C2B     O4B     *C1B    H1B2   0.0000    0.00 -120.00    0.00   0.0000
+IC   C3B     C1B     *C2B    H2B1   0.0000    0.00 -120.00    0.00   0.0000
+IC   C3B     C1B     *C2B    H2B2   0.0000    0.00  120.00    0.00   0.0000
+IC   C2B     C4B     *C3B    H3B1   0.0000    0.00  120.00    0.00   0.0000
+IC   C2B     C4B     *C3B    H3B2   0.0000    0.00 -120.00    0.00   0.0000
+
+PATCH FIRST NONE LAST NONE
+
+RESI T3PO         -2.000 ! 5-phosphate-tetrahydrofuran (phosphate -2)
+                         ! capped with nothing
+!      O3P       
+!       |
+!  O1P==P==O2P
+!       |
+!      O5b (-1) H4b1   O4b   H1b1
+!        \         \  /   \  /
+!        C5b-------C4b    C1b-H1b2
+!       /  \        |      |
+!    H5b1 H5b2     C3b----C2b-H2b2
+!                 / |       \
+!              H3b1 H3b2     H2b1
+!
+!
+GROUP
+ATOM P    PD1A     1.792  ALPHA -0.974  THOLE 2.098  !
+ATOM O1P  OD2C2B  -1.087  ALPHA -0.931  THOLE 1.083  !
+ATOM O2P  OD2C2B  -1.087  ALPHA -0.931  THOLE 1.083  !
+ATOM O3P  OD2C2B  -1.087  ALPHA -0.931  THOLE 1.083  !
+ATOM O5B  OD30B   -0.742  ALPHA -0.901  THOLE 0.181  !
+ATOM C5B  CD32C    0.159  ALPHA -1.642  THOLE 0.862  !
+ATOM H5B1 HDA2A    0.026
+ATOM H5B2 HDA2A    0.026
+GROUP
+ATOM O4B  OD305A   0.000  ALPHA -0.618  THOLE 1.545
+ATOM LPA  LPD     -0.152
+ATOM LPB  LPD     -0.152
+ATOM LPX2 LPD      0.000 !dummy for anisotropic polarizability
+ATOM C4B  CD315B   0.097  ALPHA -1.562  THOLE 1.103 !
+ATOM H4B1 HDA1R5   0.055
+ATOM C1B  CD315A   0.042  ALPHA -1.562  THOLE 1.103
+ATOM H1B1 HDA2R5   0.055
+ATOM H1B2 HDA2R5   0.055
+GROUP
+ATOM C2B  CD325B  -0.144  ALPHA -1.617  THOLE 1.103 !
+ATOM H2B1 HDA2R5   0.072
+ATOM H2B2 HDA2R5   0.072
+GROUP
+ATOM C3B  CD315B  -0.144  ALPHA -1.617  THOLE 1.103 !
+ATOM H3B1 HDA2R5   0.072
+ATOM H3B2 HDA2R5   0.072
+
+BOND O3P  P    P    O1P  P    O2P  P    O5B  O5B  C5B
+BOND C5B  H5B1 C5B  H5B2 C5B  C4B  C4B  O4B  O4B  C1B  C1B  C2B
+BOND C2B  C3B  C3B  C4B  C4B  H4B1 C1B  H1B1 C1B  H1B2 C2B  H2B1
+BOND C2B  H2B2 C3B  H3B1 C3B  H3B2
+
+BOND  O4B LPA  O4B LPB  O4B LPX2
+
+! O4B Lone pairs
+LONEPAIR bisector LPA  O4B C1B C4B distance 0.35 angle 110.0 dihe  90.0
+LONEPAIR bisector LPB  O4B C1B C4B distance 0.35 angle 110.0 dihe 270.0
+LONEPAIR bisector LPX2 O4B C1B C4B distance 0.10 angle   0.0 dihe   0.0
+ANISOTROPY O4B LPX2 LPA LPB A11 0.8889  A22 1.2222
+
+ANISOTROPY O5B O1P O3P O2P A11 1.0000  A22 0.6000
+ANISOTROPY O3P O2P O5B O1P A11 1.0000  A22 0.6000
+ANISOTROPY O1P P   O5B O3P A11 0.6000  A22 1.0000
+ANISOTROPY O2P P   O3P O5B A11 0.6000  A22 1.0000
+
+IC   O5b     O3P     *P      O1P    0.0000  000.00 -115.82  000.00   0.0000
+IC   O5b     O3P     *P      O2P    0.0000  000.00  115.90  000.00   0.0000
+IC   O3P     P       O5b     C5b    0.0000  000.00  -46.90  000.00   0.0000 !alpha+1:A:291, B:298
+IC   P       O5B     C5B     C4B    0.0000    0.00  180.00    0.00   0.0000 !beta+1:A:175, B:168
+IC   H5b1    C5b     O5b     P      0.0000  000.00  180.00  000.00   0.0000
+IC   H5b2    C5b     O5b     P      0.0000  000.00   60.00  000.00   0.0000
+IC   O3a     P       O5B     C5B    0.0000    0.00  180.00    0.00   0.0000
+IC   C4B     O5B     *C5B    H5B1   0.0000    0.00  120.00    0.00   0.0000
+IC   C4B     O5B     *C5B    H5B2   0.0000    0.00 -120.00    0.00   0.0000
+IC   O5B     C5B     C4B     C3B    0.0000    0.00  180.00    0.00   0.0000 !gamma+1,A:57, B:51
+IC   C5B     C4B     C3B     C2B    0.0000    0.00 -108.00    0.00   0.0000 !-155:c3aendo(north) -108:c2aendo(south)
+IC   C4B     C3B     C2B     C1B    0.0000    0.00  -40.00    0.00   0.0000 !40:c3aendo(north) -40:c2aendo(south)
+IC   C3B     C2B     C1B     O4B    0.0000    0.00   40.00    0.00   0.0000 !-40:c3aendo(north) 40:c2aendo(south)
+!following IC is used to define C3'endo in surfaces, but commented due to redundancy
+!IC   C4B     O4B     C1B     C2B    0.0000    0.00   25.00    0.00   0.0000 !0.0: c3aendo(north) 25:c2aendo(south)
+IC   O4B     C3B     *C4B    H4B1   0.0000    0.00  120.00    0.00   0.0000
+IC   C2B     O4B     *C1B    H1B1   0.0000    0.00  120.00    0.00   0.0000
+IC   C2B     O4B     *C1B    H1B2   0.0000    0.00 -120.00    0.00   0.0000
+IC   C3B     C1B     *C2B    H2B1   0.0000    0.00 -120.00    0.00   0.0000
+IC   C3B     C1B     *C2B    H2B2   0.0000    0.00  120.00    0.00   0.0000
+IC   C2B     C4B     *C3B    H3B1   0.0000    0.00  120.00    0.00   0.0000
+IC   C2B     C4B     *C3B    H3B2   0.0000    0.00 -120.00    0.00   0.0000
+
+PATCH FIRST NONE LAST NONE
+
+RESI R3PS         -1.000 ! RNA model compound, jal 7/5/2014 
+!
+!
+!     H41'  O4'    H11'
+!        \ /   \  /
+!    H42'-C4'   C1'-H12'
+!         \     /
+!     H31'-C3'-C2'-H21'
+!         /     \
+!        O3'     O2T-H2T
+!         |
+!    O1P==P==O2P
+!         |   (-)
+!        O5b
+!         |
+!   H5b1--C5b--H5b2
+!          \   O4b    H1b1
+!           \ /   \  /  
+!            C4b   C1b-H1b2   
+!           /\     /
+!        H4b1 C3b-C2b-H2b1
+!            / \    \
+!         H3b1 H3b2  O2Tb-H2Tb
+!
+GROUP  !! from T3PS
+ATOM C4'  CD315B   0.042  ALPHA -1.562  THOLE 1.103  !
+ATOM H41' HDA2R5   0.055  ! THF
+ATOM H42' HDA2R5   0.055  ! THF
+ATOM O4'  OD305A   0.000  ALPHA -0.618  THOLE 1.545
+ATOM LP1A LPD     -0.152
+ATOM LP1B LPD     -0.152
+ATOM LPX1 LPD      0.000  !dummy for anisotropic polarizability
+ATOM C1'  CD315A   0.042  ALPHA -1.562  THOLE 1.103  !
+ATOM H11' HDA2R5   0.055  ! THF
+ATOM H12' HDA2R5   0.055  ! THF
+GROUP  !! jal - changed from EtOH to PRO2 charges 
+ATOM C2'  CD315B   0.000  ALPHA -1.242  THOLE 1.103  !
+ATOM H21' HDA1R5   0.100
+ATOM O2T  OD31A    0.000  ALPHA -0.628  THOLE 0.181 
+ATOM H2T  HDP1A    0.260  
+ATOM LP21 LPD     -0.180
+ATOM LP22 LPD     -0.180  
+GROUP
+ATOM C3'  CD315B   0.253  ALPHA -1.642  THOLE 0.862 !
+ATOM H31' HDA1R5   0.026
+ATOM O3'  OD30BR  -0.520  ALPHA -0.901  THOLE 0.181 !
+ATOM P    PD1A     1.192  ALPHA -0.974  THOLE 2.098 !
+ATOM O1P  OD2C2B  -0.856  ALPHA -0.931  THOLE 1.083 !
+ATOM O2P  OD2C2B  -0.856  ALPHA -0.931  THOLE 1.083 !
+ATOM O5b  OD30B   -0.520  ALPHA -0.901  THOLE 0.181 !
+ATOM C5b  CD32C    0.229  ALPHA -1.642  THOLE 0.862 !
+ATOM H5b1 HDA2A    0.026
+ATOM H5b2 HDA2A    0.026
+GROUP  !! THF
+ATOM C4b  CD315B   0.097  ALPHA -1.562  THOLE 1.103 !
+ATOM H4b1 HDA1R5   0.055
+ATOM O4b  OD305A   0.000  ALPHA -0.618  THOLE 1.545
+ATOM LP2A LPD     -0.152
+ATOM LP2B LPD     -0.152
+ATOM LPX2 LPD      0.000  !dummy for anisotropic polarizability
+ATOM C1b  CD315A   0.042  ALPHA -1.562  THOLE 1.103  ! straight from THF 
+ATOM H1b1 HDA2R5   0.055  ! THF
+ATOM H1b2 HDA2R5   0.055  ! THF
+GROUP  !! jal - changed from EtOH to PRO2 charges 
+ATOM C2b  CD315B   0.000  ALPHA -1.242  THOLE 1.103  ! neutralize group charge
+ATOM H2b1 HDA1R5   0.100
+ATOM O2Tb OD31A    0.000  ALPHA -0.628  THOLE 0.181 
+ATOM H2Tb HDP1A    0.260  
+ATOM LP23 LPD     -0.180  
+ATOM LP24 LPD     -0.180  
+GROUP
+ATOM C3b  CD315B  -0.144  ALPHA -1.617  THOLE 1.103 ! from T3PS
+ATOM H3b1 HDA2R5   0.072  ! THF
+ATOM H3b2 HDA2R5   0.072  ! THF 
+
+! First ring and phosphate
+BOND  C1' H11' C1' H12' C1' C2'  C2' H21' C2' O2T O2T H2T
+BOND  C2' C3'  C3' H31' C3' O3'  C3' C4'  C4' O4' O4' C1'
+BOND  C4' H41' C4' H42' 
+BOND  O4' LP1A O4' LP1B 
+BOND  O4' LPX1 
+BOND  O2T LP21 O2T LP22 
+BOND  O3' P    P   O1P  P   O2P
+BOND  P   O5b  O5b C5b
+! Second ring
+BOND  C1b H1b1 C1b H1b2 C1b C2b  C2b H2b1 C2b O2Tb O2Tb H2Tb
+BOND  C2b C3b  C3b H3b1 C3b H3b2 C3b C4b  C4b O4b O4b C1b
+BOND  C4b H4b1 C4b C5b  C5b H5b1 C5b H5b2 
+BOND  O4b LP2A O4b LP2B O4b LPX2
+BOND  O2Tb LP23  O2Tb LP24
+
+! O4' Lone pairs
+! first ring
+LONEPAIR bisector LP1A O4' C1' C4' distance 0.35 angle 110.0 dihe  90.0
+LONEPAIR bisector LP1B O4' C1' C4' distance 0.35 angle 110.0 dihe 270.0
+LONEPAIR bisector LPX1 O4' C1' C4' distance 0.10 angle   0.0 dihe   0.0
+! second ring
+LONEPAIR bisector LP2A O4b C1b C4b distance 0.35 angle 110.0 dihe  90.0
+LONEPAIR bisector LP2B O4b C1b C4b distance 0.35 angle 110.0 dihe 270.0
+LONEPAIR bisector LPX2 O4b C1b C4b distance 0.10 angle   0.0 dihe   0.0
+! O2' Lone pairs
+! first ring
+LONEPAIR relative LP21 O2T C2' H2T distance 0.35 angle 110.0 dihe  91.0
+LONEPAIR relative LP22 O2T C2' H2T distance 0.35 angle 110.0 dihe 269.0
+! second ring
+LONEPAIR relative LP23 O2Tb C2b H2Tb distance 0.35 angle 110.0 dihe  91.0
+LONEPAIR relative LP24 O2Tb C2b H2Tb distance 0.35 angle 110.0 dihe 269.0
+!Anisotropies
+!O4' Anisotropy
+ANISOTROPY O4' LPX1 LP1A LP1B A11 0.8889  A22 1.2222
+ANISOTROPY O4b LPX2 LP2A LP2B A11 0.8889  A22 1.2222
+!O2' anisotropy
+ANISOTROPY O2T  C2' LP21 LP22 A11 0.8108 A22 1.2162
+ANISOTROPY O2Tb C2b LP23 LP24 A11 0.8108 A22 1.2162
+!Phosphate Anisotropy
+ANISOTROPY O5b  O1P O3'  O2P  A11 1.0000  A22 0.6000
+ANISOTROPY O3'  O2P O5b  O1P  A11 1.0000  A22 0.6000
+ANISOTROPY O1P  P   O5b  O3'  A11 0.6000  A22 1.0000
+ANISOTROPY O2P  P   O3'  O5b  A11 0.6000  A22 1.0000
+DONO H2T  O2T
+ACCE O1P  P
+ACCE O2P  P
+ACCE O2T
+ACCE O3'
+ACCE O4'
+DONO H2Tb O2Tb
+ACCE O2Tb
+ACCE O4b
+ACCE O5b
+
+!!! IC table taken from R3PS in toppar_all36_na_model.str
+IC   C4'     O4'     C1'     C2'    1.4055  108.09    0.00  106.18   1.5457 !0.0 for c3'endo (south) pucker
+IC   O4'     C1'     C2'     C3'    1.4127  106.18  -30.00  103.11   1.5346
+IC   C1'     C2'     C3'     C4'    1.5457  103.11   45.00  100.86   1.5211
+IC   C2'     C3'     C4'     O4'    1.5346  100.86  -45.00  103.15   1.4055
+IC   C3'     C4'     O4'     C1'    1.5211  103.15   30.00  108.09   1.4127
+IC   H11'    C1'     C2'     C3'    1.0856  111.62  123.53  103.11   1.5346
+IC   H12'    C1'     C2'     C3'    1.0818  113.32 -114.11  103.11   1.5346
+IC   H21'    C2'     C3'     C4'    1.0846  110.65   91.68  100.86   1.5211
+IC   O2T     C2'     C3'     C4'    1.0822  110.88 -148.45  100.86   1.5211
+IC   C1'     C2'     O2T     H2T    0.0000    0.00  180.00    0.00   0.0000
+IC   H31'    C3'     C4'     O4'    1.0806  113.53  162.89  103.15   1.4055
+IC   H41'    C4'     O4'     C1'    1.0891  110.89   77.76  108.09   1.4127
+IC   H42'    C4'     O4'     C1'    1.0808  108.72 -162.12  108.09   1.4127
+IC   O3'     C3'     C4'     O4'    1.4028  110.98  -77.39  103.15   1.4055
+IC   C4'     C3'     O3'     P      0.0000  000.00 -164.29  000.00   0.0000 !epsilon bi:-164.29,bii:-92.78
+IC   C3'     O3'     P       O5b    0.0000  000.00  -89.68  000.00   0.0000 !zeta bi:-89.68,bii:159.19
+IC   O5b     O3'     *P      O1P    0.0000  000.00 -115.82  000.00   0.0000
+IC   O5b     O3'     *P      O2P    0.0000  000.00  115.90  000.00   0.0000
+IC   O3'     P       O5b     C5b    0.0000  000.00  -46.90  000.00   0.0000 !alpha+1:A:291, b:298
+IC   P       O5b     C5b     C4b    0.0000    0.00  180.00    0.00   0.0000 !beta+1:A:175, b:168
+IC   H5b1    C5b     O5b     P      0.0000  000.00  180.00  000.00   0.0000
+IC   H5b2    C5b     O5b     P      0.0000  000.00   60.00  000.00   0.0000
+IC   C4b     O5b     *C5b    H5b1   0.0000    0.00  120.00    0.00   0.0000
+IC   H5b1    O5b     *C5b    H5b2   0.0000    0.00 -120.00    0.00   0.0000
+IC   O5b     C5b     C4b     C3b    0.0000    0.00  180.00    0.00   0.0000 !gamma+1,A:57, b:51
+IC   C5b     C4b     C3b     C2b    0.0000    0.00 -155.00    0.00   0.0000 !-155:c3'endo(north) -108:c2'endo(south)
+IC   C4b     C3b     C2b     C1b    0.0000    0.00   40.00    0.00   0.0000 !40:c3'endo(north) -40:c2'endo(south)
+IC   C3b     C2b     C1b     O4b    0.0000    0.00  -40.00    0.00   0.0000 !-40:c3'endo(north) 40:c2'endo(south)
+!following IC is used to define C3'endo in surfaces, but commented due to redundancy
+IC   O4b     C5b     *C4b    H4b1   0.0000    0.00 -120.00    0.00   0.0000
+IC   C2b     O4b     *C1b    H1b1   0.0000    0.00  120.00    0.00   0.0000
+IC   C2b     O4b     *C1b    H1b2   0.0000    0.00 -120.00    0.00   0.0000
+IC   C3b     C1b     *C2b    H2b1   0.0000    0.00 -120.00    0.00   0.0000
+IC   C3b     C1b     *C2b    O2Tb   0.0000    0.00  120.00    0.00   0.0000
+IC   C1b     C2b     O2Tb    H2Tb   0.0000    0.00  180.00    0.00   0.0000
+IC   C2b     C4b     *C3b    H3b1   0.0000    0.00  120.00    0.00   0.0000
+IC   C2b     C4b     *C3b    H3b2   0.0000    0.00 -120.00    0.00   0.0000
+
+PATC FIRS NONE LAST NONE
+
+RESI T3PM         -1.000 ! 3'phosphate-hydroxyl-tetrahydrofuran (phosphate -1)
+                         ! capped with a methyl group. This is to investigate the differences
+                         ! between BI and BII forms of DNA
+!
+!     H41'   O4'  H11'
+!        \  /  \  /
+!   H42'--C4'  C1'--H12'
+!          |    |
+!   H31'--C3'--C2'--H21'
+!        /       \
+!      O3'       H22'
+!       |
+!  O1P==P==O2P
+!       |
+!      O3T  (-1)
+!        \
+!        C3T--H3T3
+!       /  \
+!    H3T1 H3T2
+!
+GROUP
+ATOM O4'  OD305A   0.000  ALPHA -0.618  THOLE 1.545
+ATOM LP1  LPD     -0.152
+ATOM LP2  LPD     -0.152
+ATOM LPX  LPD      0.000 !dummy for anisotropic polarizability 
+ATOM C1'  CD315A   0.042  ALPHA -1.562  THOLE 1.103 !
+ATOM H11' HDA2R5   0.055
+ATOM H12' HDA2R5   0.055
+ATOM C4'  CD315B   0.042  ALPHA -1.562  THOLE 1.103 !
+ATOM H41' HDA2R5   0.055
+ATOM H42' HDA2R5   0.055
+GROUP                  
+ATOM C2'  CD325B  -0.144  ALPHA -1.617  THOLE 1.103
+ATOM H21' HDA2R5   0.072
+ATOM H22' HDA2R5   0.072
+GROUP                  
+ATOM C3'  CD315B   0.253  ALPHA -1.617  THOLE 1.103 !
+ATOM H31' HDA1R5   0.026
+ATOM O3'  OD30B   -0.520  ALPHA -0.901  THOLE 0.181 !
+ATOM P    PD1A     1.192  ALPHA -0.974  THOLE 2.098
+ATOM O1P  OD2C2B  -0.856  ALPHA -0.931  THOLE 1.083 !
+ATOM O2P  OD2C2B  -0.856  ALPHA -0.931  THOLE 1.083 !
+ATOM O3T  OD30B   -0.520  ALPHA -0.901  THOLE 0.181 !
+ATOM C3T  CD32C    0.203  ALPHA -1.642  THOLE 0.862 !
+ATOM H3T1 HDA2A    0.026
+ATOM H3T2 HDA2A    0.026
+ATOM H3T3 HDA2A    0.026
+
+BOND C1'  O4'  C1'  C2'  C2'  C3'  C3'  C4'  C4'  O4'  C3'  O3'
+BOND C1'  H11' C1'  H12' C2'  H21' C2'  H22' C3'  H31' C4'  H41'
+BOND C4'  H42' O3'  P    P    O1P  P    O2P  P    O3T  O3T  C3T
+BOND C3T  H3T1 C3T  H3T2 C3T  H3T3
+BOND O4'  LP1  O4'  LP2  O4' LPX
+
+! O4' Lone pairs
+LONEPAIR bisector LP1  O4' C1' C4' distance 0.35 angle 110.0 dihe  90.0
+LONEPAIR bisector LP2  O4' C1' C4' distance 0.35 angle 110.0 dihe 270.0
+LONEPAIR bisector LPX  O4' C1' C4' distance 0.10 angle   0.0 dihe   0.0
+ANISOTROPY O4' LPX LP1 LP2 A11 0.8889  A22 1.2222
+
+ANISOTROPY O3T  O1P O3'  O2P  A11 1.0000  A22 0.6000
+ANISOTROPY O3'  O2P O3T  O1P  A11 1.0000  A22 0.6000
+ANISOTROPY O1P  P   O3T  O3'  A11 0.6000  A22 1.0000
+ANISOTROPY O2P  P   O3'  O3T  A11 0.6000  A22 1.0000
+
+IC   C4'     O4'     C1'     C2'    1.4055  108.09   23.45  106.18   1.5457
+IC   O4'     C1'     C2'     C3'    1.4127  106.18    3.96  103.11   1.5346
+IC   C1'     C2'     C3'     C4'    1.5457  103.11  -26.93  100.86   1.5211
+IC   C2'     C3'     C4'     O4'    1.5346  100.86   41.73  103.15   1.4055
+IC   C3'     C4'     O4'     C1'    1.5211  103.15  -41.62  108.09   1.4127
+IC   H11'    C1'     C2'     C3'    1.0856  111.62  123.53  103.11   1.5346
+IC   H12'    C1'     C2'     C3'    1.0818  113.32 -114.11  103.11   1.5346
+IC   H21'    C2'     C3'     C4'    1.0846  110.65   91.68  100.86   1.5211
+IC   H22'    C2'     C3'     C4'    1.0822  110.88 -148.45  100.86   1.5211
+IC   H31'    C3'     C4'     O4'    1.0806  113.53  162.89  103.15   1.4055
+IC   H41'    C4'     O4'     C1'    1.0891  110.89   77.76  108.09   1.4127
+IC   H42'    C4'     O4'     C1'    1.0808  108.72 -162.12  108.09   1.4127
+IC   O3'     C3'     C4'     O4'    1.4028  110.98  -77.39  103.15   1.4055
+IC   P       O3'     C3'     C4'    0.0000  000.00  180.00  000.00   0.0000
+IC   C3'     O3'     P       O3T    0.0000  000.00  -95.22  000.00   0.0000
+IC   O3T     O3'     *P      O1P    0.0000  000.00 -115.82  000.00   0.0000
+IC   O3T     O3'     *P      O2P    0.0000  000.00  115.90  000.00   0.0000
+IC   C3T     O3T     P       O3'    0.0000  000.00  -46.90  000.00   0.0000
+IC   H3T1    C3T     O3T     P      0.0000  000.00  180.00  000.00   0.0000
+IC   H3T2    C3T     O3T     P      0.0000  000.00   60.00  000.00   0.0000
+IC   H3T3    C3T     O3T     P      0.0000  000.00  -60.00  000.00   0.0000
+PATC  FIRS NONE LAST NONE
+
+RESI BRIBN         0.000 ! beta-Ribose
+!
+!           HO5--O5
+!                 \       O4
+!             H51--C5   /    \    O1--HO1
+!                 / \  /      \  /
+!              H52   C4        C1
+!                   / \        / \
+!                 H4   \      /   H1
+!                      C3----C2
+!                     /  \   / \
+!                   O3  H3  O2 H2
+!                   |       |
+!                  HO3     HO2
+!
+!
+
+GROUP
+ATOM O4   OD305A   0.000  ALPHA -0.618  THOLE 1.545  ! from THF
+ATOM LPRA LPD     -0.152                               
+ATOM LPRB LPD     -0.152
+ATOM LPX  LPD      0.000 !dummy for anisotropic polarizability
+ATOM C1   CD315A   0.144  ALPHA -1.562  THOLE 1.103
+ATOM H1   HDA1R5   0.055                             ! from THF
+ATOM O1   OD31A    0.000  ALPHA -1.028  THOLE 1.3    ! from EtOH
+ATOM HO1  HDP1A    0.360
+ATOM LP1A LPD     -0.230
+ATOM LP1B LPD     -0.230
+ATOM C4   CD315B   0.150  ALPHA -1.562  THOLE 1.103 
+ATOM H4   HDA1R5   0.055                             ! from THF
+GROUP
+ATOM C5   CD32A   -0.060  ALPHA -1.000  THOLE 1.3
+ATOM H51  HDA2A    0.080
+ATOM H52  HDA2A    0.080
+ATOM O5   OD31A    0.000  ALPHA -1.028  THOLE 1.3
+ATOM LP5A LPD     -0.230
+ATOM LP5B LPD     -0.230
+ATOM HO5  HDP1A    0.360
+GROUP
+ATOM C2   CD315B   0.020  ALPHA -1.000  THOLE 1.3    ! neutralize group charge
+ATOM H2   HDA1R5   0.080
+ATOM O2   OD31A    0.000  ALPHA -1.028  THOLE 1.3
+ATOM HO2  HDP1A    0.360
+ATOM LP2A LPD     -0.230
+ATOM LP2B LPD     -0.230
+GROUP
+ATOM C3   CD315B   0.020  ALPHA -1.000  THOLE 1.3    ! neutralize group charge
+ATOM H3   HDA1R5   0.080
+ATOM O3   OD31A    0.000  ALPHA -1.028  THOLE 1.3
+ATOM HO3  HDP1A    0.360
+ATOM LP3A LPD     -0.230
+ATOM LP3B LPD     -0.230
+
+BOND O4 C1  C1 H1   C1 O1   O1 HO1
+BOND C1 C2  C2 H2   C2 O2   O2 HO2
+BOND C2 C3  C3 H3   C3 O3   O3 HO3
+BOND C3 C4  C4 H4   C4 C5   C4 O4
+BOND C5 H51 C5 H52  C5 O5   O5 HO5
+
+BOND  O4 LPRA O4 LPRB O4  LPX
+BOND  O1 LP1A O1 LP1B
+BOND  O2 LP2A O2 LP2B
+BOND  O3 LP3A O3 LP3B
+BOND  O5 LP5A O5 LP5B
+
+LONEPAIR bisector LPRA O4 C1 C4 distance 0.35 angle 110.0 dihe  90.0
+LONEPAIR bisector LPRB O4 C1 C4 distance 0.35 angle 110.0 dihe 270.0
+LONEPAIR bisector LPX  O4 C1 C4 distance 0.10 angle   0.0 dihe   0.0
+
+LONEPAIR relative LP1A O1 C1 HO1 distance 0.35 angle 110.0 dihe  91.0
+LONEPAIR relative LP1B O1 C1 HO1 distance 0.35 angle 110.0 dihe 269.0
+
+LONEPAIR relative LP2A O2 C2 HO2 distance 0.35 angle 110.0 dihe  91.0
+LONEPAIR relative LP2B O2 C2 HO2 distance 0.35 angle 110.0 dihe 269.0
+
+LONEPAIR relative LP3A O3 C3 HO3 distance 0.35 angle 110.0 dihe  91.0
+LONEPAIR relative LP3B O3 C3 HO3 distance 0.35 angle 110.0 dihe 269.0
+
+LONEPAIR relative LP5A O5 C5 HO5 distance 0.35 angle 110.0 dihe  91.0
+LONEPAIR relative LP5B O5 C5 HO5 distance 0.35 angle 110.0 dihe 269.0
+
+ANISOTROPY O4 LPX LPRA LPRB A11 0.8889 A22 1.2222
+ANISOTROPY O1 C1  LP1A LP1B A11 0.8108 A22 1.2162
+ANISOTROPY O2 C2  LP2A LP2B A11 0.8108 A22 1.2162
+ANISOTROPY O3 C3  LP3A LP3B A11 0.8108 A22 1.2162
+ANISOTROPY O5 C5  LP5A LP5B A11 0.8108 A22 1.2162
+
+! IC table; from crystal geometry*
+IC C4   O4   C1   C2   1.4440  110.08   18.97  105.48   1.5227
+IC O4   C1   C2   C3   1.4297  105.48  -35.29  101.04   1.5223
+IC C1   C2   C3   C4   1.5227  101.04   37.68  102.70   1.5258
+IC C3   O4  *C4   C5   1.5258  105.50  121.77  111.20   1.4950
+IC C3   O4  *C4   H4   1.5258  105.50 -118.83  108.63   0.9263
+IC O4   C4   C5   O5   1.4440  111.20   64.86  111.55   1.4236
+IC C4   C5   O5   HO5  1.4950  111.55 -127.57  107.69   0.8505
+IC O5   C4  *C5   H51  1.4236  111.55 -124.94  108.14   0.9881
+IC O5   C4  *C5   H52  1.4236  111.55  119.60  108.76   0.9311
+IC C2   O4  *C1   O1   1.5227  105.48 -116.55  111.30   1.3905
+IC O4   C1   O1   HO1  1.4227  109.76   66.79  107.33   0.9584
+IC C2   O4  *C1   H1   1.5227  105.48  122.60  106.81   0.9349
+IC C3   C1  *C2   H2   1.5223  101.04 -123.72  113.32   0.9736
+IC C3   C1  *C2   O2   1.5223  101.04  114.67  111.40   1.4145
+IC C1   C2   O2   HO2  1.5227  111.40   80.30  105.08   0.8475
+IC C2   C4  *C3   O3   1.5223  102.70 -122.33  110.28   1.4117
+IC C2   C4  *C3   H3   1.5223  102.70  114.19  111.24   0.9813
+IC C4   C3   O3   HO3  1.5258  110.28 -141.24  107.85   0.8418
+IC C2   C4  *C3   H4   1.5223  102.70  -89.81   25.03   2.0467
+
+RESI BDEON         0.000 ! beta-Deoxy-Ribose  ! Updated C3, C5, H51, H52, H3, O1, O3, O5 as in DNA
+                         ! not used in 2017 update
+!
+!          HO5--O5
+!                 \       O4
+!             H51--C5   /    \    O1--HO1
+!                 / \  /      \  /
+!              H52   C4        C1
+!                   / \        / \
+!                 H4   \      /   H1
+!                      C3----C2
+!                     /  \   / \
+!                   O3  H3  H21 H22
+!                   |
+!                  HO3
+!
+ATOM O4   OD305A   0.000  ALPHA -0.618  THOLE 1.545  ! from THF
+ATOM LPRA LPD     -0.152                               
+ATOM LPRB LPD     -0.152
+ATOM LPX  LPD      0.000 !dummy for anisotropic polarizability
+ATOM C1   CD315A   0.144  ALPHA -1.562  THOLE 1.103  ! from THF, neutralize group charge
+ATOM H1   HDA1R5   0.055                             ! from THF
+ATOM O1   OD31A    0.000  ALPHA -0.901  THOLE 0.18
+ATOM LP1A LPD     -0.230
+ATOM LP1B LPD     -0.230
+ATOM HO1  HDP1A    0.360
+ATOM C4   CD315B   0.150  ALPHA -1.562  THOLE 1.103  ! from THF
+ATOM H4   HDA1R5   0.055                             ! from THF
+GROUP
+ATOM C5   CD32A    0.1975 ALPHA -1.642  THOLE 0.862
+ATOM H51  HDA2A    0.026
+ATOM H52  HDA2A    0.026
+ATOM O5   OD31A    0.000  ALPHA -0.901  THOLE 0.181
+ATOM LP5A LPD     -0.230
+ATOM LP5B LPD     -0.230
+ATOM HO5  HDP1A    0.360
+GROUP                   
+ATOM C2   CD325B  -0.144  ALPHA -1.617  THOLE 1.103
+ATOM H21  HDA2R5   0.072
+ATOM H22  HDA2R5   0.072
+GROUP                   
+ATOM C3   CD315B  -0.0755 ALPHA -1.642  THOLE 0.862
+ATOM H3   HDA1R5   0.026
+!ATOM O3   OD31A    0.000  ALPHA -0.901  THOLE 0.18
+ATOM O3   OD31G    0.000  ALPHA -0.901  THOLE 0.18  !note OD31G which is used for 3'termini
+ATOM LP3A LPD     -0.230
+ATOM LP3B LPD     -0.230
+ATOM HO3  HDP1A    0.360
+
+BOND O4 C1  C1 H1   C1 O1   O1 HO1
+BOND C1 C2  C2 H21  C2 H22  C2 C3
+BOND C3 H3  C3 O3   O3 HO3  C3 C4
+BOND C4 H4  C4 O4   C4 C5   C5 H51
+BOND C5 H52 C5 O5   O5 HO5
+BOND O4 LPRA O4 LPRB O4 LPX
+BOND O1 LP1A O1 LP1B
+BOND O3 LP3A O3 LP3B
+BOND O5 LP5A O5 LP5B
+
+LONEPAIR bisector LPRA O4 C1 C4 distance 0.35 angle 110.0 dihe  90.0
+LONEPAIR bisector LPRB O4 C1 C4 distance 0.35 angle 110.0 dihe 270.0
+LONEPAIR bisector LPX  O4 C1 C4 distance 0.10 angle   0.0 dihe   0.0
+
+LONEPAIR relative LP1A O1 C1 HO1 distance 0.35 angle 110.0 dihe  91.0
+LONEPAIR relative LP1B O1 C1 HO1 distance 0.35 angle 110.0 dihe 269.0
+
+LONEPAIR relative LP3A O3 C3 HO3 distance 0.35 angle 110.0 dihe  91.0
+LONEPAIR relative LP3B O3 C3 HO3 distance 0.35 angle 110.0 dihe 269.0
+
+LONEPAIR relative LP5A O5 C5 HO5 distance 0.35 angle 110.0 dihe  91.0
+LONEPAIR relative LP5B O5 C5 HO5 distance 0.35 angle 110.0 dihe 269.0
+
+ANISOTROPY O4 LPX LPRA LPRB A11 0.8889  A22 1.2222
+ANISOTROPY O1 C1 LP1A LP1B A11 0.8108 A22 1.2162
+ANISOTROPY O3 C3 LP3A LP3B A11 0.8108 A22 1.2162
+ANISOTROPY O5 C5 LP5A LP5B A11 0.8108 A22 1.2162
+
+! IC table; from minimized geometry*
+IC C4   O4   C1   C2   1.4309  108.67  -19.01  106.25   1.5278
+IC O4   C1   C2   C3   1.4258  106.25   -8.82  103.23   1.5178
+IC C1   C2   C3   C4   1.5278  103.23   31.05  101.83   1.5232
+IC C3   O4  *C4   C5   1.5232  101.44  124.05  113.01   1.5448
+IC C3   O4  *C4   H4   1.5232  101.44 -115.42  106.74   1.1134
+IC O4   C4   C5   O5   1.4309  113.01 -178.27  111.12   1.4304
+IC C4   C5   O5   HO5  1.5448  111.12  -87.73  110.40   0.9643
+IC O4   C4  *C5   H51  2.4824   32.04   59.71  109.84   1.1020
+IC O4   C4  *C5   H52  2.4824   32.04  -58.37  108.86   1.1027
+IC C2   O4  *C1   O1   1.5278  106.25 -119.87  110.66   1.3905
+IC O4   C1   O1   HO1  1.4258  110.66   60.11  106.63   0.9584
+IC C2   O4  *C1   H1   1.5278  106.25  119.86  107.45   1.1137
+IC C3   C1  *C2   H21  1.5178  103.23  118.42  111.24   1.1030
+IC C3   C1  *C2   H22  1.5178  103.23 -122.05  112.95   1.0962
+IC C2   C4  *C3   O3   1.5178  101.83 -120.07  112.49   1.4116
+IC C4   C3   O3   HO3  1.5232  112.49  -53.93  107.21   0.9673
+IC C2   C4  *C3   H3   1.5178  101.83  117.41  109.93   1.1144
+
+end
+ 
+read para card append
+* Drude polarizable FF parameters
+*
+
+BONDS
+!atom type      Kb       b0
+!============================================
+! NEW GUA (N9 is ND9G)
+ND2R5F   CD2R5F   400.00      1.370 ! Gua, jal
+ND2R5F   CD2R6F   350.00      1.370 ! Gua
+ND2R5F   CD315B   220.00      1.456 ! N9-C1' purine glycosidic linkage
+! NEW THY (N1 is ND1T)
+ND2R6D   CD2O4A   340.00      1.370 ! THY, jal
+ND2R6D   CD2R6H   420.00      1.332 ! THY
+ND2R6D   CD315B   220.00      1.456 ! N1-C1' pyrimidine glycosidic linkage, from additive
+!!additional nucleic acid parameters: watch for conflicts with carbohydrates 
+CD315B   CD315B   195.00      1.518 ! C1'-C2', from THF CD325B-CD325B 
+CD315B   OD31A    350.00      1.440 ! C2'-O2', from PRO2 OD31A-CD31A 
+CD315B   OD31G    350.00      1.440 ! C2'-O2', from PRO2 OD31A-CD31A 
+CD315B   OD30B    335.00      1.440 ! C3'-O3', from DMP OD30B-CD33C 
+CD315B   OD30BR   335.00      1.440 ! C3'-O3' for RNA (jal)
+CD315B   CD32C    222.50      1.528 ! C4'-C5', from TF2M CD315B-CD33A 
+CD315B   CD32A    222.50      1.528 ! C4'-C5', from TF2M CD315B-CD33A 
+CD32C    OD30B    335.00      1.440 ! C5'-O5', from DMP OD30B-CD33C 
+! C1' is CD315A
+ND2R6C   CD315A   220.00      1.456 ! N1-C1' pyrimidine glycosidic linkage, from additive 
+ND2R5D   CD315A   220.00      1.456 ! N9-C1' purine glycosidic linkage 
+ND2R5F   CD315A   220.00      1.456 ! N9-C1' purine glycosidic linkage 
+ND2R6D   CD315A   220.00      1.456 ! N1-C1' pyrimidine glycosidic linkage, from additive
+OD305A   CD315A   350.00      1.425 ! TF2M, cmb 
+CD315A   CD325B   195.00      1.518 ! TF2M, cmb 
+CD315A   CD315B   195.00      1.518 ! TF2M, cmb 
+CD315B   HDA2R5   307.00      1.100 ! for T3PS
+CD315A   HDA2R5   307.00      1.100 ! for T3PS
+
+ANGLES 
+!atom types     Ktheta  Theta0   Kub     S0 
+!================================================== 
+! C1' is CD315A
+!T3PS
+OD305A   CD315A   HDA2R5    70.00    107.30 ! THF, viv 10/21/05 
+HDA2R5   CD315A   HDA2R5    38.50    106.80    5.40   1.802  ! CPEN 10/17/05 viv 
+CD325B   CD315A   HDA2R5    35.00    111.40   22.53   2.179  ! CPEN 10/17/05 viv 
+CD315B   CD315A   HDA2R5    35.00    111.40   22.53   2.179  ! CPEN 10/17/05 viv 
+!!CYT
+CD2R6H   ND2R6C   CD315A    45.00    115.90 ! CYT
+CD2O4A   ND2R6C   CD315A    45.00    120.00 ! CYT, jal
+ND2R6C   CD315A   CD315B   110.00    113.70 ! CYT
+ND2R6C   CD315A   HDA1R5    43.00    111.00 ! CYT
+!!ADE/GUA
+CD2R6F   ND2R5D   CD315A    45.00    126.50 ! ADE 
+CD2R6F   ND2R5F   CD315A    45.00    126.50 ! GUA
+CD2R5F   ND2R5D   CD315A    45.00    126.30 ! ADE, jal
+CD2R5F   ND2R5F   CD315A    45.00    126.30 ! GUA, jal
+ND2R5D   CD315A   CD315B   110.00    111.00 ! ADE 
+ND2R5F   CD315A   CD315B   110.00    111.00 ! GUA
+ND2R5D   CD315A   HDA1R5    43.00    111.00 ! ADE 
+ND2R5F   CD315A   HDA1R5    43.00    111.00 ! GUA
+! Glycosidic linkage
+ND2R6C   CD315A   OD305A   110.00    108.00
+ND2R6C   CD315A   CD325B   110.00    111.70
+ND2R5D   CD315A   OD305A   110.00    108.00
+ND2R5F   CD315A   OD305A   110.00    108.00
+ND2R5D   CD315A   CD325B   110.00    111.50 
+ND2R5F   CD315A   CD325B   110.00    111.50 
+! Repeating for new type of N1 in THY
+CD2R6H   ND2R6D   CD315A    45.00    115.90 ! THY
+CD2O4A   ND2R6D   CD315A    45.00    120.00 ! THY, jal
+ND2R6D   CD315A   HDA1R5    43.00    111.00 ! THY
+ND2R6D   CD315A   OD305A   110.00    108.00 ! THY
+ND2R6D   CD315A   CD325B   110.00    111.70 ! THY
+ND2R6D   CD315A   CD315B   110.00    111.70 ! THY
+! Sugar group
+CD315A   OD305A   CD315B    95.00    111.00   
+OD305A   CD315A   CD325B    45.00    111.10   
+CD315A   CD325B   CD315B    58.00    109.50   11.16   2.561 
+CD315A   CD315B   OD31A    115.00    109.70   !RNA
+CD315A   CD315B   OD31G    115.00    109.70   !DNA
+OD305A   CD315A   CD315B    45.00    111.10   !RNA
+CD315A   CD315B   CD315B    58.00    109.50   11.16   2.561 !RNA
+! Hydrogens
+OD305A   CD315A   HDA1R5    70.00    107.30                 ! TF2M 02/09, cmb 
+CD325B   CD315A   HDA1R5    35.00    111.40   22.53   2.179 ! TF2M 02/09, cmb 
+CD315A   CD325B   HDA2R5    35.00    111.40   22.53   2.179 ! TF2M 02/09, cmb 
+CD315A   CD315B   HDA1R5    35.00    111.40   22.53   2.179 ! TF2M 02/09, cmb
+CD315B   CD315A   HDA1R5    35.00    111.40   22.53   2.179 ! TF2M 02/09, cmb 
+CD315A   CD315B   HDA2R5    35.00    111.40   22.53   2.179 ! TF2M 02/09, cmb 
+!! End of C1' CD315A !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!!NH-2 Bases ADE/GUA/CYT!!!!!!!!!!!
+CD2R6C   ND2B1    HDP1A     45.00    121.50 ! ADE, va !pyramidal 45.0 115.5 ! planar 45.0 120.0, cmb 04/10 
+HDP1A    ND2B1    HDP1A     24.00    117.00 ! NA bases, cmb 04/10 
+CD2R6B   ND2B1    HDP1A     40.00    121.50 ! CYT, va !pyramidal 40.0 115.5 ! planar 40.0 120.0, cmb 04/10 
+ND2B1    CD2R6B   ND2R6B    81.00    122.30 ! CYT, cmb 04/10 ! N3-C4-N4
+ND2B1    CD2R6B   CD2R6J    81.00    120.00 ! CYT, jal  ! C5-C4-N4
+OD2C1B   CD2O4A   CD2R6J    93.00    122.60 ! THY, jal ! C5-C4-O4
+ND2R6B   CD2O4A   OD2C1B   130.00    125.00 ! CYT, jal ! O2-C2-N3
+CD2O4A   ND2R6C   HDP1A     40.50    114.00 ! THY
+CD2O4A   ND2R6C   CD2O4A    40.00    132.00 ! THY
+CD2O4A   ND2R6B   CD2R6B    50.00    120.00 ! CYT
+CD2O4A   ND2R6C   CD2R6H   100.00    119.00 ! THY/CYT
+ND2R6C   CD2O4A   ND2R6C    50.00    120.00 ! THY
+ND2R6B   CD2O4A   ND2R6C    50.00    126.00 ! CYT
+ND2R6C   CD2O4A   CD2R6J    70.00    118.00 ! THY, jal  ! N3-C4-C5
+CD2O4A   CD2R6J   CD2R6H   100.00    118.70 ! THY, jal  ! C4-C5-C6
+CD2R6B   CD2R6J   CD2R6H    50.00    117.00 ! CYT, jal   ! C4-C5-C6
+ND2R6C   CD2R6H   CD2R6J    10.00    114.00 ! THY/CYT, jal  ! N1-C6-C5
+ND2B1    CD2R6C   ND2R6C    95.00    116.40 ! GUA, cmb 04/10 ! N1-C2-N2
+ND2B1    CD2R6C   ND2R6B    45.00    127.00 ! ADE/GUA, cmb 04/10  ! N3-C2-N2/N1-C6-N6  
+ND2B1    CD2R6C   CD2R6F    45.00    123.00 ! ADE, cmb 04/10 ! N6-C6-C51)
+ND2R6C   CD2O4A   OD2C1B    70.00    124.40 ! THY, jal ! N1-C6-O6)
+OD2C1B   CD2O4A   CD2R6F    50.00    125.70 ! GUA, jal  ! C5-C6-O6)
+ND2R5D   CD2R6F   ND2R6B   100.00    118.00 ! ADE/GUA, cmb 04/10 ! N3-C4-N9
+ND2R5E   CD2R6F   CD2R6C   100.00    128.00 ! ADE, bridgeC5, cmb 04/10 ! N7-C5-C6   
+ND2R5E   CD2R6F   CD2O4A   125.00    129.00 ! GUA, jal ! N7-C5-C6
+CD2R5F   ND2R5D   CD33A     17.00    125.80 ! ADE, jal ! C8-N9-C9  
+CD2R5F   ND2R5F   CD33A     17.00    125.80 ! GUA, jal ! C8-N9-C9  
+CD2R6F   ND2R5D   CD33A     17.00    127.90 ! ADE, cmb 04/10  ! C4-N9-C9
+CD2R6F   ND2R5F   CD33A     17.00    127.90 ! GUA, jal  ! C4-N9-C9
+CD2R5F   ND2R5E   CD2R6F   127.91    103.00 ! ADE, jal   
+CD2R5F   ND2R5D   CD2R6F   100.00    106.30 ! ADE, jal        ! C8-N9-C4  
+CD2R5F   ND2R5F   CD2R6F   100.00    106.30 ! GUA, jal        ! C8-N9-C4  
+ND2R5E   CD2R6F   CD2R6F    99.82    116.50 ! ADE, cmb 04/10        ! C4-C5-N7
+ND2R5D   CD2R6F   CD2R6F   100.00    105.00 ! ADE, cmb 04/10        ! C5-C4-N9 
+ND2R5F   CD2R6F   CD2R6F   100.00    105.00 ! GUA, jal        ! C5-C4-N9 
+ND2R5E   CD2R5F   ND2R5D   130.00    109.50 ! ADE, jal        ! N7-C8-N9 
+ND2R5E   CD2R5F   ND2R5F   130.00    109.50 ! GUA, jal        ! N7-C8-N9 
+ND2R6B   CD2R6C   ND2R6C    70.00    130.20 ! GUA, cmb 04/10  ! N3-C2-N1  
+CD2R6C   ND2R6B   CD2R6C    90.00    111.80 ! ADE, cmb   ! C2-N1-C6  
+CD2O4A   ND2R6C   CD2R6C    70.00    123.10 ! GUA, jal  ! C2-N1-C6   
+ND2R6B   CD2R6C   CD2R6F    60.00    106.70 ! ADE, cmb 04/10 ! N1-C6-C5  
+ND2R6C   CD2O4A   CD2R6F    70.00    107.80 ! GUA, jal  ! N1-C6-C5  
+CD2R6C   CD2R6F   CD2R6F    60.00    121.00 ! ADE, cmb 04/10  ! C6-C5-C4
+CD2O4A   CD2R6F   CD2R6F    70.00    120.00 ! GUA, jal  ! C6-C5-C4
+! Repeating for new type of N9 in GUA
+ND2R5F   CD2R5F   HDR5B     25.00    122.50   20.00   2.1400 ! GUA, jal
+ND2R5F   CD2R6F   ND2R6B   100.00    118.00 ! GUA
+! Repeating for new type of N1 in THY
+CD2O4A   ND2R6D   CD2R6H   100.00    119.00 ! THY, jal
+CD2R6H   ND2R6D   CD315B    45.00    115.90 ! THY
+CD2O4A   ND2R6D   CD315B    45.00    120.00 ! THY, jal
+ND2R6D   CD315B   HDA1R5    43.00    111.00 ! THY
+ND2R6D   CD315B   OD305A   110.00    108.00 ! THY
+ND2R6D   CD315B   CD325B   110.00    111.70 ! THY
+ND2R6D   CD2R6H   HDR6B     30.00    116.00 ! THY
+ND2R6D   CD2R6H   CD2R6J    10.00    114.00 ! THY
+ND2R6D   CD2O4A   OD2C1B    70.00    124.40 ! THY, jal
+ND2R6D   CD2O4A   ND2R6C    50.00    120.00 ! THY, jal
+ND2R6D   CD315B   CD315B   110.00    113.70 ! THY
+OD305A   CD315A   OD31A     45.00    116.50 ! for BRIB
+OD305A   CD315A   OD31G     45.00    116.50 ! for BRIB
+!! Everywhere
+OD305A   CD325B   CD315B    45.00    111.10 ! O4'-C1'-C2', from THF
+CD315B   CD315B   HDA1R5    35.00    111.40 ! C1'-C2'-H2'', from TF2M
+CD315B   OD31A    HDP1A     59.00    108.00 ! C2'-O2'-H2', from PRO2  !RNA
+CD315B   OD31G    HDP1A     59.00    108.00 ! C2'-O2'-H2', from PRO2  !DNA 3TER, jal
+CD315B   CD315B   CD315B    58.00    109.50   11.16   2.561 ! C1'-C2'-C3', from THF
+HDA1R5   CD315B   OD30B     34.50    110.10   22.53   2.179 ! H3'-C3'-O3', from TF2M
+HDA1R5   CD315B   OD30BR    34.50    110.10   22.53   2.179 ! H3'-C3'-O3' for RNA (jal)
+HDA1R5   CD315B   OD31A     34.50    110.10   22.53   2.179 ! H2''-C2'-O2', from TF2M !RNA
+HDA1R5   CD315B   OD31G     34.50    110.10   22.53   2.179 ! H2''-C2'-O2', from TF2M !DNA 3TER, jal
+CD325B   CD315B   CD32C     53.35    114.00    8.00   2.561 ! C3'-C4'-C5', from TF2M
+HDA1R5   CD315B   CD32C     34.50    110.10   22.53   2.179 ! H4'-C4'-C5', from TF2M
+CD315B   CD32C    HDA2A     33.43    110.10   22.53   2.179 ! C4'-C5'-H5'', from TF2M
+CD315B   CD32A    HDA2A     33.43    110.10   22.53   2.179 ! C4'-C5'-H5'', from TF2M
+HDA2A    CD32C    OD30B     60.00    109.50 ! H5'-C5'-O5', from DMP
+!!CYT
+CD2R6H   ND2R6C   CD315B    45.00    115.90 ! CYT
+CD2O4A   ND2R6C   CD315B    45.00    120.00 ! CYT, jal
+ND2R6C   CD315B   CD315B   110.00    113.70 ! CYT
+ND2R6C   CD315B   HDA1R5    43.00    111.00 ! CYT
+!!GUA
+CD2R6F   ND2R5F   CD315B    45.00    126.50 ! GUA
+CD2R5F   ND2R5F   CD315B    45.00    126.30 ! GUA, jal
+ND2R5F   CD315B   CD315B   110.00    111.00 ! GUA
+ND2R5F   CD315B   HDA1R5    43.00    111.00 ! GUA
+!!5TER
+CD32A    CD315B   HDA1R5    34.50    110.10   22.53   2.179 ! C5T-C4'-H4', from TF2M
+! Sugar group
+CD325B   CD315B   HDA2R5    35.00    111.40   22.53   2.179 ! CPEN 10/17/05 viv
+CD315B   CD325B   CD315B    58.00    109.50   11.16   2.561 
+CD325B   CD315B   CD315B    58.00    109.50   11.16   2.561 
+OD305A   CD315B   CD315B    45.00    111.10                
+CD315B   OD305A   CD315B    95.00    111.00        
+OD305A   CD315B   CD32C     90.00    109.20   
+OD305A   CD315B   CD32A     90.00    109.20   
+CD315B   CD315B   CD32C     45.00    111.00  
+CD315B   CD315B   CD32A     45.00    111.00  
+CD325B   CD315B   OD30B    115.00    109.70 
+CD325B   CD315B   OD30BR   115.00    109.70 ! for RNA (jal)
+CD325B   CD315A   OD31A    115.00    109.70 ! for BDEO
+CD325B   CD315B   OD31G    115.00    109.70 !3TER, jal
+CD315B   CD315B   OD30B    115.00    109.70 !RNA
+CD315B   CD315B   OD30BR   115.00    109.70 ! for RNA (jal) - above line not needed?
+CD315B   CD315B   OD31A    115.00    109.70 !RNA
+CD315B   CD315B   OD31G    115.00    109.70 !DNA 3TER, jal
+CD315B   CD315A   OD31A    115.00    109.70 ! for BRIB
+! Backbone
+CD315B   CD32C    OD30B     70.00    108.40
+OD31A    CD32A    CD315B    70.00    108.40
+! Glycosidic linkage
+ND2R6C   CD315B   OD305A   110.00    108.00
+ND2R6C   CD315B   CD325B   110.00    111.70
+ND2R5D   CD315B   OD305A   110.00    108.00
+ND2R5F   CD315B   OD305A   110.00    108.00
+ND2R5D   CD315B   CD325B   110.00    111.50 
+ND2R5F   CD315B   CD325B   110.00    111.50 
+OD305A   CD315B   HDA2R5    70.00    107.30                  
+HDA2R5   CD315B   HDA2R5    38.50    106.80    5.40   1.802  
+CD315B   CD315B   HDA2R5    35.00    111.40   22.53   2.179  
+
+DIHEDRALS 
+!atom types            Kchi     n     delta 
+!================================================= 
+! 
+!Please follow these conventions when fitting dihedral parameters
+!1) use positive force constants in all cases (switch the phase...) 
+!   (vary phase during fitting and keep force constants positive) 
+!2) maintain the phase at 0 or 180 if possiple. perform initial
+!   fitting with this contraint and, if necessary, only then
+!   vary the phases during fitting. note that if the phases
+!   are NOT 0 or 180 the parameters are NOT transferable across
+!   stereoisomers
+!3) refit with only individual multiplicities of 1 through 6 
+!4) maintain the number of significant figures used below
+! 
+! ND3A3    CD2O1A   CD31C    CD32B       0.200    3     0.00 ! comment
+!
+! C1' is CD315A
+!T3PS
+HDA2R5   CD315A   CD325B   HDA2R5      0.190    3     0.00 ! THF, viv 
+CD315B   OD305A   CD315A   HDA2R5      0.300    3     0.00 ! TF2M, cmb 
+CD315B   CD325B   CD315A   HDA2R5      0.190    3     0.00 ! TF2M, cmb 
+CD315A   OD305A   CD315B   HDA2R5      0.300    3     0.00 ! TF2M, cmb 
+CD315A   CD325B   CD315B   HDA2R5      0.190    3     0.00 ! TF2M, cmb 
+! Involving N1/N9 (not Chi)
+ND2R6C   CD315A   CD325B   OD31A       0.000    3     0.00 ! N1/N9-C1'-C2'-O2' !RNA
+HDA2R5   CD325B   CD315A   ND2R6C      0.000    3     0.00 ! H2'-C2'-C1'-N1
+HDA1R5   CD325B   CD315A   ND2R6C      0.000    3     0.00 ! H2'-C2'-C1'-N1
+CD2O4A   ND2R6C   CD315A   HDA1R5      0.000    3     0.00 ! C2-N1-C1'-H1', jal
+CD2R6H   ND2R6C   CD315A   HDA1R5      0.195    3     0.00 ! C6-N1-C1'-H1'
+ND2R6C   CD315A   OD305A   CD315B      0.000    3   180.00 ! N1-C1a-O4a-C4a, jal 06/16
+ND2R6C   CD315A   CD325B   CD315B      0.500    3     0.00 ! N1-C1a-C2D-C3a, jal 06/16
+HDA2R5   CD325B   CD315A   ND2R5D      0.000    3     0.00 ! H2'-C2'-C1'-N9
+HDA2R5   CD325B   CD315A   ND2R5F      0.000    3     0.00 ! H2'-C2'-C1'-N9
+HDA1R5   CD325B   CD315A   ND2R5D      0.000    3     0.00 ! H2'-C2'-C1'-N9
+HDA1R5   CD325B   CD315A   ND2R5F      0.000    3     0.00 ! H2'-C2'-C1'-N9
+CD2R6F   ND2R5D   CD315A   HDA1R5      0.000    3     0.00 ! C4-N9-C1'-H1'  
+CD2R6F   ND2R5F   CD315A   HDA1R5      0.000    3     0.00 ! C4-N9-C1'-H1'  
+CD2R5F   ND2R5D   CD315A   HDA1R5      0.195    3     0.00 ! C8-N9-C1'-H1', jal
+CD2R5F   ND2R5F   CD315A   HDA1R5      0.195    3     0.00 ! C8-N9-C1'-H1', jal
+ND2R5D   CD315A   CD325B   CD315B      0.500    3     0.00 ! N9-C1a-C2D-C3a
+ND2R5F   CD315A   CD325B   CD315B      0.500    3     0.00 ! N9-C1a-C2D-C3a, jal 
+ND2R5D   CD315A   OD305A   CD315B      1.500    3     0.00 ! N9-C1a-O4a-C4a, jal 
+ND2R5F   CD315A   OD305A   CD315B      0.500    3   180.00 ! N9-C1a-O4a-C4a, jal 
+ND2R6C   CD315A   CD315B   OD31A       0.000    3     0.00 ! N1/N9-C1'-C2'-O2'  !RNA
+ND2R6D   CD315A   CD315B   OD31A       0.000    3     0.00 ! N1/N9-C1'-C2'-O2'  !RNA
+HDA2R5   CD315B   CD315A   ND2R6C      0.000    3     0.00 ! H2'-C2'-C1'-N1
+HDA1R5   CD315B   CD315A   ND2R6C      0.000    3     0.00 ! H2'-C2'-C1'-N1
+HDA1R5   CD315B   CD315A   ND2R6D      0.000    3     0.00 ! H2'-C2'-C1'-N1
+
+ND2R6C   CD315A   CD315B   CD315B      0.000    3     0.00 ! N1-C1a-C2D-C3a     !RNA
+ND2R5D   CD315A   CD315B   OD31A       0.000    3     0.00 ! N1/N9-C1'-C2'-O2'  !RNA 
+ND2R5F   CD315A   CD315B   OD31A       0.000    3     0.00 ! N1/N9-C1'-C2'-O2'  !RNA 
+HDA2R5   CD315B   CD315A   ND2R5D      0.000    3     0.00 ! H2'-C2'-C1'-N9
+HDA2R5   CD315B   CD315A   ND2R5F      0.000    3     0.00 ! H2'-C2'-C1'-N9
+HDA1R5   CD315B   CD315A   ND2R5D      0.000    3     0.00 ! H2'-C2'-C1'-N9
+HDA1R5   CD315B   CD315A   ND2R5F      0.000    3     0.00 ! H2'-C2'-C1'-N9
+ND2R5D   CD315A   CD315B   CD315B      0.000    3     0.00 ! N9-C1a-C2D-C3a     !RNA
+ND2R5F   CD315A   CD315B   CD315B      0.000    3     0.00 ! N9-C1a-C2D-C3a     !RNA
+ND2R6D   CD315A   CD315B   CD315B      0.000    3     0.00 ! N1-C1a-C2D-C3a     !RNA
+ND2R6D   CD315A   CD325B   HDA2R5      0.000    3     0.00 ! N1-C1a-C2D-H2D
+CD2O4A   ND2R6D   CD315A   HDA1R5      0.000    3     0.00 ! C2-N1-C1a-H1a, from C27, jal
+CD2R6H   ND2R6D   CD315A   HDA1R5      0.195    3     0.00 ! C6-N1-C1a-H1a
+ND2R6D   CD315A   OD305A   CD315B      1.000    3     0.00 ! N1-C1a-O4a-C4a jal TESTING 05/16, was zero
+ND2R6D   CD315A   CD325B   CD315B      0.500    3     0.00 ! N1-C1a-C2D-C3a, jal TESTING 06/16, was zero
+CD2R6J   CD2R6H   ND2R6D   CD315A     11.000    2   180.00 ! C5-C6-N1-C1', from C27, jal
+HDR6B    CD2R6H   ND2R6D   CD315A      0.300    2   180.00 ! H6-C6-N1-C1', from C27
+OD2C1B   CD2O4A   ND2R6D   CD315A     11.000    2   180.00 ! O2-C2-N1-C1', from C27
+ND2R6B   CD2O4A   ND2R6D   CD315A     11.000    2   180.00 ! N3-C2-N1-C1', from C27
+ND2R6D   CD2O4A   ND2R6D   CD315A     11.000    2   180.00 ! N3-C2-N1-C1'
+ND2R6C   CD2O4A   ND2R6D   CD315A     11.000    2   180.00 ! N3-C2-N1-C1'
+! Chi Adenine/Guanine 
+!O4'-C1'-N9-C4, ADE
+! jal manual refinement 
+OD305A   CD315A   ND2R5D   CD2R6F      0.350    1     0.00
+OD305A   CD315A   ND2R5D   CD2R6F      0.500    3     0.00
+OD305A   CD315A   ND2R5D   CD2R6F      0.021    6     0.00
+!O4'-C1'-N9-C4, GUA
+! jal manual refinement 
+OD305A   CD315A   ND2R5F   CD2R6F       0.575    1     0.00
+OD305A   CD315A   ND2R5F   CD2R6F       0.536    2     0.00
+OD305A   CD315A   ND2R5F   CD2R6F       0.320    3     0.00 ! jal, manual refinement
+OD305A   CD315A   ND2R5F   CD2R6F       0.033    6     0.00
+!O4'-C1'-N9-C8
+CD2R5F   ND2R5F   CD315A   OD305A      1.400    1     0.00 ! GUA, jal
+CD2R5F   ND2R5D   CD315A   OD305A      1.500    1     0.00 ! ADE, jal 
+!GUA C2'-C1'-N9-C4
+CD2R6F   ND2R5F   CD315A   CD325B      0.000    3     0.00 ! GUA, DNA  
+CD2R6F   ND2R5F   CD315A   CD315B      0.000    3     0.00 ! GUA, RNA
+!ADE C2'-C1'-N9-C4
+CD2R6F   ND2R5D   CD315A   CD325B      1.200    1     0.00 ! ADE, DNA
+CD2R6F   ND2R5D   CD315A   CD315B      1.200    1     0.00 ! ADE, RNA
+!C2'-C1'-N9-C8 
+CD2R5F   ND2R5F   CD315A   CD325B      0.000    3   180.00 ! GUA, jal
+CD2R5F   ND2R5F   CD315A   CD315B      0.000    3   180.00 ! GUA, jal
+CD2R5F   ND2R5D   CD315A   CD325B      0.000    3   180.00 ! ADE, jal 
+CD2R5F   ND2R5D   CD315A   CD315B      0.000    3   180.00 ! ADE, jal
+! Chi Cytosine/Thymine 
+!O4'-C1'-N1-C2,  CYT 
+CD2O4A   ND2R6C   CD315A   OD305A      1.100    2     0.00 ! 
+CD2O4A   ND2R6C   CD315A   OD305A      0.750    3     0.00 ! 
+!O4'-C1'-N1-C2, THY
+OD305A   CD315A   ND2R6D   CD2O4A      0.700    1     0.00 ! 
+OD305A   CD315A   ND2R6D   CD2O4A      1.400    2     0.00 ! 
+OD305A   CD315A   ND2R6D   CD2O4A      0.700    3     0.00 ! 
+!O4'-C1'-N1-C6
+CD2R6H   ND2R6C   CD315A   OD305A      0.350    1     0.00 ! CYT 
+CD2R6H   ND2R6D   CD315A   OD305A      1.900    1     0.00 ! THY 
+!C2'-C1'-N1-C2 
+CD2O4A   ND2R6C   CD315A   CD325B      0.000    3     0.00 ! CYT
+CD2O4A   ND2R6C   CD315A   CD315B      0.000    3     0.00 ! CYT
+CD2O4A   ND2R6D   CD315A   CD325B      0.750    3     0.00 ! THY, for agreement with nu0/nu4 surf
+CD2O4A   ND2R6D   CD315A   CD315B      0.750    3     0.00 ! URA, copied from THY - test!
+!C2'-C1'-N1-C6 
+CD2R6H   ND2R6C   CD315A   CD325B      0.000    3   180.00 ! CYT 
+CD2R6H   ND2R6D   CD315A   CD325B      0.000    3   180.00 ! THY  
+CD2R6H   ND2R6C   CD315A   CD315B      0.000    3   180.00 ! CYT 
+CD2R6H   ND2R6D   CD315A   CD315B      0.000    3   180.00 ! URA 
+! End of Chi's !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!dihedrals that include both base and sugar atoms (but not glycosidic linkage)
+! Cyt
+CD2R6J   CD2R6H   ND2R6C   CD315A     11.000    2   180.00 ! C5-C6-N1-C1', from C27, jal
+HDR6B    CD2R6H   ND2R6C   CD315A      0.300    2   180.00 ! H6-C6-N1-C1', from C27
+OD2C1B   CD2O4A   ND2R6C   CD315A     11.000    2   180.00 ! O2-C2-N1-C1', from C27, jal
+ND2R6B   CD2O4A   ND2R6C   CD315A     11.000    2   180.00 ! N3-C2-N1-C1', from C27, jal
+! Thy
+ND2R6C   CD2O4A   ND2R6C   CD315A     11.000    2   180.00 ! N3-C2-N1-C1', jal
+! Ade/Gua
+ND2R6B   CD2R6F   ND2R5D   CD315A     11.000    2   180.00 ! N3-C4-N9-C1'
+ND2R6B   CD2R6F   ND2R5F   CD315A     11.000    2   180.00 ! N3-C4-N9-C1'
+CD2R6F   CD2R6F   ND2R5D   CD315A     11.000    2   180.00 ! C5-C4-N9-C1', from C27
+CD2R6F   CD2R6F   ND2R5F   CD315A     11.000    2   180.00 ! C5-C4-N9-C1', from C27
+ND2R5E   CD2R5F   ND2R5D   CD315A     11.000    2   180.00 ! N7-C8-N9-C1', from C27, jal
+ND2R5E   CD2R5F   ND2R5F   CD315A     11.000    2   180.00 ! N7-C8-N9-C1', from C27, jal
+HDR5B    CD2R5F   ND2R5D   CD315A      0.300    2   180.00 ! H8-C8-N9-C1', from C27, jal
+HDR5B    CD2R5F   ND2R5F   CD315A      0.300    2   180.00 ! H8-C8-N9-C1', from C27, jal
+!Hydrogens
+HDA1R5   CD325B   CD315A   OD305A      0.195    3   180.00 ! H3'-C3'-C4'-O4'
+HDA1R5   CD325B   CD315A   HDA1R5      0.200    3     0.00 ! H3'-C3'-C4'-H4'
+OD305A   CD315A   OD31A    HDP1A       0.200    3     0.00 ! HO1-O1-C1-O4
+HDA1R5   CD315A   OD305A   CD315B      0.000    3     0.00 ! H1'-C1'-O4'-C4' 
+HDA1R5   CD315A   CD325B   CD315B      0.195    3     0.00 ! H1'-C1'-C2'-C3'
+HDA1R5   CD315A   CD325B   HDA2R5      0.195    3     0.00 ! TF2M, cmb 
+HDA1R5   CD315B   CD315A   OD305A      0.195    3   180.00 ! H3'-C3'-C4'-O4'
+HDA1R5   CD315B   CD315A   HDA1R5      0.200    3     0.00 ! H3'-C3'-C4'-H4'
+HDA1R5   CD315A   CD315B   CD315B      0.195    3     0.00 ! H1'-C1'-C2'-C3'   !RNA
+
+! Exocyclic groups
+CD315A   OD305A   CD315B   CD32C       0.300    3     0.00 !  C5'-C4'-O4'-C1'
+CD315A   CD325B   CD315B   OD30B       0.200    3     0.00 !  C1'-C2'-C3'-O3' 
+CD315A   CD325B   CD315B   OD30BR      0.200    3     0.00 !  C1'-C2'-C3'-O3' for RNA (jal)
+CD315A   OD305A   CD315B   CD32A       0.300    3     0.00 !  C5'-C4'-O4'-C1'
+CD315A   CD325B   CD315B   OD31A       0.200    3     0.00 !  C1'-C2'-C3'-O3' 
+CD315A   CD325B   CD315B   OD31G       0.200    3     0.00 !  C1'-C2'-C3'-O3', DNA 3TER (jal) 
+CD315A   CD315B   CD315B   OD30B       0.200    3     0.00 !  C1'-C2'-C3'-O3' 
+CD315A   CD315B   CD315B   OD30BR      0.200    3     0.00 !  C1'-C2'-C3'-O3' for RNA (jal)
+CD315A   CD315B   CD315B   OD31A       0.200    3     0.00 !  C1'-C2'-C3'-O3' 
+CD315A   CD315B   CD315B   OD31G       0.200    3     0.00 !  C1'-C2'-C3'-O3', DNA 3TER (jal) 
+CD315B   CD315B   CD315A   OD31A       0.200    3     0.00 !  C1'-C2'-C3'-O3', for BRIB
+CD315B   CD315B   CD315B   CD32C       0.200    3     0.00 !  C5'-C4'-C3'-C2' 
+CD315B   CD315B   CD315B   CD32A       0.200    3     0.00 !  C5'-C4'-C3'-C2' 
+HDA1R5   CD315B   OD305A   CD315A      0.000    3     0.00 !  H4'-C4'-O4'-C1'
+OD305A   CD315A   CD325B   HDA2R5      0.200    3     0.00 !  TF2M, cmb 
+HDA1R5   CD315B   CD325B   CD315A      0.195    3     0.00 !  H3'-C3'-C2'-C1'
+! Hydroxyl group in RNA
+CD315B   OD305A   CD315A   OD31A       0.000    3   180.00 ! O1-C1-O4-C4, for BRIB
+
+!! jal for RNA
+!conflict with DNA; used for 3TER in DNA. May need new atom type as this changes the 
+!DNA energy
+! C1'-C2'-O2'-H2'
+CD315A   CD315B   OD31A    HDP1A       1.960    1     0.00 ! jal
+CD315A   CD315B   OD31A    HDP1A       0.830    2     0.00 ! jal
+CD315A   CD315B   OD31A    HDP1A       0.540    3   180.00 ! jal
+! C3'-C2'-O2'-H2'
+! jal: added new atom type (OD31G) to resolve DNA/RNA conflict 
+CD315B   CD315B   OD31A    HDP1A       0.990    1     0.00 ! 
+CD315B   CD315B   OD31A    HDP1A       0.760    3     0.00 ! 
+CD315B   CD315B   OD31G    HDP1A       0.200    1     0.00
+!
+!
+CD315B   CD315B   CD315B   OD31A       0.000    3     0.00 ! O2'-C2'-C3'-C4' !RNA 
+HDA1R5   CD315A   CD315B   OD31A       0.000    3     0.00 ! H1'-C1'-C2'-O2' !RNA
+OD305A   CD315A   CD315B   OD31A       0.000    3     0.00 ! O2'-C2'-C1'-O4' !RNA
+HDA1R5   CD315B   CD315B   CD315A      0.195    3     0.00 ! H3'-C3'-C2'-C1' !RNA
+OD31A    CD315B   CD315B   OD31A       0.000    3   180.00 ! O2-C2-C1-O1, for BRIB
+OD31A    CD315B   CD315B   OD31G       0.000    3   180.00 ! O2'-C2'-C3'-O3', for RNA, jal 
+OD31A    CD315B   CD315A   OD31A       0.000    3   180.00 ! O2'-C2'-C1'-O1, for BRIB
+!! End of C1' is CD315A!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+! Repeating torsions for GUA
+CD2R6F   ND2R5E   CD2R5F   ND2R5F     14.000    2   180.00 ! ADE
+CD2R6F   ND2R5F   CD2R5F   ND2R5E      6.000    2   180.00 ! ADE
+CD2R6F   ND2R5F   CD2R5F   HDR5B       3.500    2   180.00 ! ADE
+CD33A    ND2R5F   CD2R5F   ND2R5E      1.000    2   180.00 ! ADE
+CD33A    ND2R5F   CD2R5F   HDR5B       1.000    2   180.00 ! ADE
+HDP1A    ND2R5F   CD2R5F   ND2R5B      1.000    2   180.00 ! IMID
+HDP1A    ND2R5F   CD2R5F   ND2R5E      1.000    2   180.00 ! ADE
+HDP1A    ND2R5F   CD2R5F   HDR5B       1.000    2   180.00 ! ADE
+CD2R5F   ND2R5F   CD2R6F   ND2R6B      2.000    2   180.00 ! ADE
+CD2R5F   ND2R5F   CD2R6F   CD2R6F      6.000    2   180.00 ! ADE
+CD33A    ND2R5F   CD2R6F   ND2R6B      1.000    2   180.00 ! ADE, cmb 
+CD33A    ND2R5F   CD2R6F   CD2R6F      1.000    2   180.00 ! ADE, cmb 
+HDP1A    ND2R5F   CD2R6F   ND2R6B      1.500    2   180.00 ! ADE, cmb 04/10 
+HDP1A    ND2R5F   CD2R6F   CD2R6F      1.200    2   180.00 ! ADE, cmb 04/10 
+CD2R5F   ND2R5F   CD33A    HDA3A       0.000    3     0.00 ! ADE, jal 
+CD2R6F   ND2R5F   CD33A    HDA3A       0.000    3     0.00 ! ADE, cmb 
+CD2R6C   ND2R6B   CD2R6F   ND2R5F      2.500    2   180.00 ! ADE, butterfly motion, jal 
+ND2R5E   CD2R6F   CD2R6F   ND2R5F     14.000    2   180.00 ! ADE, cmb 04/10 
+ND2R5F   CD2R6F   CD2R6F   CD2O4A      0.000    2   180.00 ! GUA, jal
+ND2R5F   CD2R6F   CD2R6F   CD2R6C      3.000    2   180.00 ! ADE, va A; butterfly motion, cmb 04/10 
+CD32A    ND2R5F   CD2R6F   ND2R6B      1.000    2   180.00 ! va; Et-Gua 
+CD32A    ND2R5F   CD2R6F   CD2R6F      1.000    2   180.00 ! va; Et-Gua 
+CD32A    ND2R5F   CD2R5F   ND2R5E      1.000    2   180.00 ! va; Et-Gua, jal 
+CD32A    ND2R5F   CD2R5F   HDR5B       1.000    2   180.00 ! va; Et-Gua, jal 
+CD33A    CD32A    ND2R5F   CD2R6F      1.000    3     0.00 ! va; Et-Gua 
+HDA2A    CD32A    ND2R5F   CD2R6F      0.000    3     0.00 ! va; Et-Gua 
+HDA2A    CD32A    ND2R5F   CD2R5F      0.000    3     0.00 ! va; Et-Gua, jal 
+CD33A    CD32A    ND2R5F   CD2R5F      1.000    3     0.00 ! va; Et-Gua, jal 
+ND2R5F   CD32A    CD33A    HDA3A       0.160    3     0.00 ! va; Et-Gua 
+ND2R6B   CD2R6F   ND2R5F   CD315B     11.000    2   180.00 ! N3-C4-N9-C1'
+CD2R6F   CD2R6F   ND2R5F   CD315B     11.000    2   180.00 ! C5-C4-N9-C1', from C27
+ND2R5F   CD315B   CD315B   HDA1R5      0.000    3     0.00 ! N9-C1'-C2'-H2''
+ND2R5F   CD315B   CD315B   OD31A       0.000    3     0.00 ! N9-C1'-C2'-O2'
+ND2R5F   CD315B   CD325B   OD31A       0.000    3     0.00 ! N9-C1'-C2'-O2' ! RNA
+ND2R5F   CD315B   CD315B   CD315B      0.000    3     0.00 ! N9-C1'-C2'-C3'
+ND2R5E   CD2R5F   ND2R5F   CD315B     11.000    2   180.00 ! N7-C8-N9-C1', from C27, jal
+HDR5B    CD2R5F   ND2R5F   CD315B      0.300    2   180.00 ! H8-C8-N9-C1', from C27, jal
+! Repeating torsions for THY
+ND2R6D   CD315B   CD325B   HDA2R5      0.000    3     0.00 ! N1-C1a-C2D-H2D
+CD2O4A   ND2R6D   CD315B   HDA1R5      0.000    3     0.00 ! C2-N1-C1a-H1a, from C27, jal
+CD2R6H   ND2R6D   CD315B   HDA1R5      0.195    3     0.00 ! C6-N1-C1a-H1a
+HDP1A    ND2B1    CD2R6C   ND2R6D      1.400    2   180.00 ! GUA, cmb 04/10 
+CD2R6B   ND2R6B   CD2O4A   ND2R6D      0.600    2   180.00 ! CYT, cmb 04/10
+CD2R6H   ND2R6D   CD2O4A   ND2R6B      0.600    2   180.00 ! CYT, cmb 04/10
+CD2R6H   ND2R6B   CD2O4A   ND2R6D      1.500    2   180.00 ! THY, cmb
+CD2R6H   ND2R6D   CD2O4A   ND2R6D      1.500    2   180.00 ! THY, cmb 04/10
+CD2R6H   ND2R6D   CD2O4A   OD2C1B      1.600    2   180.00 ! CYT, cmb 04/10
+CD33A    ND2R6D   CD2O4A   ND2R6B      0.900    2   180.00 ! CYT, cmb 04/10
+CD33A    ND2R6D   CD2O4A   ND2R6D      0.700    2   180.00 ! THY, cmb 04/10
+CD33A    ND2R6D   CD2O4A   OD2C1B      0.900    2   180.00 ! CYT, cmb 04/10
+HDP1A    ND2R6B   CD2O4A   ND2R6D      1.600    2   180.00 ! THY, cmb 04/10
+CD2R6F   ND2R6B   CD2R6C   ND2R6D      2.000    2   180.00 ! GUA, cmb 04/10 
+CD2O4A   ND2R6D   CD2R6H   CD2R6J      0.600    2   180.00 ! CYT, jal 
+CD2O4A   ND2R6D   CD2R6H   HDR6B       3.600    2   180.00 ! CYT, jal 
+CD33A    ND2R6D   CD2R6H   CD2R6J      1.000    2   180.00 ! CYT, jal 
+CD33A    ND2R6D   CD2R6H   HDR6B       1.000    2   180.00 ! CYT, cmb 04/10 
+HDP1A    ND2R6D   CD2R6H   CD2R6J      1.600    2   180.00 ! CYT, jal 
+HDP1A    ND2R6D   CD2R6H   HDR6B       1.500    2   180.00 ! CYT, cmb 04/10 
+CD2O1A   ND2R6D   CD33A    HDA3A       0.000    3     0.00 ! CYT, cmb 04/10 
+CD2O4A   ND2R6D   CD33A    HDA3A       0.000    3     0.00 ! CYT, jal
+CD2R6H   ND2R6D   CD33A    HDA3A       0.000    3     0.00 ! CYT, cmb 04/10 
+CD2O4A   ND2R6D   CD2O4A   ND2R6B      1.500    2   180.00 ! THY, jal 
+CD2O4A   ND2R6D   CD2O4A   ND2R6D      1.500    2   180.00 ! THY, jal 
+CD2O4A   ND2R6D   CD2O4A   OD2C1B      0.900    2   180.00 ! THY, jal 
+CD2O4A   ND2R6D   CD2O4A   CD2R6J      0.900    2   180.00 ! THY, jal 
+CD2R6C   ND2R6D   CD2O4A   OD2C1B      8.000    2   180.00 ! GUA, jal 
+CD2R6C   ND2R6D   CD2O4A   CD2R6F      0.200    2   180.00 ! GUA, jal 
+HDP1A    ND2R6D   CD2O4A   ND2R6B      3.800    2   180.00 ! THY, jal 
+HDP1A    ND2R6D   CD2O4A   ND2R6D      3.800    2   180.00 ! THY, jal 
+HDP1A    ND2R6D   CD2O4A   OD2C1B      0.000    2   180.00 ! THY, jal 
+HDP1A    ND2R6D   CD2O4A   CD2R6J      4.800    2   180.00 ! THY, jal 
+HDP1A    ND2R6D   CD2O4A   CD2R6F      3.600    2   180.00 ! GUA, jal 
+CD2O4A   ND2R6D   CD2R6C   ND2B1       4.000    2   180.00 ! GUA, jal 
+CD2O4A   ND2R6D   CD2R6C   ND2R6B      0.200    2   180.00 ! GUA, jal 
+HDP1A    ND2R6D   CD2R6C   ND2B1       0.000    2   180.00 ! GUA, cmb 04/10 
+HDP1A    ND2R6D   CD2R6C   ND2R6B      3.600    2   180.00 ! GUA, cmb 04/10 
+ND2R6D   CD2O4A   CD2R6J   CD2R6H      1.800    2   180.00 ! THY, jal 
+ND2R6D   CD2O4A   CD2R6J   CD33A       1.000    2   180.00 ! THY, jal 
+ND2R6D   CD2O4A   CD2R6J   HDR6A       1.000    2   180.00 ! URA, jal 
+ND2R6D   CD2O4A   CD2R6F   ND2R5E      2.000    2   180.00 ! GUA, jal 
+ND2R6D   CD2O4A   CD2R6F   CD2R6F      0.200    2   180.00 ! GUA, jal 
+CD2O4A   CD2R6J   CD2R6H   ND2R6D      3.000    2   180.00 ! THY, jal 
+CD2R6B   CD2R6J   CD2R6H   ND2R6D      0.800    2   180.00 ! CYT, jal 
+CD33A    CD2R6J   CD2R6H   ND2R6D      5.600    2   180.00 ! THY, jal 
+HDR6A    CD2R6J   CD2R6H   ND2R6D      2.800    2   180.00 ! CYT, jal 
+ND2R6D   CD315B   OD305A   CD315B      0.000    3     0.00 ! N1-C1a-O4a-C4a
+ND2R6D   CD315B   CD325B   CD315B      0.000    3     0.00 ! N1-C1a-C2D-C3a
+CD2R6J   CD2R6H   ND2R6D   CD315B     11.000    2   180.00 ! C5-C6-N1-C1', from C27, jal
+HDR6B    CD2R6H   ND2R6D   CD315B      0.300    2   180.00 ! H6-C6-N1-C1', from C27
+ND2R6D   CD315B   CD315B   HDA1R5      0.000    3     0.00 ! N1-C1'-C2'-H2''
+ND2R6D   CD315B   CD315B   OD31A       0.000    3     0.00 ! N1-C1'-C2'-O2'
+ND2R6D   CD315B   CD325B   OD31A       0.000    3     0.00 ! N1/N9-C1'-C2'-O2' ! RNA
+ND2R6C   CD315B   CD325B   OD31A       0.000    3     0.00 ! N1/N9-C1'-C2'-O2' ! RNA 
+ND2R5D   CD315B   CD325B   OD31A       0.000    3     0.00 ! N1/N9-C1'-C2'-O2' ! RNA 
+ND2R6D   CD315B   CD315B   CD315B      0.000    3     0.00 ! N1-C1'-C2'-C3'
+OD2C1B   CD2O4A   ND2R6D   CD315B     11.000    2   180.00 ! O2-C2-N1-C1', from C27
+ND2R6B   CD2O4A   ND2R6D   CD315B     11.000    2   180.00 ! N3-C2-N1-C1', from C27
+ND2R6D   CD2O4A   ND2R6D   CD315B     11.000    2   180.00 ! N3-C2-N1-C1'
+CD2O4A   ND2R6C   CD2O4A   ND2R6D      1.500    2   180.00 ! THY, cmb 04/10
+HDP1A    ND2R6C   CD2O4A   ND2R6D      3.800    2   180.00 ! THY, cmb 04/10
+CD2R6H   ND2R6D   CD2O4A   ND2R6C      1.500    2   180.00 ! THY, cmb 04/10
+ND2R6C   CD2O4A   ND2R6D   CD315B     11.000    2   180.00 ! N3-C2-N1-C1'
+! Torsions involving Hydrogens
+HDA2R5   CD325B   CD315B   OD30B       0.195    3     0.00 ! H2'-C2'-C3'-O3'
+HDA1R5   CD325B   CD315B   OD30B       0.195    3     0.00 ! H2'-C2'-C3'-O3'
+HDA2R5   CD325B   CD315B   OD30BR      0.195    3     0.00 ! H2'-C2'-C3'-O3' for RNA (jal)
+HDA1R5   CD325B   CD315B   OD30BR      0.195    3     0.00 ! H2'-C2'-C3'-O3' for RNA (jal)
+HDA2R5   CD325B   CD315B   OD31G       0.195    3     0.00 ! H2'-C2'-C3'-O3T, DNA 3TER (jal) 
+HDA2R5   CD325B   CD315A   OD31A       0.195    3     0.00 ! H2'-C2'-C3'-O3T, for BDEO
+HDA2R5   CD325B   CD315B   CD315B      0.195    3     0.00 ! H2'-C2'-C3'-C4'
+HDA2R5   CD325B   CD315B   ND2R5D      0.000    3     0.00 ! H2'-C2'-C1'-N9
+HDA2R5   CD325B   CD315B   ND2R5F      0.000    3     0.00 ! H2'-C2'-C1'-N9
+HDA1R5   CD325B   CD315B   ND2R5D      0.000    3     0.00 ! H2'-C2'-C1'-N9
+HDA1R5   CD325B   CD315B   ND2R5F      0.000    3     0.00 ! H2'-C2'-C1'-N9
+HDA2R5   CD325B   CD315B   ND2R6C      0.000    3     0.00 ! H2'-C2'-C1'-N1
+HDA1R5   CD325B   CD315B   ND2R6C      0.000    3     0.00 ! H2'-C2'-C1'-N1
+HDA1R5   CD315B   OD305A   CD315B      0.000    3     0.00 ! H1'-C1'-O4'-C4' 
+HDA1R5   CD315B   CD325B   CD315B      0.195    3     0.00 ! H1'-C1'-C2'-C3'
+CD2R6F   ND2R5D   CD315B   HDA1R5      0.000    3     0.00 ! C4-N9-C1'-H1'  
+CD2R6F   ND2R5F   CD315B   HDA1R5      0.000    3     0.00 ! C4-N9-C1'-H1'  
+CD2R5F   ND2R5D   CD315B   HDA1R5      0.195    3     0.00 ! C8-N9-C1'-H1', jal
+CD2R5F   ND2R5F   CD315B   HDA1R5      0.195    3     0.00 ! C8-N9-C1'-H1', jal
+CD2O4A   ND2R6C   CD315B   HDA1R5      0.000    3     0.00 ! C2-N1-C1'-H1', jal
+CD2R6H   ND2R6C   CD315B   HDA1R5      0.195    3     0.00 ! C6-N1-C1'-H1'
+HDA1R5   CD315B   CD315B   CD32C       0.195    3     0.00 ! H3'-C3'-C4'-C5'
+HDA1R5   CD315B   CD315B   OD305A      0.195    3   180.00 ! H3'-C3'-C4'-O4'
+HDA1R5   CD315B   CD315B   HDA1R5      0.195    3     0.00 ! H3'-C3'-C4'-H4'
+HDA1R5   CD315B   CD315B   OD30B       0.195    3     0.00 ! H4'-C4'-C3'-O3'
+HDA1R5   CD315B   CD315B   OD30BR      0.195    3     0.00 ! H4'-C4'-C3'-O3' for RNA (jal)
+CD325B   CD315B   CD315B   HDA1R5      0.000    3     0.00 ! H4'-C4'-C3'-C2'
+HDA1R5   CD315B   CD315B   HDA2R5      0.200    3     0.00 ! TF2M, cmb 
+HDA2R5   CD315B   CD315B   OD30B       0.200    3     0.00 ! H2D-C2D-C3a-O3a, from TF2M
+HDA2R5   CD315B   CD315B   OD30BR      0.200    3     0.00 ! H2D-C2D-C3a-O3a, from TF2M for RNA (jal)
+CD325B   CD315B   CD315B   HDA2R5      0.200    3     0.00 ! TF2M, cmb 
+CD315B   OD305A   CD315B   HDA2R5      0.300    3     0.00 ! TF2M, cmb 
+OD305A   CD315B   CD315B   HDA2R5      0.200    3     0.00 ! TF2M, cmb 
+CD315B   CD325B   CD315B   HDA2R5      0.190    3     0.00 ! TF2M, cmb 
+HDA2R5   CD315B   CD325B   HDA2R5      0.190    3     0.00 ! THF, viv 
+HDA2R5   CD325B   CD315B   CD32C       0.200    3     0.00 ! H3'-C3'-C4'-C5', from TF2M
+HDA2R5   CD315B   CD315B   CD32C       0.200    3     0.00 ! H3'-C3'-C4'-C5', from TF2M
+CD32A    CD315B   CD315B   HDA1R5      0.200    3     0.00 ! C5T-C4a-C3a-H3a, from TF2M
+CD315B   CD315B   CD315B   HDA1R5      0.200    3     0.00 ! C2a-C3a-C4a-H4a, from THF
+HDA1R5   CD315B   CD315B   OD31A       0.200    3     0.00 ! H1a-C1a-C2a-O2a, from TF2M
+HDA1R5   CD315B   CD315B   OD31G       0.200    3     0.00 ! H1a-C1a-C2a-O2a, from TF2M, DNA 3TER (jal)
+HDA1R5   CD315B   CD315A   OD31A       0.200    3     0.00 ! H1a-C1a-C2a-O2a, from TF2M, fro BRIB
+OD31A    CD32A    CD315B   HDA1R5      0.270    1     0.00 ! O5T-C5T-C4a-H4a, from PRO1
+HDA2A    CD32A    CD315B   HDA1R5      0.200    3     0.00 ! H5T1-C5T-C4a-H4a, from TF2M
+HDA2A    CD32A    CD315B   OD305A      0.200    3     0.00 ! H5T1-C5T-C4a-O4a, from TF2M
+HDP1A    ND2B1    CD2R6B   ND2R6B      1.300    2   180.00 ! CYT, cmb 04/10 
+HDP1A    ND2B1    CD2R6B   CD2R6J      1.300    2   180.00 ! CYT, jal 
+HDP1A    ND2B1    CD2R6C   ND2R6B      4.000    2   180.00 ! jal
+HDP1A    ND2B1    CD2R6C   CD2R6F      4.000    2   180.00 ! jal
+!
+ND2R5D   CD315B   CD325B   CD315B      0.000    3     0.00 ! N9-C1a-C2D-C3a
+ND2R5F   CD315B   CD325B   CD315B      0.000    3     0.00 ! N9-C1a-C2D-C3a
+ND2R5D   CD315B   OD305A   CD315B      0.000    3     0.00 ! N9-C1a-O4a-C4a
+ND2R5F   CD315B   OD305A   CD315B      0.000    3     0.00 ! N9-C1a-O4a-C4a
+ND2R6C   CD315B   OD305A   CD315B      0.000    3     0.00 ! N1-C1a-O4a-C4a
+ND2R6C   CD315B   CD325B   CD315B      0.000    3     0.00 ! N1-C1a-C2D-C3a
+HDA2A    CD32C    OD30B    PD1A        0.000    3     0.00 
+CD315B   CD315B   CD32C    HDA2A       0.200    3     0.00
+CD325B   CD315B   CD32C    HDA2A       0.200    3     0.00
+HDA1R5   CD315B   CD32C    HDA2A       0.200    3     0.00
+HDA1R5   CD315B   CD32C    OD30B       0.200    3     0.00
+OD305A   CD315B   CD32C    HDA2A       0.195    1     0.00 
+HDA1R5   CD315B   OD30B    PD1A        0.000    3     0.00  
+HDA1R5   CD315B   OD30BR   PD1A        0.000    3     0.00 ! for RNA (jal)
+!Sugar 
+CD315B   OD305A   CD315A   CD325B      0.250    3     0.00 ! C2'-C1'-O4'-C4' ! nu_0
+CD315B   CD325B   CD315A   OD305A      0.250    6     0.00 ! C3'-C2'-C1'-O4' ! nu_1
+CD315A   CD325B   CD315B   CD315B      0.250    3     0.00 ! C1'-C2'-C3'-C4' ! nu_2
+CD325B   CD315B   CD315B   OD305A      0.200    4     0.00 ! C2'-C3'-C4'-O4' ! nu_3
+CD325B   CD315B   CD315B   OD305A      0.060    5   180.00 ! C2'-C3'-C4'-O4' ! nu_3
+CD325B   CD315B   CD315B   OD305A      0.060    6   180.00 ! C2'-C3'-C4'-O4' ! nu_3
+CD315A   OD305A   CD315B   CD315B      0.400    6   180.00 ! C1'-O4'-C4'-C3' ! nu_4, was 0.2
+CD315B   OD305A   CD315A   CD315B      0.250    3     0.00 ! C2'-C1'-O4'-C4' ! nu_0  !RNA
+CD315B   CD315B   CD315A   OD305A      0.250    6     0.00 ! C3'-C2'-C1'-O4' ! nu_1  !RNA
+CD315A   CD315B   CD315B   CD315B      0.250    3     0.00 ! C1'-C2'-C3'-C4' ! nu_2  !RNA
+CD315B   CD315B   CD315B   OD305A      0.200    4     0.00 ! C2'-C3'-C4'-O4' ! nu_3  !RNA
+CD315B   CD315B   CD315B   OD305A      0.060    5   180.00 ! C2'-C3'-C4'-O4' ! nu_3  !RNA
+CD315B   CD315B   CD315B   OD305A      0.060    6   180.00 ! C2'-C3'-C4'-O4' ! nu_3  !RNA
+
+!Sugar torsions
+! Exocyclic torsions
+CD315B   OD305A   CD315B   CD32C       0.300    3     0.00 ! C5'-C4'-O4'-C1'
+CD325B   CD315B   CD315B   CD32C       0.200    3     0.00 ! C5'-C4'-C3'-C2' 
+CD315B   CD325B   CD315B   OD30B       0.200    3     0.00 ! C1'-C2'-C3'-O3' 
+CD315B   CD325B   CD315B   OD30BR      0.200    3     0.00 ! C1'-C2'-C3'-O3' for RNA (jal)
+OD30B    CD315B   CD315B   OD305A      0.200    3     0.00 ! O4'-C4'-C3'-O3'
+OD30BR   CD315B   CD315B   OD305A      0.200    3     0.00 ! O4'-C4'-C3'-O3' for RNA (jal)
+CD315B   OD305A   CD315B   CD32A       0.300    3     0.00 ! C5'-C4'-O4'-C1'
+CD325B   CD315B   CD315B   CD32A       0.200    3     0.00 ! C5'-C4'-C3'-C2' 
+CD315B   CD325B   CD315B   OD31A       0.200    3     0.00 ! C1'-C2'-C3'-O3' 
+CD315B   CD325B   CD315B   OD31G       0.200    3     0.00 ! C1'-C2'-C3'-O3' DNA 3TER (jal) 
+OD31A    CD315B   CD315B   OD305A      0.200    3     0.00 ! O4'-C4'-C3'-O3'  !RNA
+OD31G    CD315B   CD315B   OD305A      0.200    3     0.00 ! O4'-C4'-C3'-O3'  !DNA 3TER (jal)
+CD315B   CD325B   CD315A   OD31A       0.200    3     0.00 ! C1'-C2'-C3'-O3', for BDEO
+
+! Alpha
+!! do not add 4-fold; over-stabilizes g+ in BII
+CD32C    OD30B    PD1A     OD30B       0.600    1   180.00 !! k >= 0.6 necessary (BI ok w/o, BII terrible) !
+CD32C    OD30B    PD1A     OD30B       1.600    2     0.00 !! k >= 0.6 necessary (BI ok w/o, BII terrible) !
+!Alpha for RNA (jal)
+CD32C    OD30B    PD1A     OD30BR      2.500    1   180.00
+!Alpha_2: O1P-P-O5'-C5'
+CD32C    OD30B    PD1A     OD2C2B      0.550    3     0.00 !
+!Beta
+CD315B   CD32C    OD30B    PD1A        0.800    1   220.00
+!! jal - new 5'-OH beta
+HDP1A    OD31A    CD32A    CD315B      0.800    1     0.00 !TER
+HDP1A    OD31A    CD32A    CD315B      0.600    2     0.00 !TER
+HDP1A    OD31A    CD32A    CD315B      0.200    3     0.00 !TER
+!! jal - apply to next two? 
+HDP1A    OD31A    CD315A   CD315B      0.800    1   220.00 !TER, for BRIB
+HDP1A    OD31A    CD315A   CD325B      0.800    1   220.00 !TER, for BDEON
+! Gamma 
+! jal - new from combined T3PS/R3PS fit
+CD315B   CD315B   CD32C    OD30B       1.908    1   180.00 !
+CD315B   CD315B   CD32C    OD30B       0.405    2     0.00 !
+CD315B   CD315B   CD32C    OD30B       0.444    3     0.00 !
+!Gamma 5TER 
+! jal - from gamma
+OD31A    CD32A    CD315B   CD315B      1.908    1   180.00 !
+OD31A    CD32A    CD315B   CD315B      0.405    2     0.00 !
+OD31A    CD32A    CD315B   CD315B      0.444    3     0.00 !
+!Gamma_2: O4'-C4'-C5'-O5'
+!OD305A   CD315B   CD32C    OD30B       1.631    1   180.00
+OD305A   CD315B   CD32C    OD30B       1.981    1   180.00 !
+OD31A    CD32A    CD315B   OD305A      1.631    1   180.00
+!Delta
+OD30B    CD315B   CD315B   CD32C       0.200    3     0.00
+OD30BR   CD315B   CD315B   CD32C       0.200    3     0.00 ! for RNA (jal)
+OD31A    CD315B   CD315B   CD32C       0.200    3     0.00
+OD31G    CD315B   CD315B   CD32C       0.200    3     0.00 ! DNA 3TER (jal)
+OD30B    CD315B   CD315B   CD32A       0.200    3     0.00
+OD30BR   CD315B   CD315B   CD32A       0.200    3     0.00 ! for RNA (jal)
+OD31A    CD315B   CD315B   CD32A       0.200    3     0.00 !RNA
+OD31G    CD315B   CD315B   CD32A       0.200    3     0.00 ! DNA 3TER (jal)
+!Epsilon
+CD315B   CD315B   OD30B    PD1A        1.800    1     0.00 !RNA; note the conflict of the P-O3'-C3'-C4' !
+CD315B   CD315B   OD30B    PD1A        0.700    2     0.00 !     and P-O3'-C3'-C2' terms in RNA !
+CD315B   CD315B   OD30B    PD1A        0.300    3     0.00 !
+!Epsilon for RNA (jal) - resolves above conflict
+CD315B   CD315B   OD30BR   PD1A        2.000    1   180.00 !
+!Epsilon_2: C2'-C3'-O3'-P/H3T 
+CD325B   CD315B   OD30B    PD1A        0.250    1   180.00 ! jal 
+CD325B   CD315B   OD31G    HDP1A       0.620    1     0.00 ! jal, for DNA nucleosides (fit4, opt 13) 
+CD325B   CD315B   OD31G    HDP1A       0.673    3     0.00 ! jal, for DNA nucleosides (fit4, opt 13)
+HDA1R5   CD315B   OD31A    HDP1A       0.000    1     0.00 !RNA
+HDA1R5   CD315B   OD31G    HDP1A       0.000    1     0.00 !DNA 3TER (jal)
+HDA1R5   CD315B   OD30BR   HDP1A       0.000    1     0.00 ! note zero k value, not used (jal)
+!Zeta
+! 1-fold on zeta counteracts 2-fold to flatten @ 180
+! 2-fold on zeta and zeta2 increase energy @ 180, so if one
+! is increased, decrease the other to compensate
+CD315B   OD30B    PD1A     OD30B       1.600    1     0.00 !
+CD315B   OD30B    PD1A     OD30B       0.800    2     0.00 ! 1.407 too strong unless balanced out by 1-fold, k = 1.0 OK !
+CD315B   OD30B    PD1A     OD2C2B      0.750    2   180.00 ! 0.600    2   180.00 !Zeta_2: C3'-O3'-P-O1P !
+CD315B   OD30B    PD1A     OD2C2B      0.100    3     0.00 ! Zeta_2: C3'-O3'-P-O1P
+!Zeta for RNA (jal)
+CD315B   OD30BR   PD1A     OD30B       2.250    1   180.00
+!Zeta_2 for RNA (jal): C3'-O3'-P-O1P
+CD315B   OD30BR   PD1A     OD2C2B      0.500    1     0.00
+CD315B   OD30BR   PD1A     OD2C2B      1.500    2   180.00
+CD315B   OD30BR   PD1A     OD2C2B      0.750    3     0.00
+!! End of DNA backbone torsions !!
+
+!
+CD315B   CD315B   CD315B   OD30B       0.300    3     0.00 ! C1'-C2'-C3'-O3', from TF2M
+OD31A    CD315B   CD315B   OD30B       0.200    3     0.00 ! O2'-C2'-C3'-O3', from THF
+CD315B   CD315B   CD315B   OD30BR      0.300    3     0.00 ! C1'-C2'-C3'-O3', from TF2M for RNA (jal)
+OD31A    CD315B   CD315B   OD30BR      0.200    3     0.00 ! O2'-C2'-C3'-O3', from THF for RNA (jal)
+HDA1R5   CD315B   CD325B   OD305A      0.200    3     0.00 ! H3'-C3'-C4'-O4', from THF
+!dihedrals that include both base and sugar atoms (but not glycosidic linkage)
+!! Cyt
+CD2R6J   CD2R6H   ND2R6C   CD315B     11.000    2   180.00 ! C5-C6-N1-C1', from C27, jal
+HDR6B    CD2R6H   ND2R6C   CD315B      0.300    2   180.00 ! H6-C6-N1-C1', from C27
+ND2R6C   CD315B   CD315B   HDA1R5      0.000    3     0.00 ! N1-C1'-C2'-H2''
+ND2R6C   CD315B   CD315B   OD31A       0.000    3     0.00 ! N1-C1'-C2'-O2'  !RNA
+ND2R6C   CD315B   CD315B   CD315B      0.000    3     0.00 ! N1-C1'-C2'-C3'
+OD2C1B   CD2O4A   ND2R6C   CD315B     11.000    2   180.00 ! O2-C2-N1-C1', from C27, jal
+ND2R6B   CD2O4A   ND2R6C   CD315B     11.000    2   180.00 ! N3-C2-N1-C1', from C27, jal
+!! Thy
+ND2R6C   CD2O4A   ND2R6C   CD315B     11.000    2   180.00 ! N3-C2-N1-C1', jal
+!! Gua
+ND2R6B   CD2R6F   ND2R5D   CD315B     11.000    2   180.00 ! N3-C4-N9-C1'
+CD2R6F   CD2R6F   ND2R5D   CD315B     11.000    2   180.00 ! C5-C4-N9-C1', from C27
+CD2R6F   ND2R5D   CD315B   CD315B      0.000    3     0.00 ! C4-N9-C1'-C2'
+ND2R5D   CD315B   CD315B   HDA1R5      0.000    3     0.00 ! N9-C1'-C2'-H2''
+ND2R5D   CD315B   CD315B   OD31A       0.000    3     0.00 ! N9-C1'-C2'-O2'  !RNA
+ND2R5D   CD315B   CD315B   CD315B      0.000    3     0.00 ! N9-C1'-C2'-C3'
+ND2R5E   CD2R5F   ND2R5D   CD315B     11.000    2   180.00 ! N7-C8-N9-C1', from C27
+HDR5B    CD2R5F   ND2R5D   CD315B      0.300    2   180.00 ! H8-C8-N9-C1', from C27
+CD2R5F   ND2R5D   CD315B   CD315B      0.000    3   180.00 ! C8-N9-C1'-C2'
+!! 5TER
+HDA2A    CD32A    CD315B   CD315B      0.200    3     0.00 ! H5T1-C5T-C4'-C3', from TF2M
+
+!! jal for R3PS, copied from T3PS for analogous types
+HDA2R5   CD315A   CD315B   HDA1R5      0.190    3     0.00 ! jal
+CD315B   CD315B   CD315A   HDA2R5      0.190    3     0.00 ! jal
+CD315A   CD315B   CD315B   HDA2R5      0.190    3     0.00 ! jal
+HDA2R5   CD315A   CD315B   OD31A       0.000    3     0.00 ! jal
+HDA2R5   CD315A   CD315B   OD31G       0.000    3     0.00 ! jal
+HDA2R5   CD315B   CD315B   OD31A       0.000    3     0.00 ! jal
+HDA2R5   CD315B   CD315B   OD31G       0.000    3     0.00 ! jal
+CD315B   CD315B   CD315B   HDA2R5      0.200    3     0.00 ! jal
+
+IMPROPER 
+! 
+!V(improper) = Kpsi(psi - psi0)**2 
+! 
+!Kpsi: kcal/mole/rad**2 
+!psi0: degrees 
+!note that the second column of numbers (0) is ignored 
+! 
+CD2O4A   ND2R6D   ND2R6C   OD2C1B      80.000   0     0.00 ! CYT, jal 
+ND2B1    CD2R6B   HDP1A    HDP1A       12.000   0     0.00 ! CYT, cmb 04/10 
+ND2B1    CD2R6C   HDP1A    HDP1A       12.000   0     0.00 ! ADE/GUA, cmb 04/10 
+CD2R6C   ND2R6B   CD2R6F   ND2B1       60.000   0     0.00 ! ADE, cmb 04/10 
+
+
+NONBONDED nbxmod  5 atom vatom cdiel vdistance switch vswitch - 
+cutnb 16.0 ctofnb 12.0 ctonnb 10.0 eps 1.0 e14fac 1.0 wmin 1.5 
+
+END
