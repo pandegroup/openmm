@@ -127,6 +127,8 @@ class PDBFile(object):
                             upper = upper[1:]
                         if upper.startswith('CL'):
                             element = elem.chlorine
+                        elif upper.startswith('BR'):
+                            element = elem.bromine
                         elif upper.startswith('NA'):
                             element = elem.sodium
                         elif upper.startswith('MG'):
