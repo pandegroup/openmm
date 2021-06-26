@@ -47,7 +47,7 @@ namespace OpenMM {
  *
  * To use this class, create a CustomTorsionForce object, passing an algebraic expression to the constructor
  * that defines the interaction energy between each set of particles.  The expression may depend on theta, the torsion angle
- * formed by the particles, as well as on any parameters you choose.  Then call addPerTorsionParameter() to define per-torsion
+ * formed by the particles defined on the domain [-pi,+pi), as well as on any parameters you choose.  Then call addPerTorsionParameter() to define per-torsion
  * parameters, and addGlobalParameter() to define global parameters.  The values of per-torsion parameters are specified as
  * part of the system definition, while values of global parameters may be modified during a simulation by calling Context::setParameter().
  * Finally, call addTorsion() once for each torsion.  After an torsion has been added, you can modify its parameters by calling setTorsionParameters().
