@@ -192,6 +192,14 @@ class Metadynamics(object):
         """Get the current values of all collective variables in a Simulation."""
         return self._force.getCollectiveVariableValues(simulation.context)
 
+    def getHillHeight(self, simulation):
+        """Get the current height of the Gaussian hill in kJ/mol"""
+        forceGroup = self._force.getForceGroup()
+        energy = simulation.context.getState(getEnergy=True, groups={forceGroup}).getPotentialEnergy()
+        currentHillHeight = self.height*np.exp(-energy/(unit.MOLAR_GAS_CONSTANT_R*self._deltaT))
+        scaledHillHeight = ((self.temperature+self._deltaT)/self._deltaT)*currentHillHeight
+        return scaledHillHeight.value_in_unit(unit.kilojoules_per_mole)
+
     def _addGaussian(self, position, height, context):
         """Add a Gaussian to the bias function."""
         # Compute a Gaussian along each axis.
@@ -230,18 +238,7 @@ class Metadynamics(object):
         if self.biasDir is None:
             return
 
-        # Use a safe save to write out the biases to disk, then delete the older file.
-
-        oldName = os.path.join(self.biasDir, 'bias_%d_%d.npy' % (self._id, self._saveIndex))
-        self._saveIndex += 1
-        tempName = os.path.join(self.biasDir, 'temp_%d_%d.npy' % (self._id, self._saveIndex))
-        fileName = os.path.join(self.biasDir, 'bias_%d_%d.npy' % (self._id, self._saveIndex))
-        np.save(tempName, self._selfBias)
-        os.rename(tempName, fileName)
-        if os.path.exists(oldName):
-            os.remove(oldName)
-
-        # Check for any files updated by other processes.
+        # Check for any files updated by other processes first.
 
         fileLoaded = False
         pattern = re.compile('bias_(.*)_(.*)\.npy')
@@ -266,8 +263,22 @@ class Metadynamics(object):
         if fileLoaded:
             self._totalBias = self._selfBias
             for bias in self._loadedBiases.values():
-                self._totalBias += bias.bias
+                diffInBias = bias.bias - self._totalBias
+                diffInBias[diffInBias < 0] = 0
+                self._totalBias += diffInBias
 
+            self._selfBias = self._totalBias
+
+        # Use a safe save to write out the biases to disk, then delete the older file.
+
+        oldName = os.path.join(self.biasDir, 'bias_%d_%d.npy' % (self._id, self._saveIndex))
+        self._saveIndex += 1
+        tempName = os.path.join(self.biasDir, 'temp_%d_%d.npy' % (self._id, self._saveIndex))
+        fileName = os.path.join(self.biasDir, 'bias_%d_%d.npy' % (self._id, self._saveIndex))
+        np.save(tempName, self._selfBias)
+        os.rename(tempName, fileName)
+        if os.path.exists(oldName):
+            os.remove(oldName)
 
 class BiasVariable(object):
     """A collective variable that can be used to bias a simulation with metadynamics."""
